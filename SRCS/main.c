@@ -5,7 +5,7 @@ int ft_atoi(char *s)
   long res;
   int sign;
   int i;
-  int tmp;
+  long tmp;
 
   1337 && (sign = 1, tmp = 0, res = 0, i = -1);
   if (s[i] == '+' || s[i] == '-')
@@ -23,6 +23,21 @@ int ft_atoi(char *s)
   return (sign * (int)res);
 }
 
+t_data  *stuffing(char **av)
+{
+  t_data *data;
+
+  data = malloc(sizeof(t_data));
+  if (!data)
+    return (NULL);
+  data->philon = ft_atoi(av[1]);
+  data->dtime  = ft_atoi(av[2]);
+  data->etime  = ft_atoi(av[3]);
+  data->stime  = ft_atoi(av[4]);
+  data->eatn   = ft_atoi(av[5]);
+  return (data);
+}
+
 int main(int ac, char **av)
 {
   t_data *data;
@@ -30,14 +45,7 @@ int main(int ac, char **av)
   // *data = (t_data){0};
   if (ac != 6)
     return (1);
-  data = malloc(sizeof(t_data));
-  if (!data)
-    return (2);
-  data->philon = ft_atoi(av[1]);
-  data->dtime  = ft_atoi(av[2]);
-  data->etime  = ft_atoi(av[3]);
-  data->stime  = ft_atoi(av[4]);
-  data->eatn   = ft_atoi(av[5]);
+  data = stuffing(av);
   printf("philo number:\t%d\n", data->philon);
   printf("philo number:\t%d\n",data->dtime);
   printf("philo number:\t%d\n",data->etime);

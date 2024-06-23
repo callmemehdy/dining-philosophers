@@ -38,17 +38,27 @@ t_data  *stuffing(char **av)
   return (data);
 }
 
+void *routine(void *data)
+{
+  (void)data;
+  printf("Hello\n");
+  return (NULL);
+}
+
 int main(int ac, char **av)
 {
+  pthread_t *t;
   t_data *data;
 
   // *data = (t_data){0};
   if (ac != 6)
     return (1);
   data = stuffing(av);
-  printf("philo number:\t%d\n", data->philon);
-  printf("philo number:\t%d\n",data->dtime);
-  printf("philo number:\t%d\n",data->etime);
-  printf("philo number:\t%d\n",data->stime);
-  printf("philo number:\t%d\n", data->eatn);
+  if (!data)
+    return (-1);
+  t = malloc(sizeof(pthread_t) * data->philon);
+  if (!t)
+    return (-1);
+  pthread_create(&t, NULL, &routine, NULL);
+  pthread_join(t, NULL);
 }

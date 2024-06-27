@@ -56,9 +56,4 @@ int main(int ac, char **av)
   data = stuffing(av);
   if (!data)
     return (-1);
-  t = malloc(sizeof(pthread_t) * data->philon);
-  if (!t)
-    return (-1);
-  pthread_create(&t, NULL, &routine, NULL);
-  pthread_join(t, NULL);
 }

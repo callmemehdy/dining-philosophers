@@ -14,4 +14,10 @@ typedef struct s_data
   int         eatn;
 }       t_data;
 
+typedef struct s_philo
+{
+	pthread_t id;
+
+}             t_philo;
+
 #endif

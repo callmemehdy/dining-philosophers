@@ -38,22 +38,62 @@ t_data  *stuffing(char **av)
   return (data);
 }
 
-void *routine(void *data)
+void *routine(void *dt)
 {
-  (void)data;
-  printf("Hello\n");
-  return (NULL);
+  t_data *data;
+
+  data = (t_data *)dt;
+  printf("1 is eating\n");
+  usleep(data->eatn * 1000);
+  printf("1 is sleeping\n");
+  usleep(data->stime * 1000);
+  printf("1 is thinking\n");
+  usleep(data->dtime * 1000);
+  return NULL;
+}
+void	ft_error(t_data *data, int status, char *message)
+{
+	if (data->philos)
+		free(data->philos);
+	free(data);
+	printf("%s\n", message);
+	exit(status);
+}
+void	creating_philosophers(t_data *data)
+{
+	int		i;
+
+	i = -1;
+	while (++i < data->philon)
+	{
+		if (pthread_create(&data->philos[i], NULL, &routine, data))
+			ft_error(data, EXIT_FAILURE, "Error while creating");
+	}
+	i = -1;
+	while (++i < data->philon)
+	{
+		if (pthread_join(data->philos[i],NULL))
+			ft_error(data, EXIT_FAILURE, "Error while joining");
+	}
 }
 
 int main(int ac, char **av)
 {
-  pthread_t *t;
-  t_data *data;
+	pthread_mutex_t sem;
+	t_data *data;
 
-  // *data = (t_data){0};
-  if (ac != 6)
-    return (1);
-  data = stuffing(av);
-  if (!data)
-    return (-1);
+	if (ac != 6)
+		return (1);
+	pthread_mutex_init(&sem, NULL);
+	data = stuffing(av);
+	data->philos = NULL;
+	if (!data)
+		return (-1);
+	data->philos = malloc(sizeof(pthread_t) * data->philon);
+	if (!data->philos)
+	{
+		printf("Error in philo's Malloc\n");
+		return 2;
+	}
+	creating_philosophers(data);
 }

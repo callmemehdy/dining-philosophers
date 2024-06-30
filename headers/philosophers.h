@@ -8,6 +8,7 @@
 
 typedef struct s_data
 {
+	pthread_mutex_t mutex;
   pthread_t   *philos;
   int         philon;
   int         dtime;

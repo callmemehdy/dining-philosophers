@@ -41,21 +41,27 @@ t_data  *stuffing(char **av)
 void *routine(void *dt)
 {
   t_data *data;
+  static int count;
 
   data = (t_data *)dt;
-  printf("1 is eating\n");
+  count = 1;
+  pthread_mutex_lock(&data->mutex);
+  printf("%d is eating\n", count);
   usleep(data->eatn * 1000);
-  printf("1 is sleeping\n");
+  printf("%d is sleeping\n", count);
   usleep(data->stime * 1000);
-  printf("1 is thinking\n");
+  printf("%d is thinking\n", count);
   usleep(data->dtime * 1000);
+  count++;
+  pthread_mutex_unlock(&data->mutex);
   return NULL;
 }
 void	ft_error(t_data *data, int status, char *message)
 {
 	if (data->philos)
 		free(data->philos);
-	free(data);
+	if (data)
+		free(data);
 	printf("%s\n", message);
 	exit(status);
 }
@@ -79,21 +85,17 @@ void	creating_philosophers(t_data *data)
 
 int main(int ac, char **av)
 {
-	pthread_mutex_t sem;
 	t_data *data;
 
 	if (ac != 6)
 		return (1);
-	pthread_mutex_init(&sem, NULL);
 	data = stuffing(av);
 	data->philos = NULL;
 	if (!data)
-		return (-1);
+		ft_error(NULL, EXIT_FAILURE, "Error 001");
+	pthread_mutex_init(&data->mutex, NULL);
 	data->philos = malloc(sizeof(pthread_t) * data->philon);
 	if (!data->philos)
-	{
-		printf("Error in philo's Malloc\n");
-		return 2;
-	}
+		ft_error(data, EXIT_FAILURE, "Error 002");
 	creating_philosophers(data);
 }

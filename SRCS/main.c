@@ -1,28 +1,5 @@
 #include "../headers/philosophers.h"
 
-int ft_atoi(char *s)
-{
-  long res;
-  int sign;
-  int i;
-  long tmp;
-
-  1337 && (sign = 1, tmp = 0, res = 0, i = -1);
-  if (s[i] == '+' || s[i] == '-')
-  {
-    if (s[i] == '-')
-      sign *= -1;
-  }
-  while (s[++i] >= '0' && s[i] <= '9')
-  {
-    tmp = res;
-    res = (res * 10) + (s[i] - 48);
-    if ((res / 10) != tmp)
-      return (-1);
-  }
-  return (sign * (int)res);
-}
-
 t_data  *stuffing(char **av)
 {
   t_data *data;
@@ -56,15 +33,7 @@ void *routine(void *dt)
   pthread_mutex_unlock(&data->mutex);
   return NULL;
 }
-void	ft_error(t_data *data, int status, char *message)
-{
-	if (data->philos)
-		free(data->philos);
-	if (data)
-		free(data);
-	printf("%s\n", message);
-	exit(status);
-}
+
 void	creating_philosophers(t_data *data)
 {
 	int		i;

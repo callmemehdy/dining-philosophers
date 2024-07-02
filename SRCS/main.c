@@ -62,9 +62,8 @@ int main(int ac, char **av)
 	data->philos = NULL;
 	if (!data)
 		ft_error(NULL, EXIT_FAILURE, "Error 001");
-	pthread_mutex_init(&data->mutex, NULL);
 	data->philos = malloc(sizeof(pthread_t) * data->philon);
-	if (!data->philos)
+	if (!data->philos || !data->eatn)
 		ft_error(data, EXIT_FAILURE, "Error 002");
 	creating_philosophers(data);
 }

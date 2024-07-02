@@ -20,6 +20,7 @@
 
 # define RED "\033[0;31m"
 # define YLW "\033[0;33m"
+
 typedef	enum s_ops
 {
 	lock = 1,

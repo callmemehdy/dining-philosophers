@@ -1,5 +1,5 @@
-i = 0
 
-while i < 3:
-    print(f"hello {i}")
-    i += 1
+def gnl():
+    with open("Rakefile", "w") as file:
+        print(file.readlines()[2])
+

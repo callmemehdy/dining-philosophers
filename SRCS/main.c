@@ -80,7 +80,7 @@ void	*sum_func(void *p)
 	i = -1;
 	while (++i < data->howmanyphilos)
 		data->philos[i].lastmeal_time = get_time();
-	
+	// I SHOULD COMPLETE SIMUL TODAY... AND MAKE MY FT_USLEEP...
 	// simuuuuulations
 	return (NULL);
 }

@@ -73,9 +73,14 @@ void	creating(t_data *data)
 
 void	*sum_func(void *p)
 {
+	int 	i;
 	t_data *data;
 
 	data = (t_data *)p;
+	i = -1;
+	while (++i < data->howmanyphilos)
+		data->philos[i].lastmeal_time = get_time();
+	
 	// simuuuuulations
 	return (NULL);
 }
@@ -98,6 +103,13 @@ void	simulation(t_data *data)
 			if (pthread_create(&data->philos->thread_id, NULL, sum_func, NULL))
 				ft_error(data, EXIT_FAILURE, "...while creating threads...");
 		}
+	}
+	data->simul_beg = get_time();
+	i = -1;
+	while (++i < data->howmanyphilos)
+	{
+		if (pthread_join(data->philos[i].thread_id, NULL))
+			ft_error(data, EXIT_FAILURE, "...while joining threads...");
 	}
 }
 

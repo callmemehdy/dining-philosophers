@@ -52,3 +52,8 @@ time_t  get_time(void)
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec / 1000) + (tv.tv_usec * 1000));
 }
+
+void	ft_usleep(time_t micros)
+{
+	// todo
+}

@@ -17,9 +17,11 @@
 # include <pthread.h>
 # include  <stdio.h>
 # include <sys/time.h>
-
 # define RED "\033[0;31m"
 # define YLW "\033[0;33m"
+
+typedef struct s_data t_data;
+typedef pthread_mutex_t  t_mtx;
 
 typedef	enum s_ops
 {
@@ -29,29 +31,39 @@ typedef	enum s_ops
 	init = 4
 }			t_ops;
 
-typedef struct s_forks
-{
-	pthread_mutex_t *rfork;
-	pthread_mutex_t *lfork;
-		
-}			t_forks;
 
-typedef struct s_data
+typedef struct s_fork
 {
-	pthread_t   *philos;
-	int         philon;
-	int         dtime;
-	int         etime;
-	int         stime;
-	int         eatn;
-}       t_data;
+	t_mtx fork;
+	int				fork_id;
+}			t_fork;
 
 typedef struct s_philo
 {
-	pthread_t id;
-	t_data *data;
+	int			id;
+	pthread_t 	thread_id;
+	int			meals;
+	time_t 		lastmeal_time;
+	int			isfull;
+	t_fork		*rfork;
+	t_fork		*lfork;
+	t_data		*data;
 }             t_philo;
+
+struct s_data
+{
+	int				howmanyphilos;
+	int         	dtime;
+	int         	etime;
+	int         	stime;
+	int         	mealsnum;
+	time_t			simul_beg;
+	int				isend;
+	t_fork			*forks;
+	t_philo			*philos;
+};
 
 void    ft_error(t_data *data, int status, char *message);
 int     ft_atoi(char *s);
+time_t 	get_time(void);
 #endif

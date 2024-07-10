@@ -1,5 +1,7 @@
 
-def gnl():
-    with open("Rakefile", "w") as file:
-        print(file.readlines()[2])
+import sys
+
+
+with open('file.txt', 'r') as file:
+    print('Hello world', file=file)
 

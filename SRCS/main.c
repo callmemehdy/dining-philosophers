@@ -16,6 +16,7 @@ t_data  *stuffing(char **av)
 	data->isend = 0;
 	return (data);
 }
+
 void	forking(t_philo *philo, t_fork *forks, int pos)
 {
 	int round;
@@ -70,9 +71,13 @@ void	creating(t_data *data)
 	creating_philosophers(data);
 }
 
-void	sum_func(t_data *data)
+void	*sum_func(void *p)
 {
+	t_data *data;
+
+	data = (t_data *)p;
 	// simuuuuulations
+	return (NULL);
 }
 
 void	simulation(t_data *data)

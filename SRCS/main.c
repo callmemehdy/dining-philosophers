@@ -53,6 +53,7 @@ void	creating_philosophers(t_data *data)
 		philo->meals_eaten = 0;
 		forking(&philo[i], data->forks, i);
 	}
+	philo->data = data;
 }
 
 void	creating(t_data *data)
@@ -76,10 +77,10 @@ void	eating(t_philo *philo)
 {
 	if (philo->isfull)
 		return ;
-	if (pthread_mutex_lock(philo->rfork))
+	if (pthread_mutex_lock(&philo->rfork->fork))
 		ft_error(philo->data, 1 >> 0, "...some issues locking forks mutexes...");
 	printf("%d\thas taken a fork\n", philo->id);
-	if (pthread_mutex_lock(philo->lfork))
+	if (pthread_mutex_lock(&philo->lfork->fork))
 		ft_error(philo->data, 1 >> 0, "...some issues locking forks mutexes...");
 	printf("%d\thas taken a fork\n", philo->id);
 	printf("%d\tis eating\n", philo->id);
@@ -88,20 +89,20 @@ void	eating(t_philo *philo)
 	philo->lastmeal_time = get_time();
 	if (philo->meals_eaten == philo->meals)
 		philo->isfull = 1;
-	if (pthread_mutex_unlock(philo->rfork))
+	if (pthread_mutex_unlock(&philo->rfork->fork))
 		ft_error(philo->data, 1 >> 0, "...some issues unlocking forks mutexes...");
-	if (pthread_mutex_unlock(philo->lfork))
+	if (pthread_mutex_unlock(&philo->lfork->fork))
 		ft_error(philo->data, 1 >> 0, "...some issues unlocking forks mutexes...");
 
 }
 
 void	*sum_func(void *p)
 {
-	int 	i;
+	// int 	i;
 	t_philo *philo;
 
 	philo = (t_philo *)p;
-	i = -1;
+	// i = -1;
 	while (!philo->data->isend)
 	{
 		// i should implement the eating function so that the philos take the forks ... release ite
@@ -143,10 +144,6 @@ void	simulation(t_data *data)
 
 int main(int ac, char **av)
 {
-	ft_usleep((10 * 1000) * 1000);
-	// usleep((10 * 1000) * 1000);
-	// while (1){printf("[%zu]\n", get_time());}
-	return 1;
 	t_data *data;
 
 	if (ac != 6)

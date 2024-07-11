@@ -19,7 +19,7 @@ all:	$(NAME)
 -include $(DEPS)
 
 $(NAME):	$(OBJS)
-		cc  $(OBJS) -o $@
+		cc  $(OBJS) -o $@ -fsanitize=address
 
 $(OBJ_DIR)%.o:	$(SRC_DIR)%.c
 		mkdir -p $(OBJ_DIR)

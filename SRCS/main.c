@@ -71,15 +71,27 @@ void	creating(t_data *data)
 	creating_philosophers(data);
 }
 
+void	eating(t_philo *philo)
+{
+	if (pthread_mutex_lock(philo->rfork))
+		ft_error(philo->data, 1 >> 0, "...some issues in locking forks mutexes...");
+	if (pthread_mutex_lock(philo->lfork))
+		ft_error(philo->data, 1 >> 0, "...some issues in locking forks mutexes...");
+	
+}
+
 void	*sum_func(void *p)
 {
 	int 	i;
-	t_data *data;
+	t_philo *philo;
 
-	data = (t_data *)p;
+	philo = (t_philo *)p;
 	i = -1;
-	while (++i < data->howmanyphilos)
-		data->philos[i].lastmeal_time = get_time();
+	while (!philo->data->isend)
+	{
+		// i should implement the eating function so that the philos take the forks ... release ite
+		eating();
+	}
 	// I SHOULD COMPLETE SIMUL TODAY... AND MAKE MY FT_USLEEP...
 	// simuuuuulations
 	return (NULL);
@@ -99,11 +111,13 @@ void	simulation(t_data *data)
 	else
 	{
 		while (++i < data->howmanyphilos)
+			data->philos[i].lastmeal_time = get_time();
+		data->simul_beg = get_time();
+		while (++i < data->howmanyphilos)
 		{
-			if (pthread_create(&data->philos->thread_id, NULL, sum_func, NULL))
+			if (pthread_create(&data->philos->thread_id, NULL, sum_func, &data->philos[i]))
 				ft_error(data, EXIT_FAILURE, "...while creating threads...");
 		}
-		data->simul_beg = get_time();
 	}
 	i = -1;
 	while (++i < data->howmanyphilos)

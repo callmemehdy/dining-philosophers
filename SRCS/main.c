@@ -30,8 +30,8 @@ void	forking(t_philo *philo, t_fork *forks, int pos)
 	}
 	else
 	{
-		philo->rfork = &forks[(pos + 1) % round];
-		philo->lfork = &forks[pos];
+		philo->rfork->fork = forks[(pos + 1) % round].fork;
+		philo->lfork->fork = forks[pos].fork;
 	}
 }
 

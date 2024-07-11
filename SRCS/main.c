@@ -49,7 +49,8 @@ void	creating_philosophers(t_data *data)
 		philo = data->philos + i;
 		philo->id = i + 1;
 		philo->isfull = 0;
-		philo->meals = 0;
+		philo->meals = data->mealsnum;
+		philo->meals_eaten = 0;
 		forking(&philo[i], data->forks, i);
 	}
 }
@@ -73,11 +74,25 @@ void	creating(t_data *data)
 
 void	eating(t_philo *philo)
 {
+	if (philo->isfull)
+		return ;
 	if (pthread_mutex_lock(philo->rfork))
-		ft_error(philo->data, 1 >> 0, "...some issues in locking forks mutexes...");
+		ft_error(philo->data, 1 >> 0, "...some issues locking forks mutexes...");
+	printf("%d\thas taken a fork\n", philo->id);
 	if (pthread_mutex_lock(philo->lfork))
-		ft_error(philo->data, 1 >> 0, "...some issues in locking forks mutexes...");
-	
+		ft_error(philo->data, 1 >> 0, "...some issues locking forks mutexes...");
+	printf("%d\thas taken a fork\n", philo->id);
+	printf("%d\tis eating\n", philo->id);
+	ft_usleep(philo->data->etime);
+	philo->meals_eaten++;
+	philo->lastmeal_time = get_time();
+	if (philo->meals_eaten == philo->meals)
+		philo->isfull = 1;
+	if (pthread_mutex_unlock(philo->rfork))
+		ft_error(philo->data, 1 >> 0, "...some issues unlocking forks mutexes...");
+	if (pthread_mutex_unlock(philo->lfork))
+		ft_error(philo->data, 1 >> 0, "...some issues unlocking forks mutexes...");
+
 }
 
 void	*sum_func(void *p)
@@ -90,7 +105,7 @@ void	*sum_func(void *p)
 	while (!philo->data->isend)
 	{
 		// i should implement the eating function so that the philos take the forks ... release ite
-		eating();
+		eating(philo);
 	}
 	// I SHOULD COMPLETE SIMUL TODAY... AND MAKE MY FT_USLEEP...
 	// simuuuuulations
@@ -110,11 +125,10 @@ void	simulation(t_data *data)
 	}
 	else
 	{
-		while (++i < data->howmanyphilos)
-			data->philos[i].lastmeal_time = get_time();
 		data->simul_beg = get_time();
 		while (++i < data->howmanyphilos)
 		{
+			data->philos[i].lastmeal_time = get_time();
 			if (pthread_create(&data->philos->thread_id, NULL, sum_func, &data->philos[i]))
 				ft_error(data, EXIT_FAILURE, "...while creating threads...");
 		}

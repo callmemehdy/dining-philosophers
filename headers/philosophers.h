@@ -43,7 +43,8 @@ typedef struct s_philo
 	int			id;
 	pthread_t 	thread_id;
 	int			meals;
-	time_t 		lastmeal_time;
+	int			meals_eaten;
+	size_t 		lastmeal_time;
 	int			isfull;
 	t_fork		*rfork;
 	t_fork		*lfork;
@@ -57,7 +58,7 @@ struct s_data
 	int         	etime;
 	int         	stime;
 	int         	mealsnum;
-	time_t			simul_beg;
+	size_t			simul_beg;
 	int				isend;
 	t_fork			*forks;
 	t_philo			*philos;

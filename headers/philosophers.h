@@ -65,5 +65,6 @@ struct s_data
 
 void    ft_error(t_data *data, int status, char *message);
 int     ft_atoi(char *s);
-time_t 	get_time(void);
+size_t 	get_time(void);
+void	ft_usleep(size_t micros);
 #endif

@@ -115,6 +115,10 @@ void	simulation(t_data *data)
 
 int main(int ac, char **av)
 {
+	ft_usleep((10 * 1000) * 1000);
+	// usleep((10 * 1000) * 1000);
+	// while (1){printf("[%zu]\n", get_time());}
+	return 1;
 	t_data *data;
 
 	if (ac != 6)

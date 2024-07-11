@@ -25,8 +25,8 @@ void	forking(t_philo *philo, t_fork *forks, int pos)
 	round = philo->data->howmanyphilos;
 	if (!(pos % 2))
 	{
-		philo->rfork = &forks[pos];
-		philo->lfork = &forks[(pos + 1) % round];
+		philo->rfork->fork = forks[pos].fork;
+		philo->lfork->fork = forks[(pos + 1) % round].fork;
 	}
 	else
 	{

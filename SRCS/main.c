@@ -15,12 +15,12 @@ void	eating(t_philo *philo)
 		return ;
 	if (pthread_mutex_lock(&philo->rfork->fork))
 		ft_error(philo->data, 1 >> 0, "...some issues locking forks mutexes...");
-	printf("%d has taken a fork\n", philo->id);
+	printing(philo);
 	if (pthread_mutex_lock(&philo->lfork->fork))
 		ft_error(philo->data, 1 >> 0, "...some issues locking forks mutexes...");
-	printf("%d has taken a fork\n", philo->id);
+	printing(philo);
 	printf("%d is eating\n", philo->id);
-	ft_usleep(philo->data->etime);
+	ft_usleep(philo->data->etime * 1000);
 	philo->meals_eaten++;
 	philo->lastmeal_time = get_time();
 	if (philo->meals_eaten == philo->meals)

@@ -62,10 +62,16 @@ struct s_data
 	int				isend;
 	t_fork			*forks;
 	t_philo			*philos;
+	t_mtx			print;
 };
-
+// utils
 void    ft_error(t_data *data, int status, char *message);
 int     ft_atoi(char *s);
 size_t 	get_time(void);
 void	ft_usleep(size_t micros);
+// creating
+t_data	*stuffing(char **av);
+void	forking(t_philo *philo, t_fork *forks, int pos);
+void	creating_philosophers(t_data *data);
+void	creating(t_data *data);
 #endif

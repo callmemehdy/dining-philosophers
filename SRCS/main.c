@@ -1,77 +1,7 @@
 #include "../headers/philosophers.h"
 
 
-t_data  *stuffing(char **av)
-{
-	t_data *data;
 
-	data = malloc(sizeof(t_data));
-	if (!data)
-		return (NULL);
-	data->howmanyphilos = ft_atoi(av[1]);
-	data->dtime = ft_atoi(av[2]);
-	data->etime = ft_atoi(av[3]);
-	data->stime = ft_atoi(av[4]);
-	data->mealsnum = ft_atoi(av[5]);
-	data->isend = 0;
-	return (data);
-}
-
-void	forking(t_philo *philo, t_fork *forks, int pos)
-{
-	int round;
-
-
-	round = philo->data->howmanyphilos;
-	if (!(pos % 2))
-	{
-		philo->rfork = &forks[pos];
-		philo->lfork = &forks[(pos + 1) % round];
-	}
-	else
-	{
-		philo->rfork = &forks[(pos + 1) % round];
-		philo->lfork = &forks[pos];
-	}
-}
-
-void	creating_philosophers(t_data *data)
-{
-	int		i;
-	t_philo *philo;
-
-	i = -1;
-	data->philos = malloc(sizeof(t_philo) * data->howmanyphilos);
-	if (!data->philos)
-		ft_error(data, EXIT_FAILURE, "philos's failing!");
-	while (++i < data->howmanyphilos)
-	{
-		philo = data->philos + i;
-		philo->id = i + 1;
-		philo->isfull = 0;
-		philo->meals = data->mealsnum;
-		philo->meals_eaten = 0;
-		forking(&philo[i], data->forks, i);
-	}
-	philo->data = data;
-}
-
-void	creating(t_data *data)
-{
-	int i;
-
-	i = -1;
-	data->forks = malloc(sizeof(t_fork) * data->howmanyphilos);
-	if (!data->forks)
-		ft_error(data, EXIT_FAILURE, "forkalloc!");
-	while (++i < data->howmanyphilos)
-	{
-		if(pthread_mutex_init(&data->forks[i].fork, NULL))
-			ft_error(data, EXIT_FAILURE, "mutex init failed");
-		data->forks[i].fork_id = i;
-	}
-	creating_philosophers(data);
-}
 
 void	eating(t_philo *philo)
 {
@@ -79,11 +9,11 @@ void	eating(t_philo *philo)
 		return ;
 	if (pthread_mutex_lock(&philo->rfork->fork))
 		ft_error(philo->data, 1 >> 0, "...some issues locking forks mutexes...");
-	printf("%d\thas taken a fork\n", philo->id);
+	printf("%d has taken a fork\n", philo->id);
 	if (pthread_mutex_lock(&philo->lfork->fork))
 		ft_error(philo->data, 1 >> 0, "...some issues locking forks mutexes...");
-	printf("%d\thas taken a fork\n", philo->id);
-	printf("%d\tis eating\n", philo->id);
+	printf("%d has taken a fork\n", philo->id);
+	printf("%d is eating\n", philo->id);
 	ft_usleep(philo->data->etime);
 	philo->meals_eaten++;
 	philo->lastmeal_time = get_time();
@@ -98,11 +28,9 @@ void	eating(t_philo *philo)
 
 void	*sum_func(void *p)
 {
-	// int 	i;
 	t_philo *philo;
 
 	philo = (t_philo *)p;
-	// i = -1;
 	while (!philo->data->isend)
 	{
 		// i should implement the eating function so that the philos take the forks ... release ite
@@ -147,14 +75,13 @@ int main(int ac, char **av)
 	t_data *data;
 
 	if (ac != 6)
-		return (1);
+		ft_error(NULL, EXIT_FAILURE, "Usage: ./program [] [] [] [] []");
 	data = stuffing(av);
-	data->philos = NULL;
 	if (!data)
 		ft_error(NULL, EXIT_FAILURE, "Error 001");
-	data->philos = malloc(sizeof(pthread_t) * data->howmanyphilos);
-	if (!data->philos)
-		ft_error(NULL, EXIT_FAILURE, "Error 002");
+	data->philos = NULL;
+	if (pthread_mutex_init(&data->print, NULL))
+		ft_error(data, EXIT_FAILURE, "printMutex error");
 	creating(data);
-
+	simulation(data);
 }

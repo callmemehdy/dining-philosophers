@@ -51,6 +51,7 @@ void	creating_philosophers(t_data *data)
 		philo->isfull = 0;
 		philo->meals = data->mealsnum;
 		philo->meals_eaten = 0;
+		philo->isdead = 0;
 		philo->data = data;
 		forking(philo, data->forks, i);
 	}

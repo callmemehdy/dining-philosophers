@@ -46,6 +46,7 @@ typedef struct s_philo
 	int			meals_eaten;
 	size_t 		lastmeal_time;
 	int			isfull;
+	int			isdead;
 	t_fork		*rfork;
 	t_fork		*lfork;
 	t_data		*data;

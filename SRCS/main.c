@@ -1,7 +1,13 @@
 #include "../headers/philosophers.h"
 
-
-
+void	printing(t_philo *philo)
+{
+	if (pthread_mutex_lock(&philo->data->print))
+		ft_error(philo->data, EXIT_FAILURE, "mutexLock error in print");
+	printf("%d has taken a fork\n", philo->id);
+	if (pthread_mutex_unlock(&philo->data->print))
+		ft_error(philo->data, EXIT_FAILURE, "mutexUNlock error in print");
+}
 
 void	eating(t_philo *philo)
 {

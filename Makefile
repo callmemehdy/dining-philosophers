@@ -6,7 +6,7 @@ SRC_DIR =	SRCS/
 
 OBJ_DIR	= 	OBJS_DEPS/
 
-SRCS_FS	=	main.c utils_1.c
+SRCS_FS	=	main.c utils_1.c philo_cr.c
 
 SRCS	= $(addprefix $(SRC_DIR), $(SRCS_FS))
 

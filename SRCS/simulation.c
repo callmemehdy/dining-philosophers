@@ -51,6 +51,7 @@ void	*sum_func(void *p)
 		printf("%zu %d is sleeping\n", get_time() - philo->data->simul_beg, philo->id);
 		ft_usleep(philo->data->stime * 1000);
 		pthread_mutex_unlock(&philo->sleeping);
+		pthread_mutex_destroy(&philo->sleeping);
 		pthread_mutex_lock(&philo->data->thinking);
 		printf("%zu %d is thinking\n", get_time() - philo->data->simul_beg, philo->id);
 		pthread_mutex_unlock(&philo->data->thinking);

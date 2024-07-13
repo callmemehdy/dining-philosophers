@@ -32,6 +32,7 @@ void	*monitoring_threads(void *dt)
 			{
 				printf("%zu %d died\n", get_time() - data->simul_beg, data->philos[i].id);
 				data->isend = 1;
+				return (NULL);
 			}
 			if (!data->philos[i].isfull)
 				alldone = 1;

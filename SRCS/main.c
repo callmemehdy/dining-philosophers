@@ -4,7 +4,7 @@ void	printing(t_philo *philo)
 {
 	if (pthread_mutex_lock(&philo->data->print))
 		ft_error(philo->data, EXIT_FAILURE, "mutexLock error in print");
-	printf("%d has taken a fork\n", philo->id);
+	printf("%zu %d has taken a fork\n", get_time() - philo->data->simul_beg, philo->id);
 	if (pthread_mutex_unlock(&philo->data->print))
 		ft_error(philo->data, EXIT_FAILURE, "mutexUNlock error in print");
 }
@@ -21,12 +21,10 @@ void	eating(t_philo *philo)
 	if (pthread_mutex_lock(&philo->lfork->fork))
 		ft_error(philo->data, 1 >> 0, "...some issues locking forks mutexes...");
 	printing(philo);
-	printf("%d is eating\n", philo->id);
+	printf("%zu %d is eating\n", get_time() - philo->data->simul_beg, philo->id);
 	ft_usleep(philo->data->etime * 1000);
 	philo->meals_eaten++;
 	philo->lastmeal_time = get_time();
-	if (philo->meals_eaten == philo->meals)
-		philo->isfull = 1;
 	if (pthread_mutex_unlock(&philo->rfork->fork))
 		ft_error(philo->data, 1 >> 0, "...some issues unlocking forks mutexes...");
 	if (pthread_mutex_unlock(&philo->lfork->fork))
@@ -44,7 +42,7 @@ void	*sum_func(void *p)
 		// i should implement the eating function so that the philos take the forks ... release ite
 		eating(philo);
 		pthread_mutex_lock(&philo->thinking);
-		printf("%d is thinking\n", philo->id);
+		printf("%zu %d is thinking\n", get_time() - philo->data->simul_beg, philo->id);
 		pthread_mutex_unlock(&philo->thinking);
 	}
 	// I SHOULD COMPLETE SIMUL TODAY... AND MAKE MY FT_USLEEP...

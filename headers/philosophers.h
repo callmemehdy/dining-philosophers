@@ -55,7 +55,7 @@ typedef struct s_philo
 
 struct s_data
 {
-	int				howmanyphilos1;
+	int				howmanyphilos;
 	size_t        	dtime;
 	size_t         	etime;
 	size_t         	stime;

@@ -43,6 +43,9 @@ void	*sum_func(void *p)
 	{
 		// i should implement the eating function so that the philos take the forks ... release ite
 		eating(philo);
+		pthread_mutex_lock(&philo->thinking);
+		printf("%d is thinking\n", philo->id);
+		pthread_mutex_unlock(&philo->thinking);
 	}
 	// I SHOULD COMPLETE SIMUL TODAY... AND MAKE MY FT_USLEEP...
 	// simuuuuulations

@@ -50,14 +50,15 @@ typedef struct s_philo
 	t_fork		*rfork;
 	t_fork		*lfork;
 	t_data		*data;
+	t_mtx		thinking;
 }             t_philo;
 
 struct s_data
 {
-	int				howmanyphilos;
-	int         	dtime;
-	int         	etime;
-	int         	stime;
+	int				howmanyphilos1;
+	size_t        	dtime;
+	size_t         	etime;
+	size_t         	stime;
 	int         	mealsnum;
 	size_t			simul_beg;
 	int				isend;

@@ -40,7 +40,7 @@ void	*sum_func(void *p)
 	pthread_mutex_init(&philo->setting, NULL);
 	pthread_mutex_lock(&philo->setting);
 	philo->lastmeal_time = get_time();
-	pthread_mutex_lock(&philo->setting);
+	pthread_mutex_unlock(&philo->setting);
 	while (!philo->data->isend)
 	{
 		// i should implement the eating function so that the philos take the forks ... release ite
@@ -48,10 +48,10 @@ void	*sum_func(void *p)
 		pthread_mutex_lock(&philo->thinking);
 		printf("%zu %d is thinking\n", get_time() - philo->data->simul_beg, philo->id);
 		pthread_mutex_unlock(&philo->thinking);
-		pthread_mutex_destroy(&philo->setting);
 	}
 	// I SHOULD COMPLETE SIMUL TODAY... AND MAKE MY FT_USLEEP...
 	// simuuuuulations
+	pthread_mutex_destroy(&philo->setting);
 	return (NULL);
 }
 
@@ -98,9 +98,11 @@ int	philo_is_dead(t_philo *philo)
 void	*monitoring_threads(void *dt)
 {
 	int			i;
+	int			alldone;
 	t_data		*data;
 
 	data = (t_data *)dt;
+	alldone = 0;
 	while (!data->isend)
 	{
 		i = -1;
@@ -111,7 +113,10 @@ void	*monitoring_threads(void *dt)
 				printf("%zu %d died\n", get_time() - data->simul_beg, data->philos[i].id);
 				data->isend = 1;
 			}
+			if (!data->philos[i].isfull)
+				alldone = 1;
 		}
+		(alldone) && (data->isend = 1);
 	}
 	return NULL;
 }
@@ -130,6 +135,6 @@ int main(int ac, char **av)
 		ft_error(data, EXIT_FAILURE, "printMutex error");
 	creating(data);
 	simulation(data);
-	// pthread_create(&data->monitor, NULL, monitoring_threads, data);
-	// pthread_join(data->monitor, NULL);
+	pthread_create(&data->monitor, NULL, monitoring_threads, data);
+	pthread_join(data->monitor, NULL);
 }

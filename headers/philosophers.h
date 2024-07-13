@@ -60,8 +60,9 @@ struct s_data
 	size_t         	etime;
 	size_t         	stime;
 	int         	mealsnum;
-	size_t			simul_beg;
 	int				isend;
+	int				allfull;
+	size_t			simul_beg;
 	t_fork			*forks;
 	t_philo			*philos;
 	t_mtx			print;

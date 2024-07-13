@@ -14,6 +14,7 @@ t_data  *stuffing(char **av)
 	data->stime = ft_atoi(av[4]);
 	data->mealsnum = ft_atoi(av[5]);
 	data->isend = 0;
+	data->allfull = 0;
 	return (data);
 }
 

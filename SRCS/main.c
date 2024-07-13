@@ -12,7 +12,8 @@ int	philo_is_dead(t_philo *philo)
 		return (0);
 	lastmeal = philo->lastmeal_time;
 	elapsed = get_time() - lastmeal;
-	if (elapsed >= philo->data->dtime)
+	if (elapsed >= philo->data->dtime ||
+		philo->data->allfull == philo->data->mealsnum)
 		return (1);
 	return (0);
 }
@@ -20,11 +21,9 @@ int	philo_is_dead(t_philo *philo)
 void	*monitoring_threads(void *dt)
 {
 	int			i;
-	int			alldone;
 	t_data		*data;
 
 	data = (t_data *)dt;
-	alldone = 0;
 	while (!data->isend)
 	{
 		i = -1;
@@ -35,14 +34,10 @@ void	*monitoring_threads(void *dt)
 				printf("%zu %d died\n", get_time() - data->simul_beg, data->philos[i].id);
 				data->isend = 1;
 			}
-			if (!data->philos[i].isfull)
-				alldone = 1;
+			if (data->philos[i].isfull)
+				data->allfull++;
 		}
-		if(!alldone)
-		{
-			exit(0);
-			data->isend = 1;
-		}
+		
 	}
 	return NULL;
 }

@@ -63,13 +63,13 @@ void	simulation(t_data *data)
 	}
 	else
 	{
-		data->simul_beg = get_time();
 		while (++i < data->howmanyphilos)
 		{
 			data->philos[i].lastmeal_time = get_time();
 			if (pthread_create(&data->philos->thread_id, NULL, sum_func, &data->philos[i]))
 				ft_error(data, EXIT_FAILURE, "...while creating threads...");
 		}
+		data->simul_beg = get_time();
 	}
 	i = -1;
 	while (++i < data->howmanyphilos)

@@ -52,9 +52,9 @@ void	*sum_func(void *p)
 		ft_usleep(philo->data->stime * 1000);
 		pthread_mutex_unlock(&philo->sleeping);
 		pthread_mutex_destroy(&philo->sleeping);
-		pthread_mutex_lock(&philo->data->thinking);
-		printf("%zu %d is thinking\n", get_time() - philo->data->simul_beg, philo->id);
-		pthread_mutex_unlock(&philo->data->thinking);
+		// pthread_mutex_lock(&philo->data->thinking);
+		// printf("%zu %d is thinking\n", get_time() - philo->data->simul_beg, philo->id);
+		// pthread_mutex_unlock(&philo->data->thinking);
 	}
 	// I SHOULD COMPLETE SIMUL TODAY... AND MAKE MY FT_USLEEP...
 	// simuuuuulations
@@ -82,12 +82,12 @@ void	simulation(t_data *data)
 				ft_error(data, EXIT_FAILURE, "...while creating threads...");
 		}
 	}
-	// pthread_create(&data->monitor, NULL, monitoring_threads, data);
 	i = -1;
+	pthread_create(&data->monitor, NULL, monitoring_threads, data);
+	pthread_join(data->monitor, NULL);
 	while (++i < data->howmanyphilos)
 	{
 		if (pthread_join(data->philos[i].thread_id, NULL))
 			ft_error(data, EXIT_FAILURE, "...while joining threads...");
-	// pthread_join(data->monitor, NULL);
 	}
 }

@@ -86,4 +86,5 @@ void	*sum_func(void *p);
 void	simulation(t_data *data);
 //
 void	*monitoring_threads(void *dt);
+
 #endif

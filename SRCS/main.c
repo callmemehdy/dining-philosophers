@@ -6,8 +6,10 @@ int	philo_is_dead(t_philo *philo)
 	size_t	elapsed;
 	size_t	lastmeal;
 
-	// if (philo->isfull)
-	// 	return (0);
+	if (philo->meals_eaten == philo->data->mealsnum)
+		philo->isfull = 1;
+	if (philo->isfull)
+		return (0);
 	lastmeal = philo->lastmeal_time;
 	elapsed = get_time() - lastmeal;
 	if (elapsed >= philo->data->dtime)
@@ -37,7 +39,10 @@ void	*monitoring_threads(void *dt)
 				alldone = 1;
 		}
 		if(!alldone)
-			return NULL;
+		{
+			exit(0);
+			data->isend = 1;
+		}
 	}
 	return NULL;
 }

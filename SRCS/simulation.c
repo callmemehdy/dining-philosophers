@@ -82,8 +82,6 @@ void	simulation(t_data *data)
 		}
 	}
 	i = -1;
-	pthread_create(&data->monitor, NULL, monitoring_threads, data);
-	pthread_join(data->monitor, NULL);
 	while (++i < data->howmanyphilos)
 	{
 		if (pthread_join(data->philos[i].thread_id, NULL))

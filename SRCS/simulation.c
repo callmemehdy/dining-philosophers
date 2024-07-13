@@ -12,8 +12,8 @@ void	printing(t_philo *philo)
 
 int	eating(t_philo *philo)
 {
-	if (philo->isfull)
-		return (1);
+	// if (philo->isfull)
+	// 	return (1);
 	if (get_time() - philo->lastmeal_time > philo->data->dtime)
 		philo->isdead = 1;
 	if (pthread_mutex_lock(&philo->rfork->fork))

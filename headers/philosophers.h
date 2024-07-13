@@ -78,5 +78,10 @@ t_data	*stuffing(char **av);
 void	forking(t_philo *philo, t_fork *forks, int pos);
 void	creating_philosophers(t_data *data);
 void	creating(t_data *data);
+// simulation
+void	printing(t_philo *philo);
+void	eating(t_philo *philo);
+void	*sum_func(void *p);
+void	simulation(t_data *data);
 
 #endif

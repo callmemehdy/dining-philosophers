@@ -106,7 +106,7 @@ void	*monitoring_threads(void *dt)
 	while (!data->isend)
 	{
 		i = -1;
-		while (++i < data->howmanyphilos)
+		while (++i < data->howmanyphilos && !data->isend)
 		{
 			if (philo_is_dead(&data->philos[i]))
 			{

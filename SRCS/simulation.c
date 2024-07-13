@@ -46,8 +46,7 @@ void	*sum_func(void *p)
 	while (!philo->data->isend)
 	{
 		// i should implement the eating function so that the philos take the forks ... release it
-		if (eating(philo))
-			return 0;
+		eating(philo);
 		pthread_mutex_lock(&philo->setting);
 		printf("%zu %d is sleeping\n", get_time() - philo->data->simul_beg, philo->id);
 		ft_usleep(philo->data->stime * 1000);

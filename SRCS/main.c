@@ -6,8 +6,8 @@ int	philo_is_dead(t_philo *philo)
 	size_t	elapsed;
 	size_t	lastmeal;
 
-	if (philo->isfull)
-		return (0);
+	// if (philo->isfull)
+	// 	return (0);
 	lastmeal = philo->lastmeal_time;
 	elapsed = get_time() - lastmeal;
 	if (elapsed >= philo->data->dtime)
@@ -32,7 +32,6 @@ void	*monitoring_threads(void *dt)
 			{
 				printf("%zu %d died\n", get_time() - data->simul_beg, data->philos[i].id);
 				data->isend = 1;
-				return (NULL);
 			}
 			if (!data->philos[i].isfull)
 				alldone = 1;
@@ -55,8 +54,8 @@ int main(int ac, char **av)
 	data->philos = NULL;
 	if (pthread_mutex_init(&data->print, NULL))
 		ft_error(data, EXIT_FAILURE, "printMutex error");
+	if (pthread_mutex_init(&data->thinking, NULL))
+		ft_error(data, EXIT_FAILURE, "printMutex error");
 	creating(data);
 	simulation(data);
-	pthread_create(&data->monitor, NULL, monitoring_threads, data);
-	pthread_join(data->monitor, NULL);
 }

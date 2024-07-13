@@ -46,9 +46,14 @@ void	*sum_func(void *p)
 	{
 		// i should implement the eating function so that the philos take the forks ... release it
 		eating(philo);
-		pthread_mutex_lock(&philo->thinking);
+		pthread_mutex_init(&philo->sleeping, NULL);
+		pthread_mutex_lock(&philo->sleeping);
+		printf("%zu %d is sleeping\n", get_time() - philo->data->simul_beg, philo->id);
+		ft_usleep(philo->data->stime * 1000);
+		pthread_mutex_unlock(&philo->sleeping);
+		pthread_mutex_lock(&philo->data->thinking);
 		printf("%zu %d is thinking\n", get_time() - philo->data->simul_beg, philo->id);
-		pthread_mutex_unlock(&philo->thinking);
+		pthread_mutex_unlock(&philo->data->thinking);
 	}
 	// I SHOULD COMPLETE SIMUL TODAY... AND MAKE MY FT_USLEEP...
 	// simuuuuulations
@@ -76,10 +81,12 @@ void	simulation(t_data *data)
 				ft_error(data, EXIT_FAILURE, "...while creating threads...");
 		}
 	}
+	// pthread_create(&data->monitor, NULL, monitoring_threads, data);
 	i = -1;
 	while (++i < data->howmanyphilos)
 	{
 		if (pthread_join(data->philos[i].thread_id, NULL))
 			ft_error(data, EXIT_FAILURE, "...while joining threads...");
+	// pthread_join(data->monitor, NULL);
 	}
 }

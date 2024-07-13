@@ -65,6 +65,7 @@ struct s_data
 	t_fork			*forks;
 	t_philo			*philos;
 	t_mtx			print;
+	pthread_t		monitor;
 };
 // utils
 void    ft_error(t_data *data, int status, char *message);

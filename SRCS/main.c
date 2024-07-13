@@ -63,13 +63,13 @@ void	simulation(t_data *data)
 	}
 	else
 	{
+		data->simul_beg = get_time();
 		while (++i < data->howmanyphilos)
 		{
 			data->philos[i].lastmeal_time = get_time();
 			if (pthread_create(&data->philos->thread_id, NULL, sum_func, &data->philos[i]))
 				ft_error(data, EXIT_FAILURE, "...while creating threads...");
 		}
-		data->simul_beg = get_time();
 	}
 	i = -1;
 	while (++i < data->howmanyphilos)
@@ -77,6 +77,11 @@ void	simulation(t_data *data)
 		if (pthread_join(data->philos[i].thread_id, NULL))
 			ft_error(data, EXIT_FAILURE, "...while joining threads...");
 	}
+}
+
+void	monitoring_threads(t_data *data)
+{
+	
 }
 
 int main(int ac, char **av)
@@ -93,4 +98,5 @@ int main(int ac, char **av)
 		ft_error(data, EXIT_FAILURE, "printMutex error");
 	creating(data);
 	simulation(data);
+	pthread_create(&data->monitor, NULL, monitoring_threads, data);
 }

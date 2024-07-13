@@ -51,7 +51,6 @@ typedef struct s_philo
 	t_fork		*lfork;
 	t_data		*data;
 	t_mtx		setting;
-	t_mtx		sleeping;
 }             t_philo;
 
 struct s_data
@@ -67,7 +66,6 @@ struct s_data
 	t_philo			*philos;
 	t_mtx			print;
 	pthread_t		monitor;
-	t_mtx			thinking;
 };
 // utils
 void    ft_error(t_data *data, int status, char *message);
@@ -84,7 +82,7 @@ void	printing(t_philo *philo);
 void	eating(t_philo *philo);
 void	*sum_func(void *p);
 void	simulation(t_data *data);
-//
+// seerbay
 void	*monitoring_threads(void *dt);
 
 #endif

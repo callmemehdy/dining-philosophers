@@ -59,8 +59,6 @@ int main(int ac, char **av)
 	data->philos = NULL;
 	if (pthread_mutex_init(&data->print, NULL))
 		ft_error(data, EXIT_FAILURE, "printMutex error");
-	if (pthread_mutex_init(&data->thinking, NULL))
-		ft_error(data, EXIT_FAILURE, "printMutex error");
 	creating(data);
 	simulation(data);
 }

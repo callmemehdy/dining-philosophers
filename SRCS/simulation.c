@@ -10,10 +10,10 @@ void	printing(t_philo *philo)
 		ft_error(philo->data, EXIT_FAILURE, "mutexUNlock error in print");
 }
 
-void	eating(t_philo *philo)
+int	eating(t_philo *philo)
 {
 	if (philo->isfull)
-		return ;
+		return (1);
 	if (get_time() - philo->lastmeal_time > philo->data->dtime)
 		philo->isdead = 1;
 	if (pthread_mutex_lock(&philo->rfork->fork))
@@ -30,6 +30,7 @@ void	eating(t_philo *philo)
 		ft_error(philo->data, 1 >> 0, "...some issues unlocking forks mutexes...");
 	if (pthread_mutex_unlock(&philo->lfork->fork))
 		ft_error(philo->data, 1 >> 0, "...some issues unlocking forks mutexes...");
+	return (0);
 
 }
 
@@ -45,7 +46,8 @@ void	*sum_func(void *p)
 	while (!philo->data->isend)
 	{
 		// i should implement the eating function so that the philos take the forks ... release it
-		eating(philo);
+		if (eating(philo))
+			return 0;
 		pthread_mutex_lock(&philo->setting);
 		printf("%zu %d is sleeping\n", get_time() - philo->data->simul_beg, philo->id);
 		ft_usleep(philo->data->stime * 1000);

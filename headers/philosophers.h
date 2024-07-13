@@ -79,7 +79,6 @@ void	creating_philosophers(t_data *data);
 void	creating(t_data *data);
 // simulation
 void	printing(t_philo *philo);
-void	eating(t_philo *philo);
 void	*sum_func(void *p);
 void	simulation(t_data *data);
 // seerbay

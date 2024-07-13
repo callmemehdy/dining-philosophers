@@ -53,6 +53,7 @@ void	creating_philosophers(t_data *data)
 		philo->meals_eaten = 0;
 		philo->isdead = 0;
 		philo->data = data;
+		philo->lastmeal_time = get_time();
 		forking(philo, data->forks, i);
 	}
 }

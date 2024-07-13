@@ -43,7 +43,7 @@ void	*sum_func(void *p)
 	pthread_mutex_unlock(&philo->setting);
 	while (!philo->data->isend)
 	{
-		// i should implement the eating function so that the philos take the forks ... release ite
+		// i should implement the eating function so that the philos take the forks ... release it
 		eating(philo);
 		pthread_mutex_lock(&philo->thinking);
 		printf("%zu %d is thinking\n", get_time() - philo->data->simul_beg, philo->id);
@@ -88,6 +88,8 @@ int	philo_is_dead(t_philo *philo)
 	size_t	elapsed;
 	size_t	lastmeal;
 
+	if (philo->isfull)
+		return (0);
 	lastmeal = philo->lastmeal_time;
 	elapsed = get_time() - lastmeal;
 	if (elapsed >= philo->data->dtime)
@@ -116,7 +118,8 @@ void	*monitoring_threads(void *dt)
 			if (!data->philos[i].isfull)
 				alldone = 1;
 		}
-		(alldone) && (data->isend = 1);
+		if(!alldone)
+			return NULL;
 	}
 	return NULL;
 }

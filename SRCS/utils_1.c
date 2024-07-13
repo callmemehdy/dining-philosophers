@@ -60,7 +60,7 @@ void	ft_usleep(size_t micros)
 	start = get_time() * 1000;
 	while ((get_time() * 1000) - start < micros)
 	{
-		usleep(150);
+		usleep(500);
 	}
 	// todo
 }

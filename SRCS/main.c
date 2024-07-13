@@ -37,6 +37,10 @@ void	*sum_func(void *p)
 	t_philo *philo;
 
 	philo = (t_philo *)p;
+	pthread_mutex_init(&philo->setting, NULL);
+	pthread_mutex_lock(&philo->setting);
+	philo->lastmeal_time = get_time();
+	pthread_mutex_lock(&philo->setting);
 	while (!philo->data->isend)
 	{
 		// i should implement the eating function so that the philos take the forks ... release ite
@@ -47,6 +51,7 @@ void	*sum_func(void *p)
 	}
 	// I SHOULD COMPLETE SIMUL TODAY... AND MAKE MY FT_USLEEP...
 	// simuuuuulations
+	pthread_mutex_destroy(&philo->setting);
 	return (NULL);
 }
 
@@ -66,7 +71,6 @@ void	simulation(t_data *data)
 		data->simul_beg = get_time();
 		while (++i < data->howmanyphilos)
 		{
-			data->philos[i].lastmeal_time = get_time();
 			if (pthread_create(&data->philos->thread_id, NULL, sum_func, &data->philos[i]))
 				ft_error(data, EXIT_FAILURE, "...while creating threads...");
 		}
@@ -79,9 +83,37 @@ void	simulation(t_data *data)
 	}
 }
 
-void	monitoring_threads(t_data *data)
+int	philo_is_dead(t_philo *philo)
 {
-	
+	size_t	elapsed;
+	size_t	lastmeal;
+
+	lastmeal = philo->lastmeal_time;
+	elapsed = get_time() - lastmeal;
+	if (elapsed >= philo->data->dtime)
+		return (1);
+	return (0);
+}
+
+void	*monitoring_threads(void *dt)
+{
+	int			i;
+	t_data		*data;
+
+	data = (t_data *)dt;
+	while (!data->isend)
+	{
+		i = -1;
+		while (++i < data->howmanyphilos)
+		{
+			if (philo_is_dead(&data->philos[i]))
+			{
+				printf("%zu %d died\n", get_time() - data->simul_beg, data->philos[i].id);
+				data->isend = 1;
+			}
+		}
+	}
+	return NULL;
 }
 
 int main(int ac, char **av)
@@ -98,5 +130,6 @@ int main(int ac, char **av)
 		ft_error(data, EXIT_FAILURE, "printMutex error");
 	creating(data);
 	simulation(data);
-	pthread_create(&data->monitor, NULL, monitoring_threads, data);
+	// pthread_create(&data->monitor, NULL, monitoring_threads, data);
+	// pthread_join(data->monitor, NULL);
 }

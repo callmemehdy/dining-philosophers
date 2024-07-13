@@ -51,6 +51,7 @@ typedef struct s_philo
 	t_fork		*lfork;
 	t_data		*data;
 	t_mtx		thinking;
+	t_mtx		setting;
 }             t_philo;
 
 struct s_data
@@ -77,4 +78,5 @@ t_data	*stuffing(char **av);
 void	forking(t_philo *philo, t_fork *forks, int pos);
 void	creating_philosophers(t_data *data);
 void	creating(t_data *data);
+
 #endif

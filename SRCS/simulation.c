@@ -48,14 +48,11 @@ void	*sum_func(void *p)
 		pthread_mutex_lock(&philo->setting);
 		printf("%zu %d is sleeping\n", get_time() - philo->data->simul_beg, philo->id);
 		ft_usleep(philo->data->stime * 1000);
-		pthread_mutex_unlock(&philo->setting);
-		pthread_mutex_lock(&philo->setting);
 		printf("%zu %d is thinking\n", get_time() - philo->data->simul_beg, philo->id);
 		pthread_mutex_unlock(&philo->setting);
 	}
 	// I SHOULD COMPLETE SIMUL TODAY... AND MAKE MY FT_USLEEP...
 	// simuuuuulations
-	pthread_mutex_destroy(&philo->setting);
 	return (NULL);
 }
 

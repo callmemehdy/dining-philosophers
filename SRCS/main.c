@@ -56,4 +56,6 @@ int main(int ac, char **av)
 		ft_error(data, EXIT_FAILURE, "printMutex error");
 	creating(data);
 	simulation(data);
+	if (pthread_mutex_destroy(&data->print))
+		ft_error(data, EXIT_FAILURE, "printMutex error");
 }

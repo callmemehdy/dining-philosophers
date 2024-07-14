@@ -41,7 +41,7 @@ void	*sum_func(void *p)
 	pthread_mutex_lock(&philo->setting);
 	philo->lastmeal_time = get_time();
 	pthread_mutex_unlock(&philo->setting);
-	while (!philo->data->isend)
+	while (philo->data->isend == 0)
 	{
 		// i should implement the eating function so that the philos take the forks ... release it
 		eating(philo);
@@ -78,6 +78,9 @@ void	simulation(t_data *data)
 			if (pthread_create(&data->philos->thread_id, NULL, sum_func, &data->philos[i]))
 				ft_error(data, EXIT_FAILURE, "...while creating threads...");
 		}
+		if (pthread_create(&data->monitor, NULL, monitoring, data))
+			ft_error(data, EXIT_FAILURE, "...while creating monitor...");
+
 	}
 	i = -1;
 	while (++i < data->howmanyphilos)
@@ -85,4 +88,6 @@ void	simulation(t_data *data)
 		if (pthread_join(data->philos[i].thread_id, NULL))
 			ft_error(data, EXIT_FAILURE, "...while joining threads...");
 	}
+	if (pthread_join(data->monitor, NULL))
+		ft_error(data, EXIT_FAILURE, "...while joining monitor...");
 }

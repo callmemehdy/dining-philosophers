@@ -83,6 +83,6 @@ void	printing(t_philo *philo);
 void	*sum_func(void *p);
 void	simulation(t_data *data);
 // seerbay
-void	*monitoring_threads(void *dt);
+void	*monitoring(void *dt);
 
 #endif

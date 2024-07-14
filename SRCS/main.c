@@ -18,13 +18,13 @@ int	philo_is_dead(t_philo *philo)
 	return (0);
 }
 
-void	*monitoring_threads(void *dt)
+void	*monitoring(void *dt)
 {
 	int			i;
 	t_data		*data;
 
 	data = (t_data *)dt;
-	while (!data->isend)
+	while (data->isend == 0)
 	{
 		i = -1;
 		while (++i < data->howmanyphilos && !data->isend)
@@ -33,7 +33,6 @@ void	*monitoring_threads(void *dt)
 			{
 				printf("%zu %d died\n", get_time() - data->simul_beg, data->philos[i].id);
 				data->isend = 1;
-				return NULL;
 			}
 			if (data->philos[i].isfull)
 				data->allfull++;

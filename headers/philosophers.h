@@ -51,6 +51,7 @@ typedef struct s_philo
 	t_fork		*lfork;
 	t_data		*data;
 	t_mtx		setting;
+	t_mtx		check;
 }             t_philo;
 
 struct s_data

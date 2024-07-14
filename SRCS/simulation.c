@@ -32,16 +32,26 @@ int	eating(t_philo *philo)
 
 }
 
+int	the_last_one_standing(t_philo *philo)
+{
+	pthread_mutex_lock(philo->data->setting);
+	if (philo->data->isend)
+		return (1);
+	return (0);
+}
+
 void	*sum_func(void *p)
 {
 	t_philo *philo;
 
 	philo = (t_philo *)p;
+	if (philo->data->isend == 1)
+		return NULL ;
 	pthread_mutex_init(&philo->setting, NULL);
 	pthread_mutex_lock(&philo->setting);
 	philo->lastmeal_time = get_time();
 	pthread_mutex_unlock(&philo->setting);
-	while (philo->data->isend == 0)
+	while (1)
 	{
 		// i should implement the eating function so that the philos take the forks ... release it
 		eating(philo);
@@ -53,7 +63,7 @@ void	*sum_func(void *p)
 	}
 	// I SHOULD COMPLETE SIMUL TODAY... AND MAKE MY FT_USLEEP...
 	// simuuuuulations
-	return (NULL);
+	return (philo);
 }
 
 void	simulation(t_data *data)

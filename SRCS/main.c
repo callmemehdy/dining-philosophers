@@ -14,7 +14,9 @@ int	philo_is_dead(t_philo *philo)
 	elapsed = get_time() - lastmeal;
 	if (elapsed >= philo->data->dtime ||
 		philo->data->allfull == philo->data->mealsnum)
+	{
 		return (1);
+	}
 	return (0);
 }
 

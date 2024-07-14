@@ -14,8 +14,6 @@ int	eating(t_philo *philo)
 {
 	// if (philo->isfull)
 	// 	return (1);
-	if (get_time() - philo->lastmeal_time > philo->data->dtime)
-		philo->isdead = 1;
 	if (pthread_mutex_lock(&philo->rfork->fork))
 		ft_error(philo->data, 1 >> 0, "...some issues locking forks mutexes...");
 	printing(philo);

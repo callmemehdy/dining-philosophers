@@ -34,9 +34,10 @@ int	eating(t_philo *philo)
 
 int	the_last_one_standing(t_philo *philo)
 {
-	pthread_mutex_lock(philo->data->setting);
+	pthread_mutex_lock(&philo->setting);
 	if (philo->data->isend)
 		return (1);
+	pthread_mutex_unlock(&philo->setting);
 	return (0);
 }
 
@@ -51,7 +52,7 @@ void	*sum_func(void *p)
 	pthread_mutex_lock(&philo->setting);
 	philo->lastmeal_time = get_time();
 	pthread_mutex_unlock(&philo->setting);
-	while (1)
+	while (the_last_one_standing(philo))
 	{
 		// i should implement the eating function so that the philos take the forks ... release it
 		eating(philo);

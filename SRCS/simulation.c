@@ -66,7 +66,6 @@ void	*sum_func(void *p)
 	}
 	// I SHOULD COMPLETE SIMUL TODAY... AND MAKE MY FT_USLEEP...
 	// simuuuuulations
-	printf("else yeah\n");
 	return (NULL);
 }
 

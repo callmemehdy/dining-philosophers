@@ -6,8 +6,6 @@ int	philo_is_dead(t_philo *philo)
 	size_t	elapsed;
 	size_t	lastmeal;
 
-	if (philo->meals_eaten == philo->data->mealsnum)
-		philo->isfull = 1;
 	if (philo->isfull)
 		return (0);
 	lastmeal = philo->lastmeal_time;
@@ -26,6 +24,8 @@ void	*monitoring(void *dt)
 	t_data		*data;
 
 	data = (t_data *)dt;
+	if (pthread_mutex_init(&data->monilock, NULL))
+		ft_error(data, EXIT_FAILURE, "monilock mutex init!");
 	while (data->isend == 0)
 	{
 		i = -1;
@@ -34,7 +34,9 @@ void	*monitoring(void *dt)
 			if (philo_is_dead(&data->philos[i]))
 			{
 				printf("%zu %d died\n", get_time() - data->simul_beg, data->philos[i].id);
+				pthread_mutex_lock(&data->monilock);
 				data->isend = 1;
+				pthread_mutex_unlock(&data->monilock);
 			}
 			if (data->philos[i].isfull)
 				data->allfull++;

@@ -68,6 +68,7 @@ struct s_data
 	t_philo			*philos;
 	t_mtx			print;
 	pthread_t		monitor;
+	t_mtx			monilock;
 };
 // utils
 void    ft_error(t_data *data, int status, char *message);

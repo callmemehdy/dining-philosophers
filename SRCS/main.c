@@ -1,64 +1,73 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/15 11:25:58 by mel-akar          #+#    #+#             */
+/*   Updated: 2024/07/15 15:16:25 by mel-akar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/philosophers.h"
 
-int ft_atoi(char *s)
+int	philo_is_dead(t_philo *philo)
 {
-  long res;
-  int sign;
-  int i;
-  long tmp;
+	size_t	elapsed;
+	size_t	lastmeal;
 
-  1337 && (sign = 1, tmp = 0, res = 0, i = -1);
-  if (s[i] == '+' || s[i] == '-')
-  {
-    if (s[i] == '-')
-      sign *= -1;
-  }
-  while (s[++i] >= '0' && s[i] <= '9')
-  {
-    tmp = res;
-    res = (res * 10) + (s[i] - 48);
-    if ((res / 10) != tmp)
-      return (-1);
-  }
-  return (sign * (int)res);
+	if (philo->isfull)
+		return (0);
+	lastmeal = philo->lastmeal_time;
+	elapsed = get_time() - lastmeal;
+	if (elapsed >= philo->data->dtime ||
+		philo->data->allfull == philo->data->mealsnum)
+		return (1);
+	return (0);
 }
 
-t_data  *stuffing(char **av)
+void	*monitoring(void *dt)
 {
-  t_data *data;
+	int			i;
+	t_data		*data;
 
-  data = malloc(sizeof(t_data));
-  if (!data)
-    return (NULL);
-  data->philon = ft_atoi(av[1]);
-  data->dtime  = ft_atoi(av[2]);
-  data->etime  = ft_atoi(av[3]);
-  data->stime  = ft_atoi(av[4]);
-  data->eatn   = ft_atoi(av[5]);
-  return (data);
-}
-
-void *routine(void *data)
-{
-  (void)data;
-  printf("Hello\n");
-  return (NULL);
+	data = (t_data *)dt;
+	while (data->isend == 0)
+	{
+		i = -1;
+		while (++i < data->howmanyphilos && !data->isend)
+		{
+			if (philo_is_dead(&data->philos[i]))
+			{
+				printf("%zu %d died\n", get_time() - data->simul_beg, data->philos[i].id);
+				pthread_mutex_lock(&data->monilock);
+				data->isend = 1;
+				pthread_mutex_unlock(&data->monilock);
+			}
+			if (data->philos[i].isfull)
+				data->allfull++;
+		}
+		
+	}
+	return NULL;
 }
 
 int main(int ac, char **av)
 {
-  pthread_t *t;
-  t_data *data;
+	t_data *data;
 
-  // *data = (t_data){0};
-  if (ac != 6)
-    return (1);
-  data = stuffing(av);
-  if (!data)
-    return (-1);
-  t = malloc(sizeof(pthread_t) * data->philon);
-  if (!t)
-    return (-1);
-  pthread_create(&t, NULL, &routine, NULL);
-  pthread_join(t, NULL);
+	if (ac != 6)
+		return (ft_error(NULL, "Usage: ./program [] [] [] [] []"), 1334);
+	data = stuffing(av);
+	if (!data)
+		return (ft_error(NULL, "Error 001"), 1335);
+	data->philos = NULL;
+	if (pthread_mutex_init(&data->print, NULL))
+		return (ft_error(data, "printMutex error"), 1336);
+	if (pthread_mutex_init(&data->monilock, NULL))
+		return (ft_error(data, "monilock mutex init!"), 1337);
+	creating(data);
+	if(simulation(data))
+		return (ft_error(data, "...Error in simulation..."), 1338);
 }

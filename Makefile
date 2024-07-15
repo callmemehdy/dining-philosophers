@@ -6,7 +6,7 @@ SRC_DIR =	SRCS/
 
 OBJ_DIR	= 	OBJS_DEPS/
 
-SRCS_FS	=	main.c
+SRCS_FS	=	main.c utils_1.c philo_cr.c simulation.c
 
 SRCS	= $(addprefix $(SRC_DIR), $(SRCS_FS))
 
@@ -19,7 +19,7 @@ all:	$(NAME)
 -include $(DEPS)
 
 $(NAME):	$(OBJS)
-		cc  $(OBJS) -o $@
+		cc  $(OBJS) -o $@ -fsanitize=thread
 
 $(OBJ_DIR)%.o:	$(SRC_DIR)%.c
 		mkdir -p $(OBJ_DIR)

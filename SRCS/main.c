@@ -1,5 +1,16 @@
-#include "../headers/philosophers.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/15 11:25:58 by mel-akar          #+#    #+#             */
+/*   Updated: 2024/07/15 15:36:47 by mel-akar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "../headers/philosophers.h"
 
 int	philo_is_dead(t_philo *philo)
 {
@@ -12,9 +23,7 @@ int	philo_is_dead(t_philo *philo)
 	elapsed = get_time() - lastmeal;
 	if (elapsed >= philo->data->dtime ||
 		philo->data->allfull == philo->data->mealsnum)
-	{
 		return (1);
-	}
 	return (0);
 }
 
@@ -24,8 +33,6 @@ void	*monitoring(void *dt)
 	t_data		*data;
 
 	data = (t_data *)dt;
-	if (pthread_mutex_init(&data->monilock, NULL))
-		ft_error(data, EXIT_FAILURE, "monilock mutex init!");
 	while (data->isend == 0)
 	{
 		i = -1;
@@ -51,15 +58,17 @@ int main(int ac, char **av)
 	t_data *data;
 
 	if (ac != 6)
-		ft_error(NULL, EXIT_FAILURE, "Usage: ./program [] [] [] [] []");
+		return (ft_error(NULL, "Usage: ./program [] [] [] [] []"), 1334);
 	data = stuffing(av);
 	if (!data)
-		ft_error(NULL, EXIT_FAILURE, "Error 001");
+		return (ft_error(NULL, "Error 001"), 1335);
 	data->philos = NULL;
 	if (pthread_mutex_init(&data->print, NULL))
-		ft_error(data, EXIT_FAILURE, "printMutex error");
-	creating(data);
-	simulation(data);
-	if (pthread_mutex_destroy(&data->print))
-		ft_error(data, EXIT_FAILURE, "printMutex error");
+		return (ft_error(data, "printMutex error"), 1336);
+	if (pthread_mutex_init(&data->monilock, NULL))
+		return (ft_error(data, "monilock mutex init!"), 1337);
+	if(creating(data))
+		return(ft_error(data, "..Error in creating.."), 1338);
+	if(simulation(data))
+		return (ft_error(data, "...Error in simulation..."), 1339);
 }

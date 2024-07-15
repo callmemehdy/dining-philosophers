@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_cr.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/15 11:25:45 by mel-akar          #+#    #+#             */
+/*   Updated: 2024/07/15 15:38:30 by mel-akar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../headers/philosophers.h"
 
@@ -24,19 +35,21 @@ void	forking(t_philo *philo, t_fork *forks, int pos)
 
 
 	round = philo->data->howmanyphilos;
-	if (philo->id % 2)
-	{
-		philo->rfork = &forks[pos];
-		philo->lfork = &forks[(pos + 1) % round];
-	}
-	else
-	{
-		philo->rfork = &forks[(pos + 1) % round];
-		philo->lfork = &forks[pos];
-	}
+	philo->rfork = &forks[pos];
+	philo->lfork = &forks[(pos + 1) % round];
+	// if (philo->id % 2)
+	// {
+	// 	philo->rfork = &forks[pos];
+	// 	philo->lfork = &forks[(pos + 1) % round];
+	// }
+	// else
+	// {
+	// 	philo->rfork = &forks[(pos + 1) % round];
+	// 	philo->lfork = &forks[pos];
+	// }
 }
 
-void	creating_philosophers(t_data *data)
+int	creating_philosophers(t_data *data)
 {
 	int		i;
 	t_philo *philo;
@@ -44,10 +57,13 @@ void	creating_philosophers(t_data *data)
 	i = -1;
 	data->philos = malloc(sizeof(t_philo) * data->howmanyphilos);
 	if (!data->philos)
-		ft_error(data, EXIT_FAILURE, "philos's failing!");
+	{
+		ft_error(data, "philos's failing!");
+		return (203);
+	}
 	while (++i < data->howmanyphilos)
 	{
-		philo = data->philos + i;
+		philo = &data->philos[i];
 		philo->id = i + 1;
 		philo->isfull = 0;
 		philo->meals = data->mealsnum;
@@ -57,21 +73,24 @@ void	creating_philosophers(t_data *data)
 		philo->lastmeal_time = get_time();
 		forking(philo, data->forks, i);
 	}
+	return (0);
 }
 
-void	creating(t_data *data)
+int	creating(t_data *data)
 {
 	int i;
 
 	i = -1;
 	data->forks = malloc(sizeof(t_fork) * data->howmanyphilos);
 	if (!data->forks)
-		ft_error(data, EXIT_FAILURE, "forkalloc!");
+		return (ft_error(data, "forkalloc!"), 777);
 	while (++i < data->howmanyphilos)
 	{
 		if(pthread_mutex_init(&data->forks[i].fork, NULL))
-			ft_error(data, EXIT_FAILURE, "mutex init failed");
+			return (ft_error(data, "mutex init failed"), 42);
 		data->forks[i].fork_id = i;
 	}
-	creating_philosophers(data);
+	if(creating_philosophers(data))
+		return (ft_error(data, "Error"), 21);
+	return(0);
 }

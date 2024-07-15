@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:45:40 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/01 16:50:07 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:37:37 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ typedef struct s_philo
 	size_t 		lastmeal_time;
 	int			isfull;
 	int			isdead;
+	// forks __________
 	t_fork		*rfork;
 	t_fork		*lfork;
+	// forks __________
 	t_data		*data;
-	t_mtx		setting;
-	t_mtx		check;
 }             t_philo;
 
 struct s_data
@@ -66,24 +66,23 @@ struct s_data
 	size_t			simul_beg;
 	t_fork			*forks;
 	t_philo			*philos;
-	t_mtx			print;
 	pthread_t		monitor;
+	// mutexes ... 
+	t_mtx			print;
 	t_mtx			monilock;
 };
 // utils
-void    ft_error(t_data *data, int status, char *message);
+void    ft_error(t_data *data, char *message);
 int     ft_atoi(char *s);
 size_t 	get_time(void);
 void	ft_usleep(size_t micros);
 // creating
 t_data	*stuffing(char **av);
 void	forking(t_philo *philo, t_fork *forks, int pos);
-void	creating_philosophers(t_data *data);
-void	creating(t_data *data);
+int		creating_philosophers(t_data *data);
+int		creating(t_data *data);
 // simulation
-void	printing(t_philo *philo);
-void	*sum_func(void *p);
-void	simulation(t_data *data);
+int		simulation(t_data *data);
 // seerbay
 void	*monitoring(void *dt);
 

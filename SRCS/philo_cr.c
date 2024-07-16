@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:25:45 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/15 11:40:28 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/16 14:13:16 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_data  *stuffing(char **av)
 	data->mealsnum = ft_atoi(av[5]);
 	data->isend = 0;
 	data->allfull = 0;
+	data->key = 0;
 	return (data);
 }
 
@@ -49,7 +50,7 @@ void	forking(t_philo *philo, t_fork *forks, int pos)
 	// }
 }
 
-void	creating_philosophers(t_data *data)
+int	creating_philosophers(t_data *data)
 {
 	int		i;
 	t_philo *philo;
@@ -57,7 +58,10 @@ void	creating_philosophers(t_data *data)
 	i = -1;
 	data->philos = malloc(sizeof(t_philo) * data->howmanyphilos);
 	if (!data->philos)
-		ft_error(data, EXIT_FAILURE, "philos's failing!");
+	{
+		ft_error(data, "philos's failing!");
+		return (203);
+	}
 	while (++i < data->howmanyphilos)
 	{
 		philo = data->philos + i;
@@ -70,21 +74,24 @@ void	creating_philosophers(t_data *data)
 		philo->lastmeal_time = get_time();
 		forking(philo, data->forks, i);
 	}
+	return (0);
 }
 
-void	creating(t_data *data)
+int	creating(t_data *data)
 {
 	int i;
 
 	i = -1;
 	data->forks = malloc(sizeof(t_fork) * data->howmanyphilos);
 	if (!data->forks)
-		ft_error(data, EXIT_FAILURE, "forkalloc!");
+		return (ft_error(data, "forkalloc!"), 777);
 	while (++i < data->howmanyphilos)
 	{
 		if(pthread_mutex_init(&data->forks[i].fork, NULL))
-			ft_error(data, EXIT_FAILURE, "mutex init failed");
+			return (ft_error(data, "mutex init failed"), 42);
 		data->forks[i].fork_id = i;
 	}
-	creating_philosophers(data);
+	if(creating_philosophers(data))
+		return (ft_error(data, "Error"), 21);
+	return(0);
 }

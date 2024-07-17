@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:25:45 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/15 15:38:30 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:56:09 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_data  *stuffing(char **av)
 	data->mealsnum = ft_atoi(av[5]);
 	data->isend = 0;
 	data->allfull = 0;
+	data->key = 0;
 	return (data);
 }
 
@@ -35,18 +36,18 @@ void	forking(t_philo *philo, t_fork *forks, int pos)
 
 
 	round = philo->data->howmanyphilos;
-	philo->rfork = &forks[pos];
-	philo->lfork = &forks[(pos + 1) % round];
-	// if (philo->id % 2)
-	// {
-	// 	philo->rfork = &forks[pos];
-	// 	philo->lfork = &forks[(pos + 1) % round];
-	// }
-	// else
-	// {
-	// 	philo->rfork = &forks[(pos + 1) % round];
-	// 	philo->lfork = &forks[pos];
-	// }
+	// philo->rfork = &forks[pos];
+	// philo->lfork = &forks[(pos + 1) % round];
+	if (philo->id % 2)
+	{
+		philo->rfork = &forks[pos];
+		philo->lfork = &forks[(pos + 1) % round];
+	}
+	else
+	{
+		philo->rfork = &forks[(pos + 1) % round];
+		philo->lfork = &forks[pos];
+	}
 }
 
 int	creating_philosophers(t_data *data)
@@ -63,7 +64,7 @@ int	creating_philosophers(t_data *data)
 	}
 	while (++i < data->howmanyphilos)
 	{
-		philo = &data->philos[i];
+		philo = data->philos + i;
 		philo->id = i + 1;
 		philo->isfull = 0;
 		philo->meals = data->mealsnum;

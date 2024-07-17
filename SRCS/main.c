@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:25:58 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/15 15:36:47 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:12:39 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,23 @@ int main(int ac, char **av)
 		return (ft_error(data, "printMutex error"), 1336);
 	if (pthread_mutex_init(&data->monilock, NULL))
 		return (ft_error(data, "monilock mutex init!"), 1337);
+	if (pthread_mutex_init(&data->reading, NULL))
+		return (ft_error(data, "monilock mutex init!"), 1337);
+	if (pthread_mutex_init(&data->lock, NULL))
+		return (ft_error(data, "sleeplock mutex init!"), 1337);
 	if(creating(data))
 		return(ft_error(data, "..Error in creating.."), 1338);
 	if(simulation(data))
 		return (ft_error(data, "...Error in simulation..."), 1339);
+// heeya
+	while (1)
+		{}
+	if (pthread_mutex_destroy(&data->print))
+		return (ft_error(data, "printMutex error"), 1340);
+	if (pthread_mutex_destroy(&data->monilock))
+		return (ft_error(data, "monilock mutex!"), 1341);
+	if (pthread_mutex_destroy(&data->reading))
+		return (ft_error(data, "monilock mutex!"), 1342);
+	if (pthread_mutex_destroy(&data->lock))
+		return (ft_error(data, "sleeplock mutex!"), 1343);
 }

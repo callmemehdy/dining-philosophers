@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:45:40 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/15 15:37:37 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:44:52 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@
 # include <sys/time.h>
 # define RED "\033[0;31m"
 # define YLW "\033[0;33m"
-
+# define MS 1000
 typedef struct s_data t_data;
 typedef pthread_mutex_t  t_mtx;
 
 typedef	enum s_ops
 {
-	lock = 1,
-	unlock = 2,
-	destroy = 3,
-	init = 4
+	lock,
+	unlock,
+	destroy,
+	init
 }			t_ops;
 
 
@@ -57,6 +57,7 @@ typedef struct s_philo
 struct s_data
 {
 	int				howmanyphilos;
+	int				key;
 	size_t        	dtime;
 	size_t         	etime;
 	size_t         	stime;
@@ -70,12 +71,15 @@ struct s_data
 	// mutexes ... 
 	t_mtx			print;
 	t_mtx			monilock;
+	t_mtx			reading;
+	t_mtx			lock;
 };
 // utils
 void    ft_error(t_data *data, char *message);
 int     ft_atoi(char *s);
 size_t 	get_time(void);
 void	ft_usleep(size_t micros);
+void	mutexing(t_mtx mutex, t_ops op);
 // creating
 t_data	*stuffing(char **av);
 void	forking(t_philo *philo, t_fork *forks, int pos);

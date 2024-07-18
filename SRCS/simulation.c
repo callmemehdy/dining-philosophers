@@ -64,11 +64,11 @@ void	*qosos(void *data)
 		pthread_mutex_lock(philo->rfork);
 		if (!philo->data->isend)
 			printf("%zu %d has taken a fork\n", get_time() - philo->data->simul_beg, philo->id);
+		philo->lastmeal_time = get_time();
 		if (!philo->data->isend)
 			printf("%zu %d is eating\n", get_time() - philo->data->simul_beg, philo->id);
 		philo->meals_eaten++;
 		ft_usleep(philo->data->etime);
-		philo->lastmeal_time = get_time();
 		pthread_mutex_unlock(philo->lfork);
 		pthread_mutex_unlock(philo->rfork);
 

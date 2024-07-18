@@ -27,13 +27,25 @@ int	philo_is_dead(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->reading);
 		return (1);
 	}
-	else if (philo->data->allfull == philo->data->mealsnum)
+	if (philo->meals_eaten == philo->meals)
 	{
+		philo->isfull = 1;
 		pthread_mutex_unlock(&philo->data->reading);
 		return (2);
 	}
 	pthread_mutex_unlock(&philo->data->reading);
 	return (0);
+}
+
+int qosos_ending(t_data *data)
+{
+	int i;
+
+	i = -1;
+	while (++i < data->howmanyphilos)
+		if (!data->philos[i].isfull)
+			return (0);
+	return (1);
 }
 
 int	monitoring(void *dt)
@@ -62,18 +74,14 @@ int	monitoring(void *dt)
 				pthread_mutex_unlock(&data->monilock);
 				return (0);
 			}
-			else if (philo_is_dead(&data->philos[i]) == 2)
-			{
-				pthread_mutex_lock(&data->monilock);
-				data->isend = 1;
-				pthread_mutex_unlock(&data->monilock);
-				return (0);
-			}
-			pthread_mutex_lock(&data->monilock);
-			if (data->philos[i].isfull)
-				data->allfull++;
-			pthread_mutex_lock(&data->monilock);
 		}
+		pthread_mutex_lock(&data->print);
+		if (qosos_ending(data))
+		{
+			data->isend = 1;
+			return 0;
+		}
+		pthread_mutex_unlock(&data->print);
 		
 	}
 	return 0;

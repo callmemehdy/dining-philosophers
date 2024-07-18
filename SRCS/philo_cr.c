@@ -12,7 +12,7 @@
 
 #include "../headers/philosophers.h"
 
-t_data  *stuffing(char **av)
+t_data  *stuffing(char **av, int ac)
 {
 	t_data *data;
 
@@ -23,7 +23,10 @@ t_data  *stuffing(char **av)
 	data->dtime = ft_atoi(av[2]);
 	data->etime = ft_atoi(av[3]);
 	data->stime = ft_atoi(av[4]);
-	data->mealsnum = ft_atoi(av[5]);
+	if (ac == 6)
+		data->mealsnum = ft_atoi(av[5]);
+	else
+		data->mealsnum = -1;
 	data->isend = 0;
 	data->allfull = 0;
 	data->key = 0;

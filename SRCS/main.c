@@ -83,9 +83,9 @@ int main(int ac, char **av)
 {
 	t_data *data;
 
-	if (ac != 6)
+	if (ac != 6 && ac != 5)
 		return (ft_error(NULL, "Usage: ./program [] [] [] [] []"), 1334);
-	data = stuffing(av);
+	data = stuffing(av, ac);
 	if (!data)
 		return (ft_error(NULL, "Error 001"), 1335);
 	data->philos = NULL;

@@ -73,7 +73,7 @@ int     ft_atoi(char *s);
 size_t 	get_time(void);
 void	ft_usleep(size_t micros);
 // creating
-t_data	*stuffing(char **av);
+t_data	*stuffing(char **av, int ac);
 void	forking(t_philo *philo, t_mtx *forks, int pos);
 int		creating_philosophers(t_data *data);
 int		creating(t_data *data);

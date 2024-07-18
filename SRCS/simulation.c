@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:25:38 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/16 19:06:48 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:35:10 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 int	thelastonestanding(t_data *data)
 {
-	mutexing(data->reading, lock);
+	pthread_mutex_lock(&data->reading);
 	if (data->isend == 1)
+	{
+		pthread_mutex_unlock(&data->reading);
 		return (1);
-	mutexing(data->reading, unlock);
+	}
+	pthread_mutex_unlock(&data->reading);
 	return (0);	
 }
 
@@ -46,39 +49,44 @@ void	*qosos(void *data)
 	t_philo *philo;
 
 	philo = (t_philo *)data;
-	if (philo->isfull)
+	if (philo->isfull || philo->data->isend)
 		return (NULL);
 	while (!thelastonestanding(philo->data))
 	{
 		// eating meal.......
 		// eating(philo);
 		/// ....
-		if ((philo->id % 2) != 0)
+		if (!(philo->id % 2))
 			ft_usleep(1);
-		pthread_mutex_lock(&philo->lfork->fork);
-		printf("%zu %d has taken a fork\n", get_time() - philo->data->simul_beg, philo->id);
-		pthread_mutex_lock(&philo->rfork->fork);
-		printf("%zu %d has taken a fork\n", get_time() - philo->data->simul_beg, philo->id);
-		printf("%zu %d is eating\n", get_time() - philo->data->simul_beg, philo->id);
+		pthread_mutex_lock(philo->lfork);
+		if (!philo->data->isend)
+			printf("%zu %d has taken a fork\n", get_time() - philo->data->simul_beg, philo->id);
+		pthread_mutex_lock(philo->rfork);
+		if (!philo->data->isend)
+			printf("%zu %d has taken a fork\n", get_time() - philo->data->simul_beg, philo->id);
+		if (!philo->data->isend)
+			printf("%zu %d is eating\n", get_time() - philo->data->simul_beg, philo->id);
 		philo->meals_eaten++;
-		philo->lastmeal_time = get_time();
 		ft_usleep(philo->data->etime);
-		pthread_mutex_unlock(&philo->lfork->fork);
-		pthread_mutex_unlock(&philo->rfork->fork);
+		philo->lastmeal_time = get_time();
+		pthread_mutex_unlock(philo->lfork);
+		pthread_mutex_unlock(philo->rfork);
 
 		
 		/// ...
 		// sleeping time
-		pthread_mutex_lock(&philo->data->lock);
-		printf("%zu %d is sleeping\n", get_time() - philo->data->simul_beg, philo->id);
+		// pthread_mutex_lock(&philo->data->lock);
+		if (!philo->data->isend)
+			printf("%zu %d is sleeping\n", get_time() - philo->data->simul_beg, philo->id);
 		ft_usleep(philo->data->stime);
-		pthread_mutex_unlock(&philo->data->lock);
+		// pthread_mutex_unlock(&philo->data->lock);
 
 		
 		// thinking time
-		pthread_mutex_lock(&philo->data->print);
-		printf("%zu %d is thinking\n", get_time() - philo->data->simul_beg, philo->id);
-		pthread_mutex_unlock(&philo->data->print);
+		// pthread_mutex_lock(&philo->data->print);
+		if (!philo->data->isend)
+			printf("%zu %d is thinking\n", get_time() - philo->data->simul_beg, philo->id);
+		// pthread_mutex_unlock(&philo->data->print);
 	}
 	return (NULL);
 }
@@ -92,6 +100,8 @@ int	simulation(t_data *data)
 		return (4817);
 	else if (data->howmanyphilos == 1)
 	{
+		
+		return 0;
 		// todo
 	}
 	else
@@ -108,7 +118,7 @@ int	simulation(t_data *data)
 		i = -1;
 		while (++i < data->howmanyphilos)
 		{
-			if (pthread_join(data->philos[i].thread_id, NULL))
+			if (pthread_detach(data->philos[i].thread_id))
 			{
 				ft_error(data, "..while detaching threads..");
 				return (1338);	

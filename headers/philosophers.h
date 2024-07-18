@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:45:40 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/16 13:44:52 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/18 11:51:14 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,6 @@ typedef	enum s_ops
 	init
 }			t_ops;
 
-
-typedef struct s_fork
-{
-	t_mtx fork;
-	int				fork_id;
-}			t_fork;
-
 typedef struct s_philo
 {
 	int			id;
@@ -48,8 +41,8 @@ typedef struct s_philo
 	int			isfull;
 	int			isdead;
 	// forks __________
-	t_fork		*rfork;
-	t_fork		*lfork;
+	t_mtx		*rfork;
+	t_mtx		*lfork;
 	// forks __________
 	t_data		*data;
 }             t_philo;
@@ -65,7 +58,7 @@ struct s_data
 	int				isend;
 	int				allfull;
 	size_t			simul_beg;
-	t_fork			*forks;
+	t_mtx			*forks;
 	t_philo			*philos;
 	pthread_t		monitor;
 	// mutexes ... 
@@ -79,15 +72,13 @@ void    ft_error(t_data *data, char *message);
 int     ft_atoi(char *s);
 size_t 	get_time(void);
 void	ft_usleep(size_t micros);
-void	mutexing(t_mtx mutex, t_ops op);
 // creating
 t_data	*stuffing(char **av);
-void	forking(t_philo *philo, t_fork *forks, int pos);
+void	forking(t_philo *philo, t_mtx *forks, int pos);
 int		creating_philosophers(t_data *data);
 int		creating(t_data *data);
 // simulation
 int		simulation(t_data *data);
 // seerbay
-void	*monitoring(void *dt);
 
 #endif

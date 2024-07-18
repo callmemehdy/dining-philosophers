@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:25:45 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/16 17:56:09 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/18 12:17:10 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,24 @@ t_data  *stuffing(char **av)
 	return (data);
 }
 
-void	forking(t_philo *philo, t_fork *forks, int pos)
+void	forking(t_philo *philo, t_mtx *forks, int pos)
 {
 	int round;
 
 
 	round = philo->data->howmanyphilos;
-	// philo->rfork = &forks[pos];
-	// philo->lfork = &forks[(pos + 1) % round];
-	if (philo->id % 2)
-	{
-		philo->rfork = &forks[pos];
-		philo->lfork = &forks[(pos + 1) % round];
-	}
-	else
-	{
-		philo->rfork = &forks[(pos + 1) % round];
-		philo->lfork = &forks[pos];
-	}
+	philo->rfork = &forks[pos];
+	philo->lfork = &forks[(pos + 1) % round];
+	// if (philo->id % 2)
+	// {
+	// 	philo->rfork = &forks[pos];
+	// 	philo->lfork = &forks[(pos + 1) % round];
+	// }
+	// else
+	// {
+	// 	philo->rfork = &forks[(pos + 1) % round];
+	// 	philo->lfork = &forks[pos];
+	// }
 }
 
 int	creating_philosophers(t_data *data)
@@ -82,14 +82,13 @@ int	creating(t_data *data)
 	int i;
 
 	i = -1;
-	data->forks = malloc(sizeof(t_fork) * data->howmanyphilos);
+	data->forks = malloc(sizeof(t_mtx) * data->howmanyphilos);
 	if (!data->forks)
 		return (ft_error(data, "forkalloc!"), 777);
 	while (++i < data->howmanyphilos)
 	{
-		if(pthread_mutex_init(&data->forks[i].fork, NULL))
+		if(pthread_mutex_init(&data->forks[i], NULL))
 			return (ft_error(data, "mutex init failed"), 42);
-		data->forks[i].fork_id = i;
 	}
 	if(creating_philosophers(data))
 		return (ft_error(data, "Error"), 21);

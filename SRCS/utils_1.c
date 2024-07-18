@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 11:23:22 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/16 18:29:22 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:27:56 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ size_t  get_time(void)
 	struct timeval tv;
 
 	if (gettimeofday(&tv, NULL))
-		return (0);
+		return (1337);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
@@ -66,35 +66,35 @@ void 	ft_usleep(size_t milliseconds)
 
 	start = get_time();
 	while ((get_time() - start) < milliseconds)
-		usleep(500);
+		usleep(100);
 }
 
-void	mutexing(t_mtx mutex, t_ops op)
-{
-	if (op == lock)
-	{
-		if (pthread_mutex_lock(&mutex))
-			return ;
-	}
-	else if (op == init)
-	{
-		if (pthread_mutex_init(&mutex, NULL))
-			return ;
-	}
-	else if (op == destroy)
-	{
-		if (pthread_mutex_destroy(&mutex))
-			return ;
-	}
-	else if (op == unlock)
-	{
-		if (pthread_mutex_unlock(&mutex))
-			return ;
-	}
-	else
-	{
-		printf("slo\n");
-		exit(0);
-		return ;
-	}
-}
+// void	mutexing(t_mtx mutex, t_ops op)
+// {
+// 	if (op == lock)
+// 	{
+// 		if (pthread_mutex_lock(&mutex))
+// 			return ;
+// 	}
+// 	else if (op == init)
+// 	{
+// 		if (pthread_mutex_init(&mutex, NULL))
+// 			return ;
+// 	}
+// 	else if (op == destroy)
+// 	{
+// 		if (pthread_mutex_destroy(&mutex))
+// 			return ;
+// 	}
+// 	else if (op == unlock)
+// 	{
+// 		if (pthread_mutex_unlock(&mutex))
+// 			return ;
+// 	}
+// 	else
+// 	{
+// 		printf("slo\n");
+// 		exit(0);
+// 		return ;
+// 	}
+// }

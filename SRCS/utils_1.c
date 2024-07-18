@@ -60,16 +60,13 @@ size_t  get_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-void	ft_usleep(size_t micros)
+void 	ft_usleep(size_t milliseconds)
 {
-	size_t start;
+	size_t	start;
 
-	start = get_time() * MS;
-	while ((get_time() * MS) - start <= micros)
-	{
-		usleep(150);
-	}
-	// todo
+	start = get_time();
+	while ((get_time() - start) < milliseconds)
+		usleep(500);
 }
 
 void	mutexing(t_mtx mutex, t_ops op)

@@ -48,32 +48,30 @@ void	*qosos(void *data)
 	philo = (t_philo *)data;
 	if (philo->isfull)
 		return (NULL);
-	if ((philo->id % 2) != 0)
-		ft_usleep(10 * MS);
 	while (!thelastonestanding(philo->data))
 	{
 		// eating meal.......
 		// eating(philo);
 		/// ....
-		pthread_mutex_lock(&philo->rfork->fork);
-		if (!philo->data->key)
-			13 && (philo->data->key = 1, philo->data->simul_beg = get_time());
-		printf("%zu %d has taken a fork\n", get_time() - philo->data->simul_beg, philo->id);
+		if ((philo->id % 2) != 0)
+			ft_usleep(1);
 		pthread_mutex_lock(&philo->lfork->fork);
+		printf("%zu %d has taken a fork\n", get_time() - philo->data->simul_beg, philo->id);
+		pthread_mutex_lock(&philo->rfork->fork);
 		printf("%zu %d has taken a fork\n", get_time() - philo->data->simul_beg, philo->id);
 		printf("%zu %d is eating\n", get_time() - philo->data->simul_beg, philo->id);
 		philo->meals_eaten++;
 		philo->lastmeal_time = get_time();
-		ft_usleep(philo->data->etime * MS);
-		pthread_mutex_unlock(&philo->rfork->fork);
+		ft_usleep(philo->data->etime);
 		pthread_mutex_unlock(&philo->lfork->fork);
+		pthread_mutex_unlock(&philo->rfork->fork);
 
 		
 		/// ...
 		// sleeping time
 		pthread_mutex_lock(&philo->data->lock);
 		printf("%zu %d is sleeping\n", get_time() - philo->data->simul_beg, philo->id);
-		ft_usleep(philo->data->stime * MS);
+		ft_usleep(philo->data->stime);
 		pthread_mutex_unlock(&philo->data->lock);
 
 		
@@ -98,6 +96,7 @@ int	simulation(t_data *data)
 	}
 	else
 	{
+		data->simul_beg = get_time();
 		while (++i < data->howmanyphilos)
 		{
 			if (pthread_create(&data->philos[i].thread_id, NULL, qosos, &data->philos[i]))
@@ -109,7 +108,7 @@ int	simulation(t_data *data)
 		i = -1;
 		while (++i < data->howmanyphilos)
 		{
-			if (pthread_detach(data->philos[i].thread_id))
+			if (pthread_join(data->philos[i].thread_id, NULL))
 			{
 				ft_error(data, "..while detaching threads..");
 				return (1338);	

@@ -69,32 +69,3 @@ void 	ft_usleep(size_t milliseconds)
 		usleep(100);
 }
 
-// void	mutexing(t_mtx mutex, t_ops op)
-// {
-// 	if (op == lock)
-// 	{
-// 		if (pthread_mutex_lock(&mutex))
-// 			return ;
-// 	}
-// 	else if (op == init)
-// 	{
-// 		if (pthread_mutex_init(&mutex, NULL))
-// 			return ;
-// 	}
-// 	else if (op == destroy)
-// 	{
-// 		if (pthread_mutex_destroy(&mutex))
-// 			return ;
-// 	}
-// 	else if (op == unlock)
-// 	{
-// 		if (pthread_mutex_unlock(&mutex))
-// 			return ;
-// 	}
-// 	else
-// 	{
-// 		printf("slo\n");
-// 		exit(0);
-// 		return ;
-// 	}
-// }

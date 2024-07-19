@@ -12,8 +12,10 @@
 
 #include "../headers/philosophers.h"
 
-int	init_m(t_data *data);
-int	destroying(t_data * data);
+int		waiting(t_data *data);
+void	free_all_resources(t_data *data);
+int		init_m(t_data *data);
+int		destroying(t_data * data);
 
 
 int	philo_is_dead(t_philo *philo)
@@ -76,14 +78,14 @@ int	monitoring(t_data *data)
 				return (0);
 			}
 		}
-		pthread_mutex_lock(&data->print);
+		pthread_mutex_lock(&data->muting);
 		if (qosos_ending(data))
 		{
 			data->isend = 1;
-			pthread_mutex_unlock(&data->print);
+			pthread_mutex_unlock(&data->muting);
 			return 0;
 		}
-		pthread_mutex_unlock(&data->print);
+		pthread_mutex_unlock(&data->muting);
 		
 	}
 	return 0;
@@ -108,32 +110,60 @@ int main(int ac, char **av)
 		return (ft_error(data, "...Error in simulation..."), 5);
 	if (monitoring(data))
 		return (ft_error(data, "monitor failed soldier--"), 6);
-	// if (destroying(data)) // destroying mutexes
-	// 	return (ft_error(data, "some issues while destroying!"), 7);
+	if (waiting(data))
+		return (1);
+	if (destroying(data)) // destroying mutexes
+		return (ft_error(data, "some issues while destroying!"), 7);
+	free_all_resources(data);
+}
+
+int	waiting(t_data *data)
+{
+	int		i;
+
+	i = -1;
+	while (++i < data->howmanyphilos)
+	{
+		if (pthread_join(data->philos[i].thread_id, NULL))
+		{
+			ft_error(data, "..while joining threads..");
+			return (1338);	
+		}
+	}
+	return (0);
+}
+
+void free_all_resources(t_data *data)
+{
+	if (data)
+	{
+		free(data->forks);
+		free(data->philos);
+	}
 }
 
 int	init_m(t_data *data)
 {
-	if (pthread_mutex_init(&data->print, NULL))
+	if (pthread_mutex_init(&data->muting, NULL))
 		return (ft_error(data, "printMutex error"), 1336);
 	if (pthread_mutex_init(&data->monilock, NULL))
 		return (ft_error(data, "monilock mutex init!"), 1337);
 	if (pthread_mutex_init(&data->reading, NULL))
 		return (ft_error(data, "monilock mutex init!"), 1337);
-	// if (pthread_mutex_init(&data->lock, NULL))
-	// 	return (ft_error(data, "sleeplock mutex init!"), 1337);
+	if (pthread_mutex_init(&data->lock, NULL))
+		return (ft_error(data, "sleeplock mutex init!"), 1337);
 	return (0);
 }
 
 int	destroying(t_data * data)
 {
-	if (pthread_mutex_destroy(&data->print))
-		return (ft_error(data, "printMutex error"), 1340);
+	if (pthread_mutex_destroy(&data->muting))
+		return (1340);
 	if (pthread_mutex_destroy(&data->monilock))
-		return (ft_error(data, "monilock mutex!"), 1341);
+		return (1341);
 	if (pthread_mutex_destroy(&data->reading))
-		return (ft_error(data, "monilock mutex!"), 1342);
-	// if (pthread_mutex_destroy(&data->lock))
-	// 	return (ft_error(data, "sleeplock mutex!"), 1343);
+		return (1342);
+	if (pthread_mutex_destroy(&data->lock))
+		return (1);
 	return (0);
 }

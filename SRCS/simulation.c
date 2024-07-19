@@ -27,13 +27,13 @@ int	thelastonestanding(t_data *data)
 void	eating(t_philo *philo)
 {
 	pthread_mutex_lock(philo->lfork);
-	if (!philo->data->isend)
+	if (!philo->data->isend && !philo->isfull)
 		printf("%zu %d has taken a fork\n", get_time() - philo->data->simul_beg, philo->id);
 	pthread_mutex_lock(philo->rfork);
 	philo->lastmeal_time = get_time();
-	if (!philo->data->isend)
+	if (!philo->data->isend && !philo->isfull)
 		printf("%zu %d has taken a fork\n", get_time() - philo->data->simul_beg, philo->id);
-	if (!philo->data->isend)
+	if (!philo->data->isend && !philo->isfull)
 		printf("%zu %d is eating\n", get_time() - philo->data->simul_beg, philo->id);
 	philo->meals_eaten++;
 	ft_usleep(philo->data->etime);
@@ -87,15 +87,6 @@ int	simulation(t_data *data)
 			{
 				ft_error(data, "..while creating threads..");
 				return (1337);	
-			}
-		}
-		i = -1;
-		while (++i < data->howmanyphilos)
-		{
-			if (pthread_detach(data->philos[i].thread_id))
-			{
-				ft_error(data, "..while detaching threads..");
-				return (1338);	
 			}
 		}
 	}

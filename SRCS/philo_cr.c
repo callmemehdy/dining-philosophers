@@ -29,7 +29,6 @@ t_data  *stuffing(char **av, int ac)
 		data->mealsnum = -1;
 	data->isend = 0;
 	data->allfull = 0;
-	data->key = 0;
 	return (data);
 }
 

@@ -50,7 +50,6 @@ typedef struct s_philo
 struct s_data
 {
 	int				howmanyphilos;
-	int				key;
 	size_t        	dtime;
 	size_t         	etime;
 	size_t         	stime;
@@ -62,7 +61,7 @@ struct s_data
 	t_philo			*philos;
 	pthread_t		monitor;
 	// mutexes ... 
-	t_mtx			print;
+	t_mtx			muting;
 	t_mtx			monilock;
 	t_mtx			reading;
 	t_mtx			lock;

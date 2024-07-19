@@ -41,17 +41,6 @@ void	eating(t_philo *philo)
 	pthread_mutex_unlock(philo->rfork);
 }
 
-// void	sleeping(t_philo *philo)
-// {
-// 	// mutexing(philo->data->lock, lock);
-
-// 	// mutexing(philo->data->lock, unlock);
-// }
-
-// void	thinking(t_philo *philo)
-// {
-
-// }
 
 void	*qosos(void *data)
 {

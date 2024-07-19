@@ -24,13 +24,22 @@ int	thelastonestanding(t_data *data)
 	return (0);	
 }
 
-// void	eating(t_philo *philo)
-// {
-// 	// mutexing(philo->rfork->fork, lock);
-
-// 	// mutexing(philo->rfork->fork, unlock);
-// 	// mutexing(philo->lfork->fork, unlock);
-// }
+void	eating(t_philo *philo)
+{
+	pthread_mutex_lock(philo->lfork);
+	if (!philo->data->isend)
+		printf("%zu %d has taken a fork\n", get_time() - philo->data->simul_beg, philo->id);
+	pthread_mutex_lock(philo->rfork);
+	philo->lastmeal_time = get_time();
+	if (!philo->data->isend)
+		printf("%zu %d has taken a fork\n", get_time() - philo->data->simul_beg, philo->id);
+	if (!philo->data->isend)
+		printf("%zu %d is eating\n", get_time() - philo->data->simul_beg, philo->id);
+	philo->meals_eaten++;
+	ft_usleep(philo->data->etime);
+	pthread_mutex_unlock(philo->lfork);
+	pthread_mutex_unlock(philo->rfork);
+}
 
 // void	sleeping(t_philo *philo)
 // {
@@ -55,19 +64,7 @@ void	*qosos(void *data)
 	{
 		if (!(philo->id % 2))
 			ft_usleep(1);
-		pthread_mutex_lock(philo->lfork);
-		if (!philo->data->isend)
-			printf("%zu %d has taken a fork\n", get_time() - philo->data->simul_beg, philo->id);
-		pthread_mutex_lock(philo->rfork);
-		philo->lastmeal_time = get_time();
-		if (!philo->data->isend)
-			printf("%zu %d has taken a fork\n", get_time() - philo->data->simul_beg, philo->id);
-		if (!philo->data->isend)
-			printf("%zu %d is eating\n", get_time() - philo->data->simul_beg, philo->id);
-		philo->meals_eaten++;
-		ft_usleep(philo->data->etime);
-		pthread_mutex_unlock(philo->lfork);
-		pthread_mutex_unlock(philo->rfork);
+		eating(philo);
 // sleping below
 		if (!philo->data->isend)
 			printf("%zu %d is sleeping\n", get_time() - philo->data->simul_beg, philo->id);
@@ -88,7 +85,7 @@ int	simulation(t_data *data)
 		return (4817);
 	else if (data->howmanyphilos == 1)
 	{
-		
+
 		return 0;
 		// todo
 	}

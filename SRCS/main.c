@@ -28,16 +28,16 @@ int	philo_is_dead(t_philo *philo)
 	pthread_mutex_lock(&philo->data->reading);
 	lastmeal = philo->lastmeal_time;
 	elapsed = get_time() - lastmeal;
-	if (elapsed >= philo->data->dtime)
-	{
-		pthread_mutex_unlock(&philo->data->reading);
-		return (1);
-	}
 	if (philo->meals_eaten == philo->meals)
 	{
 		philo->isfull = 1;
 		pthread_mutex_unlock(&philo->data->reading);
 		return (2);
+	}
+	if (elapsed >= philo->data->dtime && !philo->isfull)
+	{
+		pthread_mutex_unlock(&philo->data->reading);
+		return (1);
 	}
 	pthread_mutex_unlock(&philo->data->reading);
 	return (0);

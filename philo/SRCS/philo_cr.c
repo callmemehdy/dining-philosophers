@@ -6,15 +6,15 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:25:45 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/16 14:13:16 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:09:22 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/philosophers.h"
 
-t_data  *stuffing(char **av)
+t_data	*stuffing(char **av, int ac)
 {
-	t_data *data;
+	t_data		*data;
 
 	data = malloc(sizeof(t_data));
 	if (!data)
@@ -23,37 +23,37 @@ t_data  *stuffing(char **av)
 	data->dtime = ft_atoi(av[2]);
 	data->etime = ft_atoi(av[3]);
 	data->stime = ft_atoi(av[4]);
-	data->mealsnum = ft_atoi(av[5]);
+	if (ac == 6 && ft_atoi(av[5]))
+		data->mealsnum = ft_atoi(av[5]);
+	else
+		data->mealsnum = -1;
 	data->isend = 0;
 	data->allfull = 0;
-	data->key = 0;
+	data->allin = 0;
 	return (data);
 }
 
-void	forking(t_philo *philo, t_fork *forks, int pos)
+void	forking(t_philo *philo, t_mtx *forks, int pos)
 {
-	int round;
-
+	int		round;
 
 	round = philo->data->howmanyphilos;
-	philo->rfork = &forks[pos];
-	philo->lfork = &forks[(pos + 1) % round];
-	// if (philo->id % 2)
-	// {
-	// 	philo->rfork = &forks[pos];
-	// 	philo->lfork = &forks[(pos + 1) % round];
-	// }
-	// else
-	// {
-	// 	philo->rfork = &forks[(pos + 1) % round];
-	// 	philo->lfork = &forks[pos];
-	// }
+	if (philo->id % 2)
+	{
+		philo->rfork = &forks[pos];
+		philo->lfork = &forks[(pos + 1) % round];
+	}
+	else
+	{
+		philo->rfork = &forks[(pos + 1) % round];
+		philo->lfork = &forks[pos];
+	}
 }
 
 int	creating_philosophers(t_data *data)
 {
-	int		i;
-	t_philo *philo;
+	int			i;
+	t_philo		*philo;
 
 	i = -1;
 	data->philos = malloc(sizeof(t_philo) * data->howmanyphilos);
@@ -71,7 +71,6 @@ int	creating_philosophers(t_data *data)
 		philo->meals_eaten = 0;
 		philo->isdead = 0;
 		philo->data = data;
-		philo->lastmeal_time = get_time();
 		forking(philo, data->forks, i);
 	}
 	return (0);
@@ -79,19 +78,18 @@ int	creating_philosophers(t_data *data)
 
 int	creating(t_data *data)
 {
-	int i;
+	int		i;
 
 	i = -1;
-	data->forks = malloc(sizeof(t_fork) * data->howmanyphilos);
+	data->forks = malloc(sizeof(t_mtx) * data->howmanyphilos);
 	if (!data->forks)
 		return (ft_error(data, "forkalloc!"), 777);
 	while (++i < data->howmanyphilos)
 	{
-		if(pthread_mutex_init(&data->forks[i].fork, NULL))
+		if (pthread_mutex_init(&data->forks[i], NULL))
 			return (ft_error(data, "mutex init failed"), 42);
-		data->forks[i].fork_id = i;
 	}
-	if(creating_philosophers(data))
+	if (creating_philosophers(data))
 		return (ft_error(data, "Error"), 21);
-	return(0);
+	return (0);
 }

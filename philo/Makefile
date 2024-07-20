@@ -1,4 +1,4 @@
-NAME	=	philosophers
+NAME	=	philo
 
 CFL		=	-Wall -Wextra -Werror
 
@@ -6,7 +6,8 @@ SRC_DIR =	SRCS/
 
 OBJ_DIR	= 	OBJS_DEPS/
 
-SRCS_FS	=	main.c utils_1.c philo_cr.c simulation.c
+SRCS_FS	=	main.c utils_1.c philo_cr.c simulation.c\
+			monitoring.c utils_2.c
 
 SRCS	= $(addprefix $(SRC_DIR), $(SRCS_FS))
 
@@ -19,7 +20,7 @@ all:	$(NAME)
 -include $(DEPS)
 
 $(NAME):	$(OBJS)
-		cc  $(OBJS) -o $@ -fsanitize=thread
+		cc  $(OBJS) -o $@
 
 $(OBJ_DIR)%.o:	$(SRC_DIR)%.c
 		mkdir -p $(OBJ_DIR)

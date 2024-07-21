@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 14:33:30 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/21 16:22:51 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/21 21:21:34 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,10 @@ sem_t	*phalloc(t_data *data)
 
 	i = -1;
 	size = data->howmanyphilos;
-	data -> forks = malloc(sizeof(sem_t) * size);
-	if (data -> philos)
+	data -> forks = sem_open("/sem", O_CREAT | O_EXCL , size);
+	if (!data -> forks)
 		p_error(ALLO_ERROR, ERR_NO);
-	while (++i < data->howmanyphilos)
-		if (sem_open(&data->forks[i], 1, 1))
-			p_error(INIT_ERR, ERR_NO);
 	return (data -> forks);
-}
-
-void	assign_forks(t_philo *philo, int pos)
-{
-	int		r;
-
-	r = philo -> data -> howmanyphilos;
-	if (philo -> id)
-	{
-		philo -> lfork = &philo -> data -> forks[pos % r];
-		philo -> rfork = &philo -> data -> forks[(pos + 1) % r];
-	}
-	else
-	{
-		philo -> rfork = &philo -> data -> forks[pos % r];
-		philo -> lfork = &philo -> data -> forks[(pos + 1) % r];
-	}
 }
 
 t_philo	*init_philo(t_data *data)
@@ -50,6 +30,9 @@ t_philo	*init_philo(t_data *data)
 	int		i;
 
 	i = -1;
+	data -> philos = malloc(sizeof(t_philo) * data -> howmanyphilos);
+	if (!data)
+		p_error(ALLO_ERROR, ERR_NO);
 	while (++i < data->howmanyphilos)
 	{
 		data -> philos[i].data = data;
@@ -57,7 +40,8 @@ t_philo	*init_philo(t_data *data)
 		data -> philos[i].isdead = 0;
 		data -> philos[i].isfull = 0;
 		data -> philos[i].meals_eaten = 0;
-		assign_forks(&data->philos[i], i);
+		data -> philos[i].lfork = data -> forks;
+		data -> philos[i].rfork = data -> forks;
 	}
 	return (data -> philos);
 }

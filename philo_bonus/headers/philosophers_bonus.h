@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 06:34:54 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/21 16:22:38 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/21 21:30:18 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_philo
 struct s_data
 {
 	int				howmanyphilos;
+	pid_t			*pids;
 	size_t			dtime;
 	size_t			etime;
 	size_t			stime;

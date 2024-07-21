@@ -1,12 +1,12 @@
 NAME	=	philo_bonus
 
-CFL		=	-Wall -Wextra -Werror
+CFL		=	-Wall -Wextra -Werror 
 
 SRC_DIR =	SRCS/
 
 OBJ_DIR	= 	OBJS_DEPS/
 
-SRCS_FS	=	main_bonus.c utils_1_bonus.c
+SRCS_FS	=	main_bonus.c utils_1_bonus.c init_bonus.c
 
 SRCS	= $(addprefix $(SRC_DIR), $(SRCS_FS))
 
@@ -19,7 +19,7 @@ all:	$(NAME)
 -include $(DEPS)
 
 $(NAME):	$(OBJS)
-		cc  $(OBJS) -o $@ -fsanitize=thread
+		cc  $(OBJS) -o $@ -Wdeprecated-declarations
 
 $(OBJ_DIR)%.o:	$(SRC_DIR)%.c
 		mkdir -p $(OBJ_DIR)

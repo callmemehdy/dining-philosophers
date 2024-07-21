@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 06:34:54 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/21 11:24:54 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/21 16:22:38 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <stdlib.h>
 # include <pthread.h>
 # include <stdio.h>
+# include <limits.h>
+# include <semaphore.h>
 # include <sys/time.h>
 # define RED "\033[0;31m"
 # define YLW "\033[0;33m"
@@ -25,11 +27,23 @@
 # define ARG_ERR  "Invalid arguments"
 # define ERR_NO 1337
 
+// #pragma GCC diagnostic push
+// #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 typedef struct s_data	t_data;
 typedef pthread_mutex_t	t_mtx;
 
 typedef struct s_philo
 {
+	int			id;
+	int			meals_eaten;
+	size_t		last_meal_t;
+	int			isfull;
+	int			isdead;
+	// semaphores
+	sem_t		*rfork;
+	sem_t		*lfork;
+	t_data		*data;
 }			t_philo;
 
 struct s_data
@@ -41,13 +55,19 @@ struct s_data
 	int				mealsnum;
 	int				isend;
 	size_t			simul_beg;
+	sem_t			*forks; 
 	t_philo			*philos;
 };
 // utils
-void	ft_error(t_data *data, char *message);
-int		ft_atoi(char *s);
-size_t	get_time(void);
-void	ft_usleep(size_t micros);
+int			p_error(char *message, int status);
+int			ft_atoi(char *s);
+size_t		get_time(void);
+void		ft_usleep(size_t micros);
 // creating
+sem_t		*phalloc(t_data *data);
+void		assign_forks(t_philo *philo, int pos);
+t_philo		*init_philo(t_data *data);
+t_data		*making_philos(t_data *data, int ac, char **av);
+
 
 #endif

@@ -6,18 +6,16 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 06:39:09 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/21 06:39:33 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/21 14:06:45 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/philosophers_bonus.h"
 
-void	ft_error(t_data *data, char *message)
+int	p_error(char *message, int status)
 {
-	if (data)
-		free(data);
-	printf("%s%s\n", RED, message);
-	return ;
+	printf(YLW"%s\n", message);
+	return (exit(status), status);
 }
 
 int	ft_atoi(char *s)

@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 13:21:53 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/21 06:55:15 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/21 14:13:39 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ int	init_m(t_data *data)
 
 int	destroying(t_data *data)
 {
+	int		i;
+
+	i = -1;
+	while (++i < data->howmanyphilos)
+		if (pthread_mutex_destroy(&data->forks[i]))
+			return (1339);
 	if (pthread_mutex_destroy(&data->muting))
 		return (1340);
 	if (pthread_mutex_destroy(&data->monilock))

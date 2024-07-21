@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 13:21:53 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/20 18:01:46 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/21 06:55:15 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,18 @@ int	waiting(t_data *data)
 			return (1338);
 		}
 	}
+	return (0);
+}
+
+int	preventing_headach(t_data *data)
+{
+	if (data->dtime <= 60)
+		return (1);
+	else if (data->stime <= 60)
+		return (1);
+	else if (data->etime <= 60)
+		return (1);
+	else if (data->howmanyphilos > 199)
+		return (1);
 	return (0);
 }

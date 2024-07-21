@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:25:38 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/21 06:27:18 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/21 10:26:39 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	*qosos(void *data)
 	t_philo		*philo;
 
 	philo = (t_philo *)data;
+	if (!(philo->id % 2))
+		ft_usleep(5);
 	if (philo->isfull || philo->data->isend)
 		return (NULL);
 	pthread_mutex_lock(&philo->data->lock);
@@ -58,8 +60,6 @@ void	*qosos(void *data)
 	pthread_mutex_unlock(&philo->data->lock);
 	while (!thelastonestanding(philo->data))
 	{
-		if (!(philo->id % 2))
-			ft_usleep(10);
 		eating(philo);
 		if (philo->isloner)
 			return (NULL);

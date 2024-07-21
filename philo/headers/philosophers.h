@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:45:40 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/20 16:54:53 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/21 06:23:38 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef pthread_mutex_t	t_mtx;
 typedef struct s_philo
 {
 	pthread_t	thread_id;
+	int			isloner;
 	int			id;
 	int			meals;
 	int			meals_eaten;

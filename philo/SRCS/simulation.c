@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:25:38 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/20 17:12:08 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/21 06:27:18 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	eating(t_philo *philo)
 	if (!philo->data->isend && !philo->isfull)
 		printf("%zu %d has taken a fork\n",
 			get_time() - philo->data->simul_beg, philo->id);
+	if (philo->isloner)
+		return ;
 	pthread_mutex_lock(philo->rfork);
 	if (!philo->data->isend && !philo->isfull)
 		printf("%zu %d has taken a fork\n",
@@ -57,8 +59,10 @@ void	*qosos(void *data)
 	while (!thelastonestanding(philo->data))
 	{
 		if (!(philo->id % 2))
-			ft_usleep(1);
+			ft_usleep(10);
 		eating(philo);
+		if (philo->isloner)
+			return (NULL);
 		if (!philo->data->isend)
 			printf("%zu %d is sleeping\n", get_time() - philo->data->simul_beg,
 				philo->id);
@@ -77,12 +81,10 @@ int	simulation(t_data *data)
 	i = -1;
 	if (!data->howmanyphilos)
 		return (4817);
-	else if (data->howmanyphilos == 1)
-	{
-		return (0);
-	}
 	else
 	{
+		if (data->howmanyphilos == 1)
+			data->philos[0].isloner = 1;
 		data->simul_beg = get_time();
 		while (++i < data->howmanyphilos)
 		{

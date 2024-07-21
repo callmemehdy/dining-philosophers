@@ -6,8 +6,12 @@ SRC_DIR =	SRCS/
 
 OBJ_DIR	= 	OBJS_DEPS/
 
+<<<<<<< HEAD:philo/Makefile
 SRCS_FS	=	main.c utils_1.c philo_cr.c simulation.c\
 			monitoring.c utils_2.c
+=======
+SRCS_FS	=	main.c utils_1.c philo_cr.c simulation.c
+>>>>>>> 9792b9b26985609e0ec627499c07b02a289383d0:Makefile
 
 SRCS	= $(addprefix $(SRC_DIR), $(SRCS_FS))
 

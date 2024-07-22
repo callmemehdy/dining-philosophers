@@ -1,6 +1,6 @@
 NAME	=	philo_bonus
 
-CFL		=	-Wall -Wextra -Werror 
+CFL		=	-Wall -Wextra -Werror
 
 SRC_DIR =	SRCS/
 
@@ -19,7 +19,7 @@ all:	$(NAME)
 -include $(DEPS)
 
 $(NAME):	$(OBJS)
-		cc  $(OBJS) -o $@ -Wdeprecated-declarations
+		cc  $(OBJS) -o $@
 
 $(OBJ_DIR)%.o:	$(SRC_DIR)%.c
 		mkdir -p $(OBJ_DIR)

@@ -17,7 +17,7 @@ sem_t	*phalloc(t_data *data)
 	size_t		size;
 
 	size = data->howmanyphilos;
-	data -> forks = sem_open("/sem", O_CREAT , size);
+	data -> forks = sem_open("/sem", O_CREAT | O_EXCL, size);
 	if (!data -> forks)
 		p_error(ALLO_ERROR, ERR_NO);
 	unlink("/sem");

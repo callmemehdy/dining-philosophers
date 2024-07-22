@@ -25,7 +25,7 @@ void	qosos(t_philo *philo)
 	printf("%zu %d has taken a fork", get_time(), philo ->id);
 }
 
-void	proccesses_forking(t_data *data)
+void	processes_forking(t_data *data)
 {
 	size_t		size;
 	int			i;
@@ -35,7 +35,7 @@ void	proccesses_forking(t_data *data)
 	data -> pids = malloc(sizeof(pid_t) * size);
 	if (!data -> pids)
 		p_error(ALLO_ERROR, ERR_NO);
-	while (++i < size)
+	while (++i < (int)size)
 	{
 		data -> pids[i] = fork();
 		if (!data -> pids[i])

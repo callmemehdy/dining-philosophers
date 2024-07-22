@@ -17,6 +17,7 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <limits.h>
+# include <fcntl.h>
 # include <semaphore.h>
 # include <sys/time.h>
 # define RED "\033[0;31m"

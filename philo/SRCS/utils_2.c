@@ -81,7 +81,7 @@ int	preventing_headach(t_data *data)
 		return (1);
 	else if (data->etime <= 60)
 		return (1);
-	else if (data->howmanyphilos > 199)
+	else if (data->howmanyphilos > 200)
 		return (1);
 	return (0);
 }

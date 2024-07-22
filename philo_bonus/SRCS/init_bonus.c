@@ -20,6 +20,7 @@ sem_t	*phalloc(t_data *data)
 	data -> forks = sem_open("/sem", O_CREAT , size);
 	if (!data -> forks)
 		p_error(ALLO_ERROR, ERR_NO);
+	unlink("/sem");
 	return (data -> forks);
 }
 

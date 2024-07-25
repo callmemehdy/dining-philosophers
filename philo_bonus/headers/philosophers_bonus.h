@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 06:34:54 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/21 21:30:18 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:31:03 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <limits.h>
+# include <signal.h>
 # include <semaphore.h>
 # include <sys/time.h>
 # define RED "\033[0;31m"
@@ -26,6 +27,8 @@
 # define INIT_ERR "ERROR: making philos failed"
 # define ARG_ERR  "Invalid arguments"
 # define ERR_NO 1337
+# define AH 1;
+# define LA 0;
 
 // #pragma GCC diagnostic push
 // #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -35,6 +38,7 @@ typedef pthread_mutex_t	t_mtx;
 
 typedef struct s_philo
 {
+	pthread_t	monithread;
 	int			id;
 	int			meals_eaten;
 	size_t		last_meal_t;

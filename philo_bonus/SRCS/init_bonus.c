@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 14:33:30 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/21 21:21:34 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/24 12:58:41 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ sem_t	*phalloc(t_data *data)
 
 	i = -1;
 	size = data->howmanyphilos;
-	data -> forks = sem_open("/sem", O_CREAT | O_EXCL , size);
-	if (!data -> forks)
+	sem_unlink("/sem");
+	data -> forks = sem_open("/sem", O_CREAT, 0664, size);
+	if (data -> forks == SEM_FAILED)
 		p_error(ALLO_ERROR, ERR_NO);
 	return (data -> forks);
 }

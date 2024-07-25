@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:25:58 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/21 06:46:56 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/25 09:52:11 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int ac, char **av)
 	if (!data)
 		return (ft_error(NULL, "Error 001"), 2);
 	data->philos = NULL;
-	if (preventing_headach(data))
+	if (preventing_headache(data))
 		return (f_a_r(data), ft_error(data, "not a valid test!"), 404);
 	if (init_m(data))
 		return (free(data), ft_error(data, "...while initializing..."), 3);

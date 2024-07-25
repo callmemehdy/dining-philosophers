@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:25:45 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/20 17:09:22 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/25 12:15:03 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	creating_philosophers(t_data *data)
 		philo->meals_eaten = 0;
 		philo->isdead = 0;
 		philo->data = data;
+		philo->end = 0;
 		forking(philo, data->forks, i);
 	}
 	return (0);

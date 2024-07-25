@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:45:40 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/21 06:55:30 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:37:42 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <pthread.h>
 # include <limits.h>
 # include <stdio.h>
+# include <string.h>
+# include <strings.h>
 # include <sys/time.h>
 # define RED "\033[0;31m"
 # define YLW "\033[0;33m"
@@ -32,14 +34,16 @@ typedef struct s_philo
 	int			id;
 	int			meals;
 	int			meals_eaten;
-	size_t		lastmeal_time;
-	int			isfull;
-	int			isdead;
+	_Atomic size_t	lastmeal_time;
+	_Atomic	int	isfull;
+	_Atomic int	isdead;
 	// forks __________
 	t_mtx		*rfork;
 	t_mtx		*lfork;
 	// forks __________
 	t_data		*data;
+	// finishing
+	int			end;
 }			t_philo;
 
 struct s_data
@@ -49,9 +53,9 @@ struct s_data
 	size_t			etime;
 	size_t			stime;
 	int				mealsnum;
-	int				isend;
+	_Atomic int		isend;
 	int				allfull;
-	int				allin;
+	_Atomic int				allin;
 	size_t			simul_beg;
 	t_mtx			*forks;
 	t_philo			*philos;
@@ -80,7 +84,7 @@ int		waiting(t_data *data);
 void	f_a_r(t_data *data);
 int		init_m(t_data *data);
 int		destroying(t_data *data);
-int		preventing_headach(t_data *data);
+int		preventing_headache(t_data *data);
 // monitoring...
 int		monitoring(t_data *data);
 int		philo_is_dead(t_philo *philo);

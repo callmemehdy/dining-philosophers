@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:25:38 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/21 10:26:39 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:38:29 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,40 @@
 
 int	thelastonestanding(t_data *data)
 {
-	pthread_mutex_lock(&data->reading);
-	if (data->isend == 1)
-	{
-		pthread_mutex_unlock(&data->reading);
-		return (1);
-	}
-	pthread_mutex_unlock(&data->reading);
-	return (0);
+	int res;
+
+	pthread_mutex_lock(&data->monilock);
+	res = (data->isend == 1);
+	pthread_mutex_unlock(&data->monilock);
+	return (res);
 }
 
-void	eating(t_philo *philo)
+void	caniprint(t_data *data, t_philo *philo, char *s)
+{
+	if (!philo -> isfull && !data->isend)
+		printf("%zu %d %s\n",
+				get_time() - philo->data->simul_beg, philo->id, s);
+}
+
+int	eating(t_philo *philo)
 {
 	pthread_mutex_lock(philo->lfork);
-	if (!philo->data->isend && !philo->isfull)
-		printf("%zu %d has taken a fork\n",
-			get_time() - philo->data->simul_beg, philo->id);
+	caniprint(philo -> data, philo, "has taken a fork");
 	if (philo->isloner)
-		return ;
+		return (1);
 	pthread_mutex_lock(philo->rfork);
-	if (!philo->data->isend && !philo->isfull)
-		printf("%zu %d has taken a fork\n",
-			get_time() - philo->data->simul_beg, philo->id);
-	if (!philo->data->isend && !philo->isfull)
-		printf("%zu %d is eating\n",
-			get_time() - philo->data->simul_beg, philo->id);
+	caniprint(philo -> data, philo, "has taken a fork");
+	caniprint(philo -> data, philo, "is eating");
+	// pthread_mutex_lock(&philo->data->reading);
 	philo->meals_eaten++;
+	if (philo->meals_eaten == philo->data->mealsnum)
+		1337 && (philo -> isfull = 1, philo->end = 1);
+	// pthread_mutex_unlock(&philo->data->reading);
 	ft_usleep(philo->data->etime);
 	philo->lastmeal_time = get_time();
 	pthread_mutex_unlock(philo->lfork);
 	pthread_mutex_unlock(philo->rfork);
+	return (philo -> end);
 }
 
 void	*qosos(void *data)
@@ -53,23 +57,16 @@ void	*qosos(void *data)
 	philo = (t_philo *)data;
 	if (!(philo->id % 2))
 		ft_usleep(5);
-	if (philo->isfull || philo->data->isend)
-		return (NULL);
 	pthread_mutex_lock(&philo->data->lock);
 	philo->data->allin++;
 	pthread_mutex_unlock(&philo->data->lock);
 	while (!thelastonestanding(philo->data))
 	{
-		eating(philo);
-		if (philo->isloner)
-			return (NULL);
-		if (!philo->data->isend)
-			printf("%zu %d is sleeping\n", get_time() - philo->data->simul_beg,
-				philo->id);
+		if(eating(philo))
+			break ;
+		caniprint(philo -> data, philo, "is sleeping");
 		ft_usleep(philo->data->stime);
-		if (!philo->data->isend)
-			printf("%zu %d is thinking\n", get_time() - philo->data->simul_beg,
-				philo->id);
+		caniprint(philo -> data, philo, "is thinking");
 	}
 	return (NULL);
 }

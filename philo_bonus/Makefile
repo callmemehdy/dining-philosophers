@@ -19,7 +19,7 @@ all:	$(NAME)
 -include $(DEPS)
 
 $(NAME):	$(OBJS)
-		cc  $(OBJS) -o $@ -Wdeprecated-declarations
+		cc  $(OBJS) -o $@ -fsanitize=thread
 
 $(OBJ_DIR)%.o:	$(SRC_DIR)%.c
 		mkdir -p $(OBJ_DIR)

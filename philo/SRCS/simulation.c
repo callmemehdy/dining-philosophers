@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 11:25:38 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/25 15:38:29 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:33:17 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	*qosos(void *data)
 
 	philo = (t_philo *)data;
 	if (!(philo->id % 2))
-		ft_usleep(5);
+		ft_usleep(100);
 	pthread_mutex_lock(&philo->data->lock);
 	philo->data->allin++;
 	pthread_mutex_unlock(&philo->data->lock);

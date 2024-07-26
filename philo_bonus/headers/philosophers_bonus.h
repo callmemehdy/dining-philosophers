@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 06:34:54 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/24 17:31:03 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:17:03 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # define INIT_ERR "ERROR: making philos failed"
 # define ARG_ERR  "Invalid arguments"
 # define ERR_NO 1337
-# define AH 1;
-# define LA 0;
+# define AH 1
+# define LA 0
 
 // #pragma GCC diagnostic push
 // #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -60,7 +60,10 @@ struct s_data
 	int				mealsnum;
 	int				isend;
 	size_t			simul_beg;
-	sem_t			*forks; 
+	sem_t			*forks;
+	// sems ...  
+	sem_t			*key; 
+	sem_t			*print; 
 	t_philo			*philos;
 };
 // utils

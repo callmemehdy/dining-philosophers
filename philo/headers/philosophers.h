@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 14:45:40 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/25 15:37:42 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:15:59 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,19 @@ typedef pthread_mutex_t	t_mtx;
 
 typedef struct s_philo
 {
-	pthread_t	thread_id;
-	int			isloner;
-	int			id;
-	int			meals;
-	int			meals_eaten;
+	pthread_t		thread_id;
+	int				isloner;
+	int				id;
+	int				meals;
+	int				meals_eaten;
 	_Atomic size_t	lastmeal_time;
-	_Atomic	int	isfull;
-	_Atomic int	isdead;
+	_Atomic	int		isfull;
+	_Atomic int		isdead;
 	// forks __________
-	t_mtx		*rfork;
-	t_mtx		*lfork;
+	t_mtx			*rfork;
+	t_mtx			*lfork;
 	// forks __________
-	t_data		*data;
+	t_data			*data;
 	// finishing
 	int			end;
 }			t_philo;

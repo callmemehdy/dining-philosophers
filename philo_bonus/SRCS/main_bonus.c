@@ -6,7 +6,7 @@
 /*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 06:31:01 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/24 20:20:59 by mel-akar         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:19:29 by mel-akar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void f()
 int	dead(t_philo *philo)
 {
 	if (get_time() - philo -> last_meal_t > philo -> data -> dtime)
-		return AH;
-	return LA;
+		return (AH);
+	return (LA);
 }
 
 int	full(t_philo *philo)
@@ -30,8 +30,8 @@ int	full(t_philo *philo)
 
 	n_meal = philo -> data -> mealsnum;
 	if (philo -> meals_eaten == n_meal)
-		return AH;
-	return LA;
+		return (AH);
+	return (LA);
 }
 
 void	*monitoring_stuff(void *data)
@@ -39,12 +39,16 @@ void	*monitoring_stuff(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	while (1)
+	while (AH)
 	{
 		if (dead(philo))
 		{
+			// todo
+			philo -> isdead = 1;
 			printf("%zu %d died\n", get_time() - philo -> data -> simul_beg, philo -> id);
-			exit(12);
+			sem_wait(philo -> data -> print);
+			sem_post(philo -> data -> key);
+			break ;
 		}
 		// if (full(philo))
 		// {
@@ -60,22 +64,26 @@ void	*monitoring_stuff(void *data)
 void	qosos(t_philo *philo)
 {
 	if (!(philo -> id % 2))
-		ft_usleep(5);
+		ft_usleep(100);
 	pthread_create(&philo -> monithread, NULL, monitoring_stuff, philo);
 	while (1)
 	{
 		sem_wait(philo -> lfork);
 		printf("%zu %d has taken a fork\n", get_time() - philo -> data -> simul_beg , philo ->id);
 		sem_wait(philo -> rfork);
+		sem_wait(philo -> data -> print);
 		printf("%zu %d has taken a fork\n", get_time() - philo -> data -> simul_beg , philo ->id);
+		sem_wait(philo -> data -> print);
 		printf("%zu %d is eating\n", get_time() - philo -> data -> simul_beg, philo->id);
 		philo -> last_meal_t = get_time();
 		philo -> meals_eaten++;
 		ft_usleep(philo -> data -> etime);
 		sem_post(philo -> lfork);
 		sem_post(philo -> rfork);
+		sem_wait(philo -> data -> print);
 		printf("%zu %d is sleeping\n", get_time() - philo -> data -> simul_beg, philo->id);
 		ft_usleep(philo -> data -> stime);
+		sem_wait(philo -> data -> print);
 		printf("%zu %d is thinking\n", get_time() - philo -> data -> simul_beg, philo->id);
 	}
 	pthread_join(philo -> monithread, NULL);
@@ -86,7 +94,6 @@ void	processes_forking(t_data *data)
 {
 	size_t		size;
 	int			i;
-	int			status;
 
 	i = -1;
 	size = data -> howmanyphilos;
@@ -105,20 +112,12 @@ void	processes_forking(t_data *data)
 		else if (data -> pids[i] < 0)
 			p_error("fork func error", ERR_NO);
 	}
-	i = 0;
-	while (i < data -> howmanyphilos && waitpid(data -> pids[i], &status, 0))
+	i = -1;
+	sem_wait(data -> key);
+	while (++i < data -> howmanyphilos)
 	{
-		if (WEXITSTATUS(status))
-		{
-			i = -1;
-			while (++i < data -> howmanyphilos)
-				kill(data -> pids[i], SIGKILL);
-			break ;
-		}
-		i++;
+			kill(data -> pids[i], SIGKILL);
 	}
-	// while (waitpid(-1, NULL, 0))
-	// 	{};
 }
 
 int	main(int ac, char **av)

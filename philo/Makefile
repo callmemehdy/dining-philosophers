@@ -1,6 +1,6 @@
 NAME	=	philo
 
-CFL		=	-Wall -Wextra -Werror -fsanitize=thread
+CFL		=	-Wall -Wextra -Werror
 
 SRC_DIR =	SRCS/
 

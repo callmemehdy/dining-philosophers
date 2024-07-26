@@ -18,16 +18,20 @@ sem_t	*phalloc(t_data *data)
 
 	size = data->howmanyphilos;
 	sem_unlink("/sem");
+	sem_unlink("/check");
 	sem_unlink("/print");
 	sem_unlink("/key");
 	data -> forks = sem_open("/sem", O_CREAT, 0664, size);
 	if (data -> forks == SEM_FAILED)
 		p_error(ALLO_ERROR, ERR_NO);
 	data -> key = sem_open("/key", O_CREAT, 0664, 0);
-	if (data -> forks == SEM_FAILED)
+	if (data -> key == SEM_FAILED)
 		p_error(ALLO_ERROR, ERR_NO);
 	data -> print = sem_open("/print", O_CREAT, 0664, 1);
-	if (data -> forks == SEM_FAILED)
+	if (data -> print == SEM_FAILED)
+		p_error(ALLO_ERROR, ERR_NO);
+	data -> check = sem_open("/check", O_CREAT, 0664, 1);
+	if (data -> check == SEM_FAILED)
 		p_error(ALLO_ERROR, ERR_NO);
 	return (data -> forks);
 }

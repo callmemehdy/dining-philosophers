@@ -52,10 +52,12 @@ void	*monitoring_stuff(void *data)
 		}
 		if (full(philo))
 		{
-			// sem_post(philo -> data -> key);
 			// exit(EXIT_SUCCESS);
+			// sem_wait(philo -> data -> check);
 			philo -> isfull = 1;
-			return NULL;
+			// sem_post(philo -> data -> check);
+			sem_post(philo -> data -> key);
+			break ;
 		}
 	}
 	return (NULL);
@@ -63,23 +65,25 @@ void	*monitoring_stuff(void *data)
 
 int	stop_cooking(t_philo *philo)
 {
-	if (philo -> isfull)
+	// sem_wait(philo -> data -> check);
+	if (philo -> isfull || philo -> isdead)
 		return (1);
 	return (0);
+	// sem_post(philo -> data -> check);
 }
 
 void	qosos(t_philo *philo)
 {
 	if (!(philo -> id % 2))
-		ft_usleep(100);
+		ft_usleep(5);
 	pthread_create(&philo -> monithread, NULL, monitoring_stuff, philo);
 	while (!stop_cooking(philo))
 	{
-		sem_wait(philo -> lfork);
 		// first fork 
+		sem_wait(philo -> lfork);
 		printf("%zu %d has taken a fork\n", get_time() - philo -> data -> simul_beg , philo ->id);
-		sem_wait(philo -> rfork);
 		// second fork 
+		sem_wait(philo -> rfork);
 		printf("%zu %d has taken a fork\n", get_time() - philo -> data -> simul_beg , philo ->id);
 		// eating
 		printf("%zu %d is eating\n", get_time() - philo -> data -> simul_beg, philo->id);

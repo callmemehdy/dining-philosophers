@@ -39,16 +39,16 @@ typedef pthread_mutex_t	t_mtx;
 
 typedef struct s_philo
 {
-	pthread_t	monithread;
-	int			id;
-	int			meals_eaten;
-	size_t		last_meal_t;
-	int			isfull;
-	int			isdead;
+	pthread_t		monithread;
+	int				id;
+	_Atomic int				meals_eaten;
+	_Atomic size_t			last_meal_t;
+	_Atomic int				isfull;
+	int				isdead;
 	// semaphores
-	sem_t		*rfork;
-	sem_t		*lfork;
-	t_data		*data;
+	sem_t			*rfork;
+	sem_t			*lfork;
+	t_data			*data;
 }			t_philo;
 
 struct s_data
@@ -65,6 +65,7 @@ struct s_data
 	// sems ...  
 	sem_t			*key; 
 	sem_t			*print; 
+	sem_t			*check; 
 	t_philo			*philos;
 };
 // utils

@@ -53,10 +53,19 @@ void	*monitoring_stuff(void *data)
 		if (full(philo))
 		{
 			// sem_post(philo -> data -> key);
-			exit(EXIT_SUCCESS);
+			// exit(EXIT_SUCCESS);
+			philo -> isfull = 1;
+			return NULL;
 		}
 	}
 	return (NULL);
+}
+
+int	stop_cooking(t_philo *philo)
+{
+	if (philo -> isfull)
+		return (1);
+	return (0);
 }
 
 void	qosos(t_philo *philo)
@@ -64,7 +73,7 @@ void	qosos(t_philo *philo)
 	if (!(philo -> id % 2))
 		ft_usleep(100);
 	pthread_create(&philo -> monithread, NULL, monitoring_stuff, philo);
-	while (1)
+	while (!stop_cooking(philo))
 	{
 		sem_wait(philo -> lfork);
 		// first fork 

@@ -45,18 +45,16 @@ void	*monitoring_stuff(void *data)
 		{
 			// todo
 			philo -> isdead = 1;
-			printf("%zu %d died\n", get_time() - philo -> data -> simul_beg, philo -> id);
 			sem_wait(philo -> data -> print);
+			printf("%zu %d died\n", get_time() - philo -> data -> simul_beg, philo -> id);
 			sem_post(philo -> data -> key);
 			break ;
 		}
-		// if (full(philo))
-		// {
-		// 	printf("kilo kilo hh\n");	
-		// 	while (++i < philo -> data -> howmanyphilos)
-		// 		(getpid() != philo -> data -> pids[i]) && (kill(philo -> data -> pids[i], SIGTERM));
-		// 	return (0);
-		// }
+		if (full(philo))
+		{
+			// sem_post(philo -> data -> key);
+			exit(EXIT_SUCCESS);
+		}
 	}
 	return (NULL);
 }
@@ -69,21 +67,22 @@ void	qosos(t_philo *philo)
 	while (1)
 	{
 		sem_wait(philo -> lfork);
+		// first fork 
 		printf("%zu %d has taken a fork\n", get_time() - philo -> data -> simul_beg , philo ->id);
 		sem_wait(philo -> rfork);
-		sem_wait(philo -> data -> print);
+		// second fork 
 		printf("%zu %d has taken a fork\n", get_time() - philo -> data -> simul_beg , philo ->id);
-		sem_wait(philo -> data -> print);
+		// eating
 		printf("%zu %d is eating\n", get_time() - philo -> data -> simul_beg, philo->id);
 		philo -> last_meal_t = get_time();
 		philo -> meals_eaten++;
 		ft_usleep(philo -> data -> etime);
 		sem_post(philo -> lfork);
 		sem_post(philo -> rfork);
-		sem_wait(philo -> data -> print);
+		// sleeping..
 		printf("%zu %d is sleeping\n", get_time() - philo -> data -> simul_beg, philo->id);
 		ft_usleep(philo -> data -> stime);
-		sem_wait(philo -> data -> print);
+		// thinking
 		printf("%zu %d is thinking\n", get_time() - philo -> data -> simul_beg, philo->id);
 	}
 	pthread_join(philo -> monithread, NULL);
@@ -116,7 +115,7 @@ void	processes_forking(t_data *data)
 	sem_wait(data -> key);
 	while (++i < data -> howmanyphilos)
 	{
-			kill(data -> pids[i], SIGKILL);
+			kill(data -> pids[i], SIGTERM);
 	}
 }
 

@@ -15,11 +15,10 @@
 sem_t	*phalloc(t_data *data)
 {
 	size_t		size;
-	int			i;
 
-	i = -1;
 	size = data->howmanyphilos;
 	sem_unlink("/sem");
+	sem_unlink("/print");
 	sem_unlink("/key");
 	data -> forks = sem_open("/sem", O_CREAT, 0664, size);
 	if (data -> forks == SEM_FAILED)

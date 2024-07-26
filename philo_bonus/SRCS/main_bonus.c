@@ -56,8 +56,8 @@ void	*monitoring_stuff(void *data)
 			// sem_wait(philo -> data -> check);
 			philo -> isfull = 1;
 			// sem_post(philo -> data -> check);
-			sem_post(philo -> data -> key);
-			break ;
+			// sem_post(philo -> data -> key);
+			return(NULL);
 		}
 	}
 	return (NULL);
@@ -66,7 +66,7 @@ void	*monitoring_stuff(void *data)
 int	stop_cooking(t_philo *philo)
 {
 	// sem_wait(philo -> data -> check);
-	if (philo -> isfull || philo -> isdead)
+	if (philo -> isfull == 1)
 		return (1);
 	return (0);
 	// sem_post(philo -> data -> check);
@@ -77,6 +77,7 @@ void	qosos(t_philo *philo)
 	if (!(philo -> id % 2))
 		ft_usleep(5);
 	pthread_create(&philo -> monithread, NULL, monitoring_stuff, philo);
+	pthread_detach(philo -> monithread);
 	while (!stop_cooking(philo))
 	{
 		// first fork 
@@ -98,7 +99,6 @@ void	qosos(t_philo *philo)
 		// thinking
 		printf("%zu %d is thinking\n", get_time() - philo -> data -> simul_beg, philo->id);
 	}
-	pthread_join(philo -> monithread, NULL);
 	return ;
 }
 

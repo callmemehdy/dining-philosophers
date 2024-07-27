@@ -77,7 +77,7 @@ void	qosos(t_philo *philo)
 	if (!(philo -> id % 2))
 		ft_usleep(5);
 	pthread_create(&philo -> monithread, NULL, monitoring_stuff, philo);
-	pthread_detach(philo -> monithread);
+	pthread_detach(philo -> monithreadgit);
 	while (!stop_cooking(philo))
 	{
 		// first fork 

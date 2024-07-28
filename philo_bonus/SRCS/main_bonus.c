@@ -120,8 +120,9 @@ void	qosos(t_philo *philo)
 void	processes_forking(t_data *data)
 {
 	size_t		size;
+	int			status;
 	int			i;
-	int			j;
+	// int			j;
 
 	i = -1;
 	size = data -> howmanyphilos;
@@ -143,14 +144,10 @@ void	processes_forking(t_data *data)
 	}
 	i = -1;
 	// sem_wait(data -> key);
-	while (++i < data -> howmanyphilos)
-	{
-			j = -1;
-			waitpid(data -> pids[i], (int *)&size, 0);
-			if (WEXITSTATUS(size) == 42)
-				while (++j < data ->howmanyphilos)
-					kill(data -> pids[j], SIGKILL);
-	}
+	while (waitpid(-1, &status, 0))
+		if (WEXITSTATUS(status) == 0x2a)
+			while (++i < data -> howmanyphilos)
+				kill(data -> pids[i], SIGKILL);
 	
 }
 

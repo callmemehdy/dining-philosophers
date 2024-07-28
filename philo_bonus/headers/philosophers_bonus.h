@@ -12,6 +12,7 @@
 
 #ifndef PHILOSOPHERS_BONUS_H
 # define PHILOSOPHERS_BONUS_H
+# include <signal.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <pthread.h>
@@ -21,7 +22,6 @@
 # include <semaphore.h>
 # include <sys/time.h>
 # include <sys/wait.h>
-# include <signal.h>
 # define RED "\033[0;31m"
 # define YLW "\033[0;33m"
 # define MS 1000

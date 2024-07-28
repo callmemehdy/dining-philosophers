@@ -133,7 +133,10 @@ void	processes_forking(t_data *data)
 	{
 		data -> pids[i] = fork();
 		if (!data -> pids[i])
+		{
 			qosos(&data -> philos[i]);
+			exit(EXIT_SUCCESS);
+		}
 		else if (data -> pids[i] < 0)
 			p_error("fork func error", ERR_NO);
 	}

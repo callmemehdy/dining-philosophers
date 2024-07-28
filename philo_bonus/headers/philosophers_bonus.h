@@ -12,6 +12,7 @@
 
 #ifndef PHILOSOPHERS_BONUS_H
 # define PHILOSOPHERS_BONUS_H
+# define _GNU_SOURCE
 # include <signal.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -33,6 +34,7 @@
 # define LA 0
 # define TFORK "has taken a fork\n"
 # define EAT "is eating\n"
+# define DIED "died\n"
 # define SLEEP "is sleeping\n"
 # define THINK "is thinking\n"
 

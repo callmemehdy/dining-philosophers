@@ -12,9 +12,16 @@
 
 #include "../headers/philosophers_bonus.h"
 
-void f()
+void	printing(t_philo *philo, char *message)
 {
-	system("lsof -c philo_bonus");
+	int		id;
+	size_t	start;
+
+	sem_wait(philo -> data -> stop);
+	start = philo -> data ->simul_beg;
+	id = philo -> id;
+	printf("%zu %d %s",get_time() - start, id, message);
+	sem_post(philo -> data -> stop);
 }
 
 int	dead(t_philo *philo)
@@ -46,8 +53,8 @@ void	*monitoring_stuff(void *data)
 			// todo
 			philo -> isdead = 1;
 			// sem_wait(philo -> data -> print);
+			printing(philo, DIED);
 			sem_wait(philo -> data -> stop);
-			printf("%zu %d died\n", get_time() - philo -> data -> simul_beg, philo -> id);
 			exit(42);
 			// sem_post(philo -> data -> key);
 			break ;
@@ -74,17 +81,6 @@ int	stop_cooking(t_philo *philo)
 	// sem_post(philo -> data -> check);
 }
 
-void	printing(t_philo *philo, char *message)
-{
-	int		id;
-	size_t	start;
-
-	sem_wait(philo -> data -> stop);
-	start = philo -> data ->simul_beg;
-	id = philo -> id;
-	printf("%zu %d %s",get_time() - start, id, message);
-	sem_post(philo -> data -> stop);
-}
 
 void	qosos(t_philo *philo)
 {
@@ -145,9 +141,14 @@ void	processes_forking(t_data *data)
 	i = -1;
 	// sem_wait(data -> key);
 	while (waitpid(-1, &status, 0))
-		if (WEXITSTATUS(status) == 0x2a)
+	{
+		if (WEXITSTATUS(status) == 42)
+		{
 			while (++i < data -> howmanyphilos)
 				kill(data -> pids[i], SIGKILL);
+			return ;
+		}
+	}
 	
 }
 

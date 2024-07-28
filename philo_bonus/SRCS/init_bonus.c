@@ -19,6 +19,7 @@ sem_t	*phalloc(t_data *data)
 	size = data->howmanyphilos;
 	sem_unlink("/sem");
 	sem_unlink("/check");
+	sem_unlink("/stop");
 	sem_unlink("/print");
 	sem_unlink("/key");
 	data -> forks = sem_open("/sem", O_CREAT, 0664, size);
@@ -32,6 +33,9 @@ sem_t	*phalloc(t_data *data)
 		p_error(ALLO_ERROR, ERR_NO);
 	data -> check = sem_open("/check", O_CREAT, 0664, 1);
 	if (data -> check == SEM_FAILED)
+		p_error(ALLO_ERROR, ERR_NO);
+	data -> stop = sem_open("/stop", O_CREAT, 0664, 1);
+	if (data -> stop == SEM_FAILED)
 		p_error(ALLO_ERROR, ERR_NO);
 	return (data -> forks);
 }
@@ -62,7 +66,7 @@ t_data	*making_philos(t_data *data, int ac, char **av)
 	if (ac != 6 && ac != 5)
 		return ((void)p_error(ARG_ERR, ERR_NO), NULL);
 	(ac == 6) && (data->mealsnum = ft_atoi(av[5]));
-	(ac == 5) && (data->mealsnum = 0);
+	(ac == 5) && (data->mealsnum = -1);
 	data -> stime = ft_atoi(av[4]);
 	data -> etime = ft_atoi(av[3]);
 	data -> dtime = ft_atoi(av[2]);

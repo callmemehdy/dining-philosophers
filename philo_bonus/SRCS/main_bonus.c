@@ -46,6 +46,7 @@ void	*monitoring_stuff(void *data)
 			// todo
 			philo -> isdead = 1;
 			sem_wait(philo -> data -> print);
+			sem_wait(philo -> data -> stop);
 			printf("%zu %d died\n", get_time() - philo -> data -> simul_beg, philo -> id);
 			sem_post(philo -> data -> key);
 			break ;
@@ -72,32 +73,44 @@ int	stop_cooking(t_philo *philo)
 	// sem_post(philo -> data -> check);
 }
 
+void	printing(t_philo *philo, char *message)
+{
+	int		id;
+	size_t	start;
+
+	start = philo -> data ->simul_beg;
+	id = philo -> id;
+	sem_wait(philo -> data -> stop);
+	printf("%zu %d %s",get_time() - start, id, message);
+	sem_post(philo -> data -> stop);
+}
+
 void	qosos(t_philo *philo)
 {
 	if (!(philo -> id % 2))
 		ft_usleep(5);
 	pthread_create(&philo -> monithread, NULL, monitoring_stuff, philo);
-	pthread_detach(philo -> monithreadgit);
+	pthread_detach(philo -> monithread);
 	while (!stop_cooking(philo))
 	{
 		// first fork 
 		sem_wait(philo -> lfork);
-		printf("%zu %d has taken a fork\n", get_time() - philo -> data -> simul_beg , philo ->id);
+		printing(philo, "has taken a fork\n");
 		// second fork 
 		sem_wait(philo -> rfork);
-		printf("%zu %d has taken a fork\n", get_time() - philo -> data -> simul_beg , philo ->id);
+		printing(philo, "has taken a fork\n");
 		// eating
-		printf("%zu %d is eating\n", get_time() - philo -> data -> simul_beg, philo->id);
+		printing(philo, "is eating\n");
 		philo -> last_meal_t = get_time();
 		philo -> meals_eaten++;
 		ft_usleep(philo -> data -> etime);
 		sem_post(philo -> lfork);
 		sem_post(philo -> rfork);
 		// sleeping..
-		printf("%zu %d is sleeping\n", get_time() - philo -> data -> simul_beg, philo->id);
+		printing(philo, "is sleeping\n");
 		ft_usleep(philo -> data -> stime);
 		// thinking
-		printf("%zu %d is thinking\n", get_time() - philo -> data -> simul_beg, philo->id);
+		printing(philo, "is thinking\n");
 	}
 	return ;
 }
@@ -142,5 +155,7 @@ int	main(int ac, char **av)
 	data = making_philos(data, ac, av);
 	if (!data)
 		return (p_error(INIT_ERR, ERR_NO));
+	if (!data -> mealsnum)
+		return (EXIT_SUCCESS);
 	processes_forking(data);
 }

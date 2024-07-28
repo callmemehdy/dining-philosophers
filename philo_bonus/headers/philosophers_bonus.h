@@ -66,6 +66,7 @@ struct s_data
 	sem_t			*key; 
 	sem_t			*print; 
 	sem_t			*check; 
+	sem_t			*stop;
 	t_philo			*philos;
 };
 // utils

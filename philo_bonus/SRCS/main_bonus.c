@@ -48,7 +48,8 @@ void	*monitoring_stuff(void *data)
 			// sem_wait(philo -> data -> print);
 			sem_wait(philo -> data -> stop);
 			printf("%zu %d died\n", get_time() - philo -> data -> simul_beg, philo -> id);
-			sem_post(philo -> data -> key);
+			exit(42);
+			// sem_post(philo -> data -> key);
 			break ;
 		}
 		if (full(philo))
@@ -68,7 +69,7 @@ int	stop_cooking(t_philo *philo)
 {
 	// sem_wait(philo -> data -> check);
 	if (philo -> isfull == 1)
-		return (1);
+		return (EXIT_SUCCESS);
 	return (0);
 	// sem_post(philo -> data -> check);
 }
@@ -87,20 +88,20 @@ void	printing(t_philo *philo, char *message)
 
 void	qosos(t_philo *philo)
 {
-	if (!(philo -> id % 2))
-		ft_usleep(5);
 	pthread_create(&philo -> monithread, NULL, monitoring_stuff, philo);
 	pthread_detach(philo -> monithread);
 	while (!stop_cooking(philo))
 	{
+		if (philo -> isfull)
+			return ;
 		// first fork 
 		sem_wait(philo -> lfork);
-		printing(philo, "has taken a fork\n");
+		printing(philo, TFORK);
 		// second fork 
 		sem_wait(philo -> rfork);
-		printing(philo, "has taken a fork\n");
+		printing(philo, TFORK);
 		// eating
-		printing(philo, "is eating\n");
+		printing(philo, EAT);
 		ft_usleep(philo -> data -> etime);
 		philo -> last_meal_t = get_time();
 		philo -> meals_eaten++;
@@ -108,10 +109,10 @@ void	qosos(t_philo *philo)
 		sem_post(philo -> rfork);
 
 		// sleeping..
-		printing(philo, "is sleeping\n");
+		printing(philo, SLEEP);
 		ft_usleep(philo -> data -> stime);
 		// thinking
-		printing(philo, "is thinking\n");
+		printing(philo, THINK);
 	}
 	return ;
 }
@@ -120,8 +121,8 @@ void	processes_forking(t_data *data)
 {
 	size_t		size;
 	int			i;
+	int			j;
 
-	i = -1;
 	i = -1;
 	size = data -> howmanyphilos;
 	data -> pids = malloc(sizeof(pid_t) * size);
@@ -138,13 +139,19 @@ void	processes_forking(t_data *data)
 		}
 		else if (data -> pids[i] < 0)
 			p_error("fork func error", ERR_NO);
+		usleep(100);
 	}
 	i = -1;
-	sem_wait(data -> key);
+	// sem_wait(data -> key);
 	while (++i < data -> howmanyphilos)
 	{
-			kill(data -> pids[i], SIGTERM);
+			j = -1;
+			waitpid(data -> pids[i], (int *)&size, 0);
+			if (WEXITSTATUS(size) == 42)
+				while (++j < data ->howmanyphilos)
+					kill(data -> pids[j], SIGKILL);
 	}
+	
 }
 
 int	main(int ac, char **av)

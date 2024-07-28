@@ -17,10 +17,11 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <limits.h>
-# include <signal.h>
 # include <fcntl.h>
 # include <semaphore.h>
 # include <sys/time.h>
+# include <sys/wait.h>
+# include <signal.h>
 # define RED "\033[0;31m"
 # define YLW "\033[0;33m"
 # define MS 1000
@@ -30,6 +31,10 @@
 # define ERR_NO 1337
 # define AH 1
 # define LA 0
+# define TFORK "has taken a fork\n"
+# define EAT "is eating\n"
+# define SLEEP "is sleeping\n"
+# define THINK "is thinking\n"
 
 // #pragma GCC diagnostic push
 // #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -73,10 +78,9 @@ struct s_data
 int			p_error(char *message, int status);
 int			ft_atoi(char *s);
 size_t		get_time(void);
-void		ft_usleep(size_t micros);
+void		ft_usleep(size_t milliseconds);
 // creating
 sem_t		*phalloc(t_data *data);
-void		assign_forks(t_philo *philo, int pos);
 t_philo		*init_philo(t_data *data);
 t_data		*making_philos(t_data *data, int ac, char **av);
 

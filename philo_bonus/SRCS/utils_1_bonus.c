@@ -48,7 +48,7 @@ size_t	get_time(void)
 
 	if (gettimeofday(&tv, NULL))
 		return (1337);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	return ((tv.tv_sec * (size_t)1000) + (tv.tv_usec / (size_t)1000));
 }
 
 void	ft_usleep(size_t milliseconds)

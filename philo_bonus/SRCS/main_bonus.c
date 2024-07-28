@@ -45,7 +45,7 @@ void	*monitoring_stuff(void *data)
 		{
 			// todo
 			philo -> isdead = 1;
-			sem_wait(philo -> data -> print);
+			// sem_wait(philo -> data -> print);
 			sem_wait(philo -> data -> stop);
 			printf("%zu %d died\n", get_time() - philo -> data -> simul_beg, philo -> id);
 			sem_post(philo -> data -> key);
@@ -78,9 +78,9 @@ void	printing(t_philo *philo, char *message)
 	int		id;
 	size_t	start;
 
+	sem_wait(philo -> data -> stop);
 	start = philo -> data ->simul_beg;
 	id = philo -> id;
-	sem_wait(philo -> data -> stop);
 	printf("%zu %d %s",get_time() - start, id, message);
 	sem_post(philo -> data -> stop);
 }
@@ -101,11 +101,12 @@ void	qosos(t_philo *philo)
 		printing(philo, "has taken a fork\n");
 		// eating
 		printing(philo, "is eating\n");
+		ft_usleep(philo -> data -> etime);
 		philo -> last_meal_t = get_time();
 		philo -> meals_eaten++;
-		ft_usleep(philo -> data -> etime);
 		sem_post(philo -> lfork);
 		sem_post(philo -> rfork);
+
 		// sleeping..
 		printing(philo, "is sleeping\n");
 		ft_usleep(philo -> data -> stime);
@@ -121,14 +122,12 @@ void	processes_forking(t_data *data)
 	int			i;
 
 	i = -1;
+	i = -1;
 	size = data -> howmanyphilos;
 	data -> pids = malloc(sizeof(pid_t) * size);
 	if (!data -> pids)
 		p_error(ALLO_ERROR, ERR_NO);
 	data -> simul_beg = get_time();
-	while (++i < data -> howmanyphilos)
-		data -> philos[i].last_meal_t = data -> simul_beg;
-	i = -1;
 	while (++i < data -> howmanyphilos)
 	{
 		data -> pids[i] = fork();

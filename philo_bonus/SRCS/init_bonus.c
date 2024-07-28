@@ -57,6 +57,7 @@ t_philo	*init_philo(t_data *data)
 		data -> philos[i].meals_eaten = 0;
 		data -> philos[i].lfork = data -> forks;
 		data -> philos[i].rfork = data -> forks;
+		data -> philos[i].last_meal_t = get_time();
 	}
 	return (data -> philos);
 }

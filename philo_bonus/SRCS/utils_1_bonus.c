@@ -66,7 +66,7 @@ void	ft_usleep(size_t milliseconds)
 	size_t	start;
 
 	start = get_time();
-	while ((get_time() - start) < milliseconds)
+	while ((get_time() - start) <= milliseconds)
 		usleep(500);
 }
 
@@ -75,6 +75,8 @@ void	printing(t_philo *philo, char *message)
 	int		id;
 	size_t	start;
 
+	if (philo -> isfull || philo -> isdead)
+		return ;
 	sem_wait(philo -> data -> stop);
 	start = philo -> data ->simul_beg;
 	id = philo -> id;

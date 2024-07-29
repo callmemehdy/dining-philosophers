@@ -29,7 +29,7 @@ int	main(int ac, char **av)
 	if (creating(data))
 		return (ft_error(data, "..Error in creating.."), 4);
 	if (simulation(data))
-		return (f_a_r(data), ft_error(data, "...Error in simulation..."), 5);
+		return (f_a_r(data), 5);
 	if (monitoring(data))
 		return (f_a_r(data), ft_error(data, "monitor failed soldier--"), 6);
 	if (waiting(data))

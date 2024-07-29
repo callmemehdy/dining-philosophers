@@ -74,7 +74,7 @@ int	simulation(t_data *data)
 	int			i;
 
 	i = -1;
-	if (!data->howmanyphilos)
+	if (!data->howmanyphilos || !data->mealsnum)
 		return (4817);
 	else
 	{

@@ -23,7 +23,7 @@ t_data	*stuffing(char **av, int ac)
 	data->dtime = ft_atoi(av[2]);
 	data->etime = ft_atoi(av[3]);
 	data->stime = ft_atoi(av[4]);
-	if (ac == 6 && ft_atoi(av[5]))
+	if (ac == 6)
 		data->mealsnum = ft_atoi(av[5]);
 	else
 		data->mealsnum = -1;

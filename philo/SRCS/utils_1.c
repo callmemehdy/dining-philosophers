@@ -20,6 +20,17 @@ void	ft_error(t_data *data, char *message)
 	return ;
 }
 
+int	validity(char *s)
+{
+	int		i;
+
+	i = -1;
+	while (s[++i])
+		if (s[i] != ' ')
+			return (1337);
+	return (0);
+}
+
 int	ft_atoi(char *s)
 {
 	long		res;
@@ -27,6 +38,8 @@ int	ft_atoi(char *s)
 	long		tmp;
 
 	1337 && (tmp = 0, res = 0, i = 0);
+	while (s[i] == 32 || s[i] == '\t')
+		i++;
 	if (s[i] == '+' || s[i] == '-')
 	{
 		if (s[i] == '-')
@@ -41,7 +54,7 @@ int	ft_atoi(char *s)
 			return (0);
 		i++;
 	}
-	if (res >= INT_MAX)
+	if (res > INT_MAX || validity(s + i))
 		return (0);
 	return ((int)res);
 }

@@ -34,7 +34,6 @@ void	*monitoring_stuff(void *data)
 		if (full(philo))
 		{
 			philo -> isfull = 1;
-			// sem_wait(philo -> data -> stop);
 			return (NULL);
 		}
 	}

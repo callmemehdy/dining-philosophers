@@ -19,11 +19,9 @@ int	philo_is_dead(t_philo *philo)
 	res = 0;
 	if (philo->isfull)
 		return (0);
-	// pthread_mutex_lock(&philo->data->reading);
 	if ((get_time() - philo->lastmeal_time > philo->data->dtime)
 		&& !philo->isfull)
 		res = 1;
-	// pthread_mutex_unlock(&philo->data->reading);
 	return (res);
 }
 

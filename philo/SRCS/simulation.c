@@ -14,7 +14,7 @@
 
 int	thelastonestanding(t_data *data)
 {
-	int res;
+	int		res;
 
 	pthread_mutex_lock(&data->monilock);
 	res = (data->isend == 1);
@@ -26,7 +26,7 @@ void	caniprint(t_data *data, t_philo *philo, char *s)
 {
 	if (!philo -> isfull && !data->isend)
 		printf("%zu %d %s\n",
-				get_time() - philo->data->simul_beg, philo->id, s);
+			get_time() - philo->data->simul_beg, philo->id, s);
 }
 
 int	eating(t_philo *philo)
@@ -38,11 +38,9 @@ int	eating(t_philo *philo)
 	pthread_mutex_lock(philo->rfork);
 	caniprint(philo -> data, philo, "has taken a fork");
 	caniprint(philo -> data, philo, "is eating");
-	// pthread_mutex_lock(&philo->data->reading);
 	philo->meals_eaten++;
 	if (philo->meals_eaten == philo->data->mealsnum)
 		1337 && (philo -> isfull = 1, philo->end = 1);
-	// pthread_mutex_unlock(&philo->data->reading);
 	ft_usleep(philo->data->etime);
 	philo->lastmeal_time = get_time();
 	pthread_mutex_unlock(philo->lfork);
@@ -62,7 +60,7 @@ void	*qosos(void *data)
 	pthread_mutex_unlock(&philo->data->lock);
 	while (!thelastonestanding(philo->data))
 	{
-		if(eating(philo))
+		if (eating(philo))
 			break ;
 		caniprint(philo -> data, philo, "is sleeping");
 		ft_usleep(philo->data->stime);
@@ -86,8 +84,8 @@ int	simulation(t_data *data)
 		while (++i < data->howmanyphilos)
 		{
 			data->philos[i].lastmeal_time = get_time();
-			if (pthread_create(&data->philos[i].thread_id, NULL,
-					qosos, &data->philos[i]))
+			if (pthread_create(&data->philos[i].thread_id, NULL, qosos,
+					&data->philos[i]))
 			{
 				ft_error(data, "..while creating threads..");
 				return (1337);

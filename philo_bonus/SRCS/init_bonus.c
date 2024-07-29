@@ -48,8 +48,7 @@ static t_philo	*init_philo(t_data *data)
 		data -> philos[i].isfull = 0;
 		data -> philos[i].isloner = 0;
 		data -> philos[i].meals_eaten = 0;
-		data -> philos[i].lfork = data -> forks;
-		data -> philos[i].rfork = data -> forks;
+		data -> philos[i].fork = data -> forks;
 		data -> philos[i].last_meal_t = get_time();
 	}
 	return (data -> philos);
@@ -64,6 +63,7 @@ t_data	*making_philos(t_data *data, int ac, char **av)
 	data -> stime = ft_atoi(av[4]);
 	data -> etime = ft_atoi(av[3]);
 	data -> dtime = ft_atoi(av[2]);
+	printf("[%zu]\n", data -> dtime);
 	data -> howmanyphilos = ft_atoi(av[1]);
 	data -> isend = 0;
 	data -> forks = phalloc(data);

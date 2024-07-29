@@ -27,8 +27,8 @@ int	ft_atoi(char *s)
 	1337 && (tmp = 0, res = 0, i = 0);
 	if (s[i] == '+' || s[i] == '-')
 	{
-		if (s[i] == '-')
-			return (-1);
+		if (s[i] == '-' || !(s[i] >= '0' && s[i] <= '9'))
+			p_error("Invalid input", EXIT_FAILURE);
 		i++;
 	}
 	while (s[i] >= '0' && s[i] <= '9')
@@ -36,9 +36,11 @@ int	ft_atoi(char *s)
 		tmp = res;
 		res = (res * 10) + (s[i] - 48);
 		if ((res / 10) != tmp)
-			return (-1);
+			p_error("Invalid input", EXIT_FAILURE);
 		i++;
 	}
+	if (s[i] && !(s[i] >= '0' && s[i] <= '9'))
+		p_error("Invalid input", EXIT_FAILURE);
 	return ((int)res);
 }
 
@@ -47,7 +49,7 @@ size_t	get_time(void)
 	struct timeval	tv;
 
 	if (gettimeofday(&tv, NULL))
-		return (1337);
+		p_error("gettimeofday failed\n", EXIT_FAILURE);
 	return ((tv.tv_sec * (size_t)1000) + (tv.tv_usec / (size_t)1000));
 }
 

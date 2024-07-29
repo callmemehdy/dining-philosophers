@@ -68,11 +68,9 @@ void	*monitoring_stuff(void *data)
 
 int	stop_cooking(t_philo *philo)
 {
-	// sem_wait(philo -> data -> check);
 	if (philo -> isfull == 1)
 		return (1337);
 	return (0);
-	// sem_post(philo -> data -> check);
 }
 
 
@@ -82,26 +80,18 @@ void	qosos(t_philo *philo)
 	pthread_detach(philo -> monithread);
 	while (!stop_cooking(philo))
 	{
-		if (philo -> isfull)
-			return ;
-		// first fork 
 		sem_wait(philo -> lfork);
 		printing(philo, TFORK);
-		// second fork 
 		sem_wait(philo -> rfork);
 		printing(philo, TFORK);
-		// eating
 		printing(philo, EAT);
 		ft_usleep(philo -> data -> etime);
-		philo -> last_meal_t = get_time();
 		philo -> meals_eaten++;
+		philo -> last_meal_t = get_time();
 		sem_post(philo -> lfork);
 		sem_post(philo -> rfork);
-
-		// sleeping..
 		printing(philo, SLEEP);
 		ft_usleep(philo -> data -> stime);
-		// thinking
 		printing(philo, THINK);
 	}
 	return ;
@@ -132,12 +122,11 @@ void	processes_forking(t_data *data)
 			p_error("fork func error", ERR_NO);
 		usleep(100);
 	}
-	i = -1;
-	// sem_wait(data -> key);
 	while (waitpid(-1, &status, 0) != -1)
 	{
 		if (WEXITSTATUS(status) == 42)
 		{
+			i = -1;
 			while (++i < data -> howmanyphilos)
 				kill(data -> pids[i], SIGKILL);
 			return ;

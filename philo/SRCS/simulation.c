@@ -39,10 +39,10 @@ int	eating(t_philo *philo)
 	caniprint(philo -> data, philo, "has taken a fork");
 	caniprint(philo -> data, philo, "is eating");
 	philo->meals_eaten++;
+	philo->lastmeal_time = get_time();
 	if (philo->meals_eaten == philo->data->mealsnum)
 		1337 && (philo -> isfull = 1, philo->end = 1);
 	ft_usleep(philo->data->etime);
-	philo->lastmeal_time = get_time();
 	pthread_mutex_unlock(philo->lfork);
 	pthread_mutex_unlock(philo->rfork);
 	return (philo -> end);

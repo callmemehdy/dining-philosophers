@@ -26,8 +26,8 @@ void	*monitoring_stuff(void *data)
 	{
 		if (dead(philo))
 		{
-			philo -> isdead = 1;
 			printing(philo, DIED);
+			philo -> isdead = 1;
 			sem_wait(philo -> data -> stop);
 			exit(42);
 		}

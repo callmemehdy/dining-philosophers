@@ -51,6 +51,7 @@ typedef struct s_philo
 	_Atomic size_t			last_meal_t;
 	_Atomic int				isfull;
 	_Atomic int				isdead;
+	_Atomic int				isloner;
 	// semaphores
 	sem_t					*rfork;
 	sem_t					*lfork;

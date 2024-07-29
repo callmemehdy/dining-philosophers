@@ -20,8 +20,7 @@ all:	$(NAME)
 -include $(DEPS)
 
 $(NAME):	$(OBJS)
-		cc  $(OBJS) -o $@ -fsanitize=thread
-
+		cc  $(OBJS) -o $@
 $(OBJ_DIR)%.o:	$(SRC_DIR)%.c
 		mkdir -p $(OBJ_DIR)
 		cc -c $(CFL) $< -o $@ -MMD

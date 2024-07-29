@@ -31,8 +31,8 @@ static void	qosos(t_philo *philo)
 		printing(philo, TFORK);
 		printing(philo, EAT);
 		philo -> last_meal_t = get_time();
-		philo -> meals_eaten++;
 		ft_usleep(philo -> data -> etime);
+		philo -> meals_eaten++;
 		sem_post(philo -> fork);
 		sem_post(philo -> fork);
 		printing(philo, SLEEP);
@@ -65,8 +65,7 @@ static void	processes_forking(t_data *data)
 	int			i;
 	int			c;
 
-	i = -1;
-	c = 0;
+	1337 && (i = -1, c = 0);
 	size = data -> howmanyphilos;
 	data -> pids = malloc(sizeof(pid_t) * size);
 	if (!data -> pids)

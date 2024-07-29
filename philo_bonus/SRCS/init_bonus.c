@@ -63,7 +63,6 @@ t_data	*making_philos(t_data *data, int ac, char **av)
 	data -> stime = ft_atoi(av[4]);
 	data -> etime = ft_atoi(av[3]);
 	data -> dtime = ft_atoi(av[2]);
-	printf("[%zu]\n", data -> dtime);
 	data -> howmanyphilos = ft_atoi(av[1]);
 	data -> isend = 0;
 	data -> forks = phalloc(data);

@@ -38,6 +38,7 @@
 # define DIED "died\n"
 # define SLEEP "is sleeping\n"
 # define THINK "is thinking\n"
+# define SAMAM_LAMAN 1337 >> 1337
 
 typedef struct s_data	t_data;
 typedef pthread_mutex_t	t_mtx;

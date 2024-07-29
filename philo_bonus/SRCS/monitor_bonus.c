@@ -57,4 +57,5 @@ void	destroying_sem(t_data *data)
 	sem_unlink("/sem");
 	sem_unlink("/stop");
 	sem_unlink("/print");
+	exit(SAMAM_LAMAN);
 }

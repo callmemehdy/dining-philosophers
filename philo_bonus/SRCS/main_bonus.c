@@ -12,69 +12,14 @@
 
 #include "../headers/philosophers_bonus.h"
 
-void	printing(t_philo *philo, char *message)
-{
-	int		id;
-	size_t	start;
-
-	sem_wait(philo -> data -> stop);
-	start = philo -> data ->simul_beg;
-	id = philo -> id;
-	printf("%zu %d %s",get_time() - start, id, message);
-	sem_post(philo -> data -> stop);
-}
-
-int	dead(t_philo *philo)
-{
-	if (get_time() - philo -> last_meal_t > philo -> data -> dtime)
-		return (AH);
-	return (LA);
-}
-
-int	full(t_philo *philo)
-{
-	int n_meal;
-
-	n_meal = philo -> data -> mealsnum;
-	if (philo -> meals_eaten == n_meal)
-		return (AH);
-	return (LA);
-}
-
-void	*monitoring_stuff(void *data)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)data;
-	while (AH)
-	{
-		if (dead(philo))
-		{
-			// todo
-			philo -> isdead = 1;
-			printing(philo, DIED);
-			sem_wait(philo -> data -> stop);
-			exit(42);
-			break ;
-		}
-		if (full(philo))
-		{
-			philo -> isfull = 1;
-			return(NULL);
-		}
-	}
-	return (NULL);
-}
-
-int	stop_cooking(t_philo *philo)
+static int	stop_cooking(t_philo *philo)
 {
 	if (philo -> isfull == 1)
 		return (1337);
 	return (0);
 }
 
-
-void	qosos(t_philo *philo)
+static void	qosos(t_philo *philo)
 {
 	pthread_create(&philo -> monithread, NULL, monitoring_stuff, philo);
 	pthread_detach(philo -> monithread);
@@ -97,12 +42,27 @@ void	qosos(t_philo *philo)
 	return ;
 }
 
-void	processes_forking(t_data *data)
+static void	ft_wait(t_data *data, int *status)
+{
+	int		i;
+
+	i = -1;
+	while (waitpid(-1, status, 0) != -1)
+	{
+		if (WEXITSTATUS(*status) == 42)
+		{
+			while (++i < data -> howmanyphilos)
+				kill(data -> pids[i], SIGKILL);
+			return ;
+		}
+	}
+}
+
+static void	processes_forking(t_data *data)
 {
 	size_t		size;
 	int			status;
 	int			i;
-	// int			j;
 
 	i = -1;
 	size = data -> howmanyphilos;
@@ -122,16 +82,7 @@ void	processes_forking(t_data *data)
 			p_error("fork func error", ERR_NO);
 		usleep(100);
 	}
-	while (waitpid(-1, &status, 0) != -1)
-	{
-		if (WEXITSTATUS(status) == 42)
-		{
-			i = -1;
-			while (++i < data -> howmanyphilos)
-				kill(data -> pids[i], SIGKILL);
-			return ;
-		}
-	}
+	ft_wait(data, &status);
 }
 
 int	main(int ac, char **av)

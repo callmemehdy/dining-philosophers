@@ -61,3 +61,15 @@ void	ft_usleep(size_t milliseconds)
 	while ((get_time() - start) < milliseconds)
 		usleep(500);
 }
+
+void	printing(t_philo *philo, char *message)
+{
+	int		id;
+	size_t	start;
+
+	sem_wait(philo -> data -> stop);
+	start = philo -> data ->simul_beg;
+	id = philo -> id;
+	printf("%zu %d %s", get_time() - start, id, message);
+	sem_post(philo -> data -> stop);
+}

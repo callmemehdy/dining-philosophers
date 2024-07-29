@@ -6,7 +6,8 @@ SRC_DIR =	SRCS/
 
 OBJ_DIR	= 	OBJS_DEPS/
 
-SRCS_FS	=	main_bonus.c utils_1_bonus.c init_bonus.c
+SRCS_FS	=	main_bonus.c utils_1_bonus.c init_bonus.c\
+			monitor_bonus.c
 
 SRCS	= $(addprefix $(SRC_DIR), $(SRCS_FS))
 

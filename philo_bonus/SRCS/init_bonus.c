@@ -12,7 +12,7 @@
 
 #include "../headers/philosophers_bonus.h"
 
-sem_t	*phalloc(t_data *data)
+static sem_t	*phalloc(t_data *data)
 {
 	size_t		size;
 
@@ -40,7 +40,7 @@ sem_t	*phalloc(t_data *data)
 	return (data -> forks);
 }
 
-t_philo	*init_philo(t_data *data)
+static t_philo	*init_philo(t_data *data)
 {
 	int		i;
 

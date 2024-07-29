@@ -51,11 +51,11 @@ typedef struct s_philo
 	_Atomic int				meals_eaten;
 	_Atomic size_t			last_meal_t;
 	_Atomic int				isfull;
-	int				isdead;
+	_Atomic int				isdead;
 	// semaphores
-	sem_t			*rfork;
-	sem_t			*lfork;
-	t_data			*data;
+	sem_t					*rfork;
+	sem_t					*lfork;
+	t_data					*data;
 }			t_philo;
 
 struct s_data
@@ -81,10 +81,10 @@ int			p_error(char *message, int status);
 int			ft_atoi(char *s);
 size_t		get_time(void);
 void		ft_usleep(size_t milliseconds);
+void		printing(t_philo *philo, char *message);
 // creating
-sem_t		*phalloc(t_data *data);
-t_philo		*init_philo(t_data *data);
 t_data		*making_philos(t_data *data, int ac, char **av);
-
+// monitor
+void		*monitoring_stuff(void *data);
 
 #endif

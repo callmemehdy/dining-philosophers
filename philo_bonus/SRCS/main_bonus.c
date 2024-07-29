@@ -52,20 +52,14 @@ void	*monitoring_stuff(void *data)
 		{
 			// todo
 			philo -> isdead = 1;
-			// sem_wait(philo -> data -> print);
 			printing(philo, DIED);
 			sem_wait(philo -> data -> stop);
 			exit(42);
-			// sem_post(philo -> data -> key);
 			break ;
 		}
 		if (full(philo))
 		{
-			// exit(EXIT_SUCCESS);
-			// sem_wait(philo -> data -> check);
 			philo -> isfull = 1;
-			// sem_post(philo -> data -> check);
-			// sem_post(philo -> data -> key);
 			return(NULL);
 		}
 	}
@@ -76,7 +70,7 @@ int	stop_cooking(t_philo *philo)
 {
 	// sem_wait(philo -> data -> check);
 	if (philo -> isfull == 1)
-		return (EXIT_SUCCESS);
+		return (1337);
 	return (0);
 	// sem_post(philo -> data -> check);
 }
@@ -140,7 +134,7 @@ void	processes_forking(t_data *data)
 	}
 	i = -1;
 	// sem_wait(data -> key);
-	while (waitpid(-1, &status, 0))
+	while (waitpid(-1, &status, 0) != -1)
 	{
 		if (WEXITSTATUS(status) == 42)
 		{
@@ -149,7 +143,6 @@ void	processes_forking(t_data *data)
 			return ;
 		}
 	}
-	
 }
 
 int	main(int ac, char **av)

@@ -85,19 +85,6 @@ static void	processes_forking(t_data *data)
 	ft_wait(data, &status);
 }
 
-void destroying_sem(t_data *data)
-{
-	if (sem_destroy(data -> forks))
-		p_error(FREE_ERR, EXIT_FAILURE);
-	if (sem_destroy(data -> print))
-		p_error(FREE_ERR, EXIT_FAILURE);
-	if (sem_destroy(data -> stop))
-		p_error(FREE_ERR, EXIT_FAILURE);
-	sem_unlink("/sem");
-	sem_unlink("/stop");
-	sem_unlink("/print");
-}
-
 int	main(int ac, char **av)
 {
 	t_data		*data;

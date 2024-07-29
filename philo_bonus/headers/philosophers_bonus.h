@@ -39,16 +39,13 @@
 # define SLEEP "is sleeping\n"
 # define THINK "is thinking\n"
 
-// #pragma GCC diagnostic push
-// #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-
 typedef struct s_data	t_data;
 typedef pthread_mutex_t	t_mtx;
 
 typedef struct s_philo
 {
-	pthread_t		monithread;
-	int				id;
+	pthread_t				monithread;
+	int						id;
 	_Atomic int				meals_eaten;
 	_Atomic size_t			last_meal_t;
 	_Atomic int				isfull;
@@ -71,7 +68,7 @@ struct s_data
 	size_t			simul_beg;
 	sem_t			*forks;
 	// sems ...  
-	sem_t			*print; 
+	sem_t			*print;
 	sem_t			*stop;
 	t_philo			*philos;
 };
@@ -85,5 +82,6 @@ void		printing(t_philo *philo, char *message);
 t_data		*making_philos(t_data *data, int ac, char **av);
 // monitor
 void		*monitoring_stuff(void *data);
+void		destroying_sem(t_data *data);
 
 #endif

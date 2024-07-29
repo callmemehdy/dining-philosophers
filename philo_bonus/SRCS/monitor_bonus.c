@@ -39,3 +39,22 @@ void	*monitoring_stuff(void *data)
 	}
 	return (NULL);
 }
+
+int	p_error(char *message, int status)
+{
+	printf(YLW"%s\n", message);
+	return (exit(status), status);
+}
+
+void	destroying_sem(t_data *data)
+{
+	if (sem_destroy(data -> forks))
+		p_error(FREE_ERR, EXIT_FAILURE);
+	if (sem_destroy(data -> print))
+		p_error(FREE_ERR, EXIT_FAILURE);
+	if (sem_destroy(data -> stop))
+		p_error(FREE_ERR, EXIT_FAILURE);
+	sem_unlink("/sem");
+	sem_unlink("/stop");
+	sem_unlink("/print");
+}

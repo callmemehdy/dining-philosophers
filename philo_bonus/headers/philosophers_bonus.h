@@ -26,9 +26,10 @@
 # define RED "\033[0;31m"
 # define YLW "\033[0;33m"
 # define MS 1000
-# define ALLO_ERROR "ERROR: allocation failed"
-# define INIT_ERR "ERROR: making philos failed"
-# define ARG_ERR  "Invalid arguments"
+# define ALLO_ERROR "ERROR: allocation failed\n"
+# define INIT_ERR "ERROR: making philos failed\n"
+# define ARG_ERR  "Invalid arguments\n"
+# define FREE_ERR  "Resources cleaning error\n"
 # define ERR_NO 1337
 # define AH 1
 # define LA 0
@@ -70,9 +71,7 @@ struct s_data
 	size_t			simul_beg;
 	sem_t			*forks;
 	// sems ...  
-	sem_t			*key; 
 	sem_t			*print; 
-	sem_t			*check; 
 	sem_t			*stop;
 	t_philo			*philos;
 };

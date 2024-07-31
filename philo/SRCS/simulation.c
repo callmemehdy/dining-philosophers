@@ -25,11 +25,9 @@ int	caniprint(t_data *data, t_philo *philo, char *s)
 	int		id;
 	size_t	start;
 
-	if (philo -> isfull || philo->data->isend)
-		return (1);
-	// if (*(s + 4) == 's' && philo -> data -> isend)
-	// 	return (1);
 	pthread_mutex_lock(&data -> lock);
+	if (philo -> isfull || philo->data->isend)
+		return (pthread_mutex_unlock(&data -> lock) ,1);
 	(*s == 'd') && (philo -> data -> isend++);
 	id =  philo->id;
 	start = philo->data->simul_beg;

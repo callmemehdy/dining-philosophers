@@ -1,0 +1,78 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_bonus.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/21 14:33:30 by mel-akar          #+#    #+#             */
+/*   Updated: 2024/07/30 05:45:45 by mel-akar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../headers/philosophers_bonus.h"
+
+static sem_t	*phalloc(t_data *data)
+{
+	size_t		size;
+
+	size = data->howmanyphilos;
+	sem_unlink("/sem");
+	sem_unlink("/stop");
+	data -> forks = sem_open("/sem", O_CREAT, 0664, size);
+	if (data -> forks == SEM_FAILED)
+		p_error(ALLO_ERROR, ERR_NO);
+	data -> stop = sem_open("/stop", O_CREAT, 0664, AH);
+	if (data -> stop == SEM_FAILED)
+		p_error(ALLO_ERROR, ERR_NO);
+	return (data -> forks);
+}
+
+static t_philo	*init_philo(t_data *data)
+{
+	int		i;
+
+	i = -1;
+	data -> philos = malloc(sizeof(t_philo) * data -> howmanyphilos);
+	if (!data)
+		p_error(ALLO_ERROR, ERR_NO);
+	while (++i < data->howmanyphilos)
+	{
+		data -> philos[i].data = data;
+		data -> philos[i].id = i + 1;
+		data -> philos[i].isdead = 0;
+		data -> philos[i].isfull = 0;
+		data -> philos[i].isloner = 0;
+		data -> philos[i].meals_eaten = 0;
+		data -> philos[i].fork = data -> forks;
+		data -> philos[i].last_meal_t = get_time();
+	}
+	return (data -> philos);
+}
+
+t_data	*making_philos(t_data *data, int ac, char **av)
+{
+	if (ac != 6 && ac != 5)
+		return ((void)p_error(ARG_ERR, ERR_NO), NULL);
+	(ac == 6) && (data->mealsnum = ft_atoi(av[5]));
+	(ac == 5) && (data->mealsnum = -1);
+	data -> stime = ft_atoi(av[4]);
+	data -> etime = ft_atoi(av[3]);
+	data -> dtime = ft_atoi(av[2]);
+	data -> howmanyphilos = ft_atoi(av[1]);
+	data -> isend = 0;
+	data -> forks = phalloc(data);
+	data -> philos = init_philo(data);
+	return (data);
+}
+
+int	preventing_headache(t_data *data)
+{
+	int		fool;
+
+	fool = (data->dtime > 60 && data ->etime > 60
+			&& data->stime > 60 && data->howmanyphilos < 201);
+	if (!fool)
+		return (AH);
+	return (LA);
+}

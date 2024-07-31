@@ -38,16 +38,16 @@ void	forking(t_philo *philo, t_mtx *forks, int pos)
 	int		round;
 
 	round = philo->data->howmanyphilos;
-	if (philo->id % 2)
-	{
-		philo->rfork = &forks[pos];
-		philo->lfork = &forks[(pos + 1) % round];
-	}
-	else
-	{
-		philo->rfork = &forks[(pos + 1) % round];
-		philo->lfork = &forks[pos];
-	}
+	// if (philo->id % 2)
+	// {
+	// 	philo->rfork = &forks[pos];
+	// 	philo->lfork = &forks[(pos + 1) % round];
+	// }
+	// else
+	// {
+	philo->rfork = &forks[(pos + 1) % round];
+	philo->lfork = &forks[pos];
+	// }
 }
 
 int	creating_philosophers(t_data *data)

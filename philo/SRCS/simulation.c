@@ -61,12 +61,11 @@ void	*qosos(void *data)
 
 	philo = (t_philo *)data;
 	if (!(philo->id % 2))
-		ft_usleep(100);
+		ft_usleep(philo -> data -> etime);
 	while (!thelastonestanding(philo->data))
 	{
 		if (eating(philo))
 			break ;
-		usleep(50);
 		caniprint(philo -> data, philo, "is sleeping");
 		ft_usleep(philo->data->stime);
 		caniprint(philo -> data, philo, "is thinking");
@@ -88,7 +87,7 @@ int	simulation(t_data *data)
 		data->simul_beg = get_time();
 		while (++i < data->howmanyphilos)
 		{
-			data->philos[i].lastmeal_time = get_time();
+			data->philos[i].lastmeal_time = data->simul_beg;
 			if (pthread_create(&data->philos[i].thread_id, NULL, qosos,
 					&data->philos[i]))
 			{

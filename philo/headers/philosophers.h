@@ -34,7 +34,7 @@ typedef struct s_philo
 	int				id;
 	int				meals;
 	int				meals_eaten;
-	_Atomic size_t	lastmeal_time;
+	_Atomic long	lastmeal_time;
 	_Atomic int		isfull;
 	_Atomic int		isdead;
 	// forks __________
@@ -49,7 +49,7 @@ typedef struct s_philo
 struct s_data
 {
 	int				howmanyphilos;
-	size_t			dtime;
+	_Atomic long	dtime;
 	size_t			etime;
 	size_t			stime;
 	int				mealsnum;
@@ -66,7 +66,7 @@ struct s_data
 // utils
 void	ft_error(t_data *data, char *message);
 int		ft_atoi(char *s);
-size_t	get_time(void);
+long	get_time(void);
 void	ft_usleep(size_t micros);
 // creating
 t_data	*stuffing(char **av, int ac);

@@ -29,8 +29,8 @@ int	checking(t_data *data, int i)
 	t_philo		*philo;
 
 	philo = &data->philos[i];
-	if (!philo->isfull && (long)get_time() - \
-	(long)philo->lastmeal_time > (long)philo->data->dtime)
+	if (!philo->isfull && get_time() - \
+	philo->lastmeal_time > philo->data->dtime)
 	{
 		caniprint(data, &data->philos[i], "died");
 		return (0);

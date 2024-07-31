@@ -59,7 +59,7 @@ int	ft_atoi(char *s)
 	return ((int)res);
 }
 
-size_t	get_time(void)
+long	get_time(void)
 {
 	struct timeval	tv;
 

@@ -33,9 +33,9 @@ int	init_m(t_data *data)
 }
 
 int	destroying(t_data *data)
-{
-	if (pthread_mutex_destroy(&data->lock))
-		return (1);
+{(void)data;
+	// if (pthread_mutex_destroy(&data->lock))
+	// 	return (1);
 	return (0);
 }
 

@@ -74,7 +74,7 @@ void	forking(t_philo *philo, t_mtx *forks, int pos);
 int		creating_philosophers(t_data *data);
 int		creating(t_data *data);
 // simulation
-void	caniprint(t_data *data, t_philo *philo, char *s);
+int		caniprint(t_data *data, t_philo *philo, char *s);
 int		simulation(t_data *data);
 // seerbay
 // utils 2

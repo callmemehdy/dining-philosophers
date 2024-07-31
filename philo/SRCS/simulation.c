@@ -20,18 +20,22 @@ int	thelastonestanding(t_data *data)
 	return (res);
 }
 
-void	caniprint(t_data *data, t_philo *philo, char *s)
+int	caniprint(t_data *data, t_philo *philo, char *s)
 {
 	int		id;
 	size_t	start;
 
 	if (philo -> isfull || philo->data->isend)
-		return ;
+		return (1);
+	// if (*(s + 4) == 's' && philo -> data -> isend)
+	// 	return (1);
 	pthread_mutex_lock(&data -> lock);
+	(*s == 'd') && (philo -> data -> isend++);
 	id =  philo->id;
 	start = philo->data->simul_beg;
-	(!philo->data->isend) && printf("%zu %d %s\n", get_time() - start, id, s);
+	printf("%zu %d %s\n", get_time() - start, id, s);
 	pthread_mutex_unlock(&data -> lock);
+	return (0);
 }
 
 int	eating(t_philo *philo)
@@ -45,9 +49,9 @@ int	eating(t_philo *philo)
 	caniprint(philo -> data, philo, "is eating");
 	philo->lastmeal_time = get_time();
 	philo->meals_eaten++;
+	ft_usleep(philo->data->etime);
 	if (philo->meals_eaten == philo->data->mealsnum)
 		1337 && (philo -> isfull = 1, philo->end = 1);
-	ft_usleep(philo->data->etime);
 	pthread_mutex_unlock(philo->lfork);
 	pthread_mutex_unlock(philo->rfork);
 	return (philo -> end);
@@ -64,6 +68,7 @@ void	*qosos(void *data)
 	{
 		if (eating(philo))
 			break ;
+		usleep(50);
 		caniprint(philo -> data, philo, "is sleeping");
 		ft_usleep(philo->data->stime);
 		caniprint(philo -> data, philo, "is thinking");

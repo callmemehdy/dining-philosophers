@@ -12,13 +12,6 @@
 
 #include "../headers/philosophers.h"
 
-int	philo_is_dead(t_philo *philo)
-{
-	if (!philo->isfull && (long)get_time() - (long)philo->lastmeal_time > (long)philo->data->dtime)
-		return (1);
-	return (0);
-}
-
 int	qosos_ending(t_data *data)
 {
 	int	i;
@@ -33,13 +26,14 @@ int	qosos_ending(t_data *data)
 
 int	checking(t_data *data, int i)
 {
-	if (philo_is_dead(&data->philos[i]) == 1)
+	t_philo *philo;
+
+
+	philo = &data->philos[i];
+	if (!philo->isfull && (long)get_time() - (long)philo->lastmeal_time > (long)philo->data->dtime)
 	{
-		// exit(0);
-		caniprint(data, &data->philos[i], "died");
 		// pthread_mutex_lock(&data->lock);
-		data->isend = 1;
-		data->philos[i].isdead = 1;
+		caniprint(data, &data->philos[i], "died");
 		// pthread_mutex_unlock(&data->lock);
 		return (0);
 	}

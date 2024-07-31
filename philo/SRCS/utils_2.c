@@ -34,6 +34,12 @@ int	init_m(t_data *data)
 
 int	destroying(t_data *data)
 {
+	int		i;
+
+	i = -1;
+	while (++i < data -> howmanyphilos)
+		if (pthread_mutex_destroy(&data->forks[i]))
+			return (1);
 	if (pthread_mutex_destroy(&data->lock))
 		return (1);
 	return (0);

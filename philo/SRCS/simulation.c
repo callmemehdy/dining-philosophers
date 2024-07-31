@@ -27,9 +27,9 @@ int	caniprint(t_data *data, t_philo *philo, char *s)
 
 	pthread_mutex_lock(&data -> lock);
 	if (philo -> isfull || philo->data->isend)
-		return (pthread_mutex_unlock(&data -> lock) ,1);
+		return (pthread_mutex_unlock(&data -> lock), 1);
 	(*s == 'd') && (philo -> data -> isend++);
-	id =  philo->id;
+	id = philo->id;
 	start = philo->data->simul_beg;
 	printf("%zu %d %s\n", get_time() - start, id, s);
 	pthread_mutex_unlock(&data -> lock);

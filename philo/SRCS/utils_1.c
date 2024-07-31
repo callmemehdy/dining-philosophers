@@ -43,9 +43,8 @@ int	ft_atoi(char *s)
 		i++;
 	if (s[i] == '+' || s[i] == '-')
 	{
-		if (s[i] == '-')
+		if (s[i++] == '-')
 			return (0);
-		i++;
 	}
 	while (s[i] >= '0' && s[i] <= '9')
 	{

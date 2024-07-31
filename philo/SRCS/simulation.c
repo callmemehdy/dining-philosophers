@@ -64,6 +64,7 @@ void	*qosos(void *data)
 		ft_usleep(philo -> data -> etime);
 	while (!thelastonestanding(philo->data))
 	{
+		caniprint(philo -> data, philo, "is thinking");
 		if (eating(philo))
 			break ;
 		caniprint(philo -> data, philo, "is sleeping");

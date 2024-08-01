@@ -67,7 +67,7 @@ struct s_data
 void	ft_error(t_data *data, char *message);
 int		ft_atoi(char *s);
 long	get_time(void);
-void	ft_usleep(size_t micros);
+void	ft_usleep(long micros);
 // creating
 t_data	*stuffing(char **av, int ac);
 void	forking(t_philo *philo, t_mtx *forks, int pos);

@@ -76,7 +76,7 @@ struct s_data
 int			p_error(char *message, int status);
 int			ft_atoi(char *s);
 long		get_time(void);
-void		ft_usleep(size_t milliseconds);
+void		ft_usleep(long milliseconds);
 void		printing(t_philo *philo, char *message, int died);
 // creating
 t_data		*making_philos(t_data *data, int ac, char **av);
@@ -84,6 +84,5 @@ int			preventing_headache(t_data *data);
 // monitor
 void		*monitoring_stuff(void *data);
 void		destroying_sem(t_data *data);
-
 
 #endif

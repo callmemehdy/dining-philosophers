@@ -68,9 +68,9 @@ long	get_time(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-void	ft_usleep(size_t milliseconds)
+void	ft_usleep(long milliseconds)
 {
-	size_t	start;
+	long	start;
 
 	start = get_time();
 	while ((get_time() - start) < milliseconds)

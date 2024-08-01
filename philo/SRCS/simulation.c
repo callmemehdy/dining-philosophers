@@ -41,7 +41,7 @@ int	eating(t_philo *philo)
 	pthread_mutex_lock(philo->lfork);
 	caniprint(philo -> data, philo, "has taken a fork");
 	if (philo->isloner)
-		return (1);
+		return (pthread_mutex_unlock(philo->lfork), 1);
 	pthread_mutex_lock(philo->rfork);
 	caniprint(philo -> data, philo, "has taken a fork");
 	caniprint(philo -> data, philo, "is eating");

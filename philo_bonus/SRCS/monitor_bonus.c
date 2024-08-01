@@ -14,7 +14,7 @@
 
 static int	dead(t_philo *philo)
 {
-	if ((get_time() - philo->last_meal_t > philo->data->dtime))
+	if (get_time() - philo->last_meal_t > philo->data->dtime)
 		return (AH);
 	return (LA);
 }
@@ -61,8 +61,10 @@ void	destroying_sem(t_data *data)
 {
 	sem_unlink("/sem");
 	sem_unlink("/stop");
+	sem_destroy(data->forks);
+	sem_destroy(data->stop);
+	free(data -> pids);
 	free(data -> philos);
-	free(data ->pids);
 	free(data);
 	exit(SAMAM_LAMAN);
 }

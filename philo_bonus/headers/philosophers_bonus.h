@@ -85,4 +85,5 @@ int			preventing_headache(t_data *data);
 void		*monitoring_stuff(void *data);
 void		destroying_sem(t_data *data);
 
+
 #endif

@@ -31,8 +31,8 @@ void	*monitoring_stuff(void *data)
 	{
 		if (get_time() - philo->last_meal_t > philo->data->dtime)
 		{
-			philo -> isdead = 1;
 			printing(philo, DIED, AH);
+			philo -> isdead = 1;
 			exit(42);
 		}
 		if (full(philo))

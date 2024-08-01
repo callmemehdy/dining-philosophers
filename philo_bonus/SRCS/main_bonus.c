@@ -21,9 +21,10 @@ static int	stop_cooking(t_philo *philo)
 
 static void	qosos(t_philo *philo)
 {
-	// if (!(philo -> id % 2))
-	// 	ft_usleep(5);
+	if (!(philo -> id % 2))
+		ft_usleep(5);
 	pthread_create(&philo -> monithread, NULL, monitoring_stuff, (void *)philo);
+	pthread_detach(philo -> monithread);
 	while (!stop_cooking(philo))
 	{
 		printing(philo, THINK, LA);
@@ -32,8 +33,8 @@ static void	qosos(t_philo *philo)
 		sem_wait(philo -> fork);
 		printing(philo, TFORK, LA);
 		printing(philo, EAT, LA);
-		philo -> last_meal_t = get_time();
 		philo -> meals_eaten++;
+		philo -> last_meal_t = get_time();
 		ft_usleep(philo -> data -> etime);
 		sem_post(philo -> fork);
 		sem_post(philo -> fork);
@@ -41,7 +42,6 @@ static void	qosos(t_philo *philo)
 		ft_usleep(philo -> data -> stime);
 		printing(philo, THINK, LA);
 	}
-	pthread_detach(philo -> monithread);
 	return ;
 }
 

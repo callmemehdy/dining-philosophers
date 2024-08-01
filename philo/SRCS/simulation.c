@@ -47,7 +47,7 @@ int	eating(t_philo *philo)
 	caniprint(philo -> data, philo, "is eating");
 	philo->lastmeal_time = get_time();
 	philo->meals_eaten++;
-	ft_usleep(philo->data->etime);
+	ft_usleep(philo->data->etime, philo);
 	if (philo->meals_eaten == philo->data->mealsnum)
 		1337 && (philo -> isfull = 1, philo->end = 1);
 	pthread_mutex_unlock(philo->lfork);
@@ -61,14 +61,14 @@ void	*qosos(void *data)
 
 	philo = (t_philo *)data;
 	if (!(philo->id % 2))
-		ft_usleep(philo -> data -> etime);
+		ft_usleep(philo -> data -> etime, philo);
 	while (!thelastonestanding(philo->data))
 	{
 		caniprint(philo -> data, philo, "is thinking");
 		if (eating(philo))
 			break ;
 		caniprint(philo -> data, philo, "is sleeping");
-		ft_usleep(philo->data->stime);
+		ft_usleep(philo->data->stime, philo);
 		caniprint(philo -> data, philo, "is thinking");
 	}
 	return (NULL);

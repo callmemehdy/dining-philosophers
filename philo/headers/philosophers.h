@@ -67,7 +67,7 @@ struct s_data
 void	ft_error(t_data *data, char *message);
 int		ft_atoi(char *s);
 long	get_time(void);
-void	ft_usleep(long micros);
+void	ft_usleep(long micros, t_philo *philo);
 // creating
 t_data	*stuffing(char **av, int ac);
 void	forking(t_philo *philo, t_mtx *forks, int pos);
@@ -85,7 +85,6 @@ int		destroying(t_data *data);
 int		preventing_headache(t_data *data);
 // monitoring...
 int		monitoring(t_data *data);
-int		philo_is_dead(t_philo *philo);
 int		qosos_ending(t_data *data);
 
 #endif

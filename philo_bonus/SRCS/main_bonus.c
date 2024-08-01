@@ -21,8 +21,6 @@ static int	stop_cooking(t_philo *philo)
 
 static void	qosos(t_philo *philo)
 {
-	if (!(philo -> id % 2))
-		ft_usleep(5);
 	pthread_create(&philo -> monithread, NULL, monitoring_stuff, (void *)philo);
 	pthread_detach(philo -> monithread);
 	while (!stop_cooking(philo))

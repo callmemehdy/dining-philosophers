@@ -21,10 +21,9 @@ static int	stop_cooking(t_philo *philo)
 
 static void	qosos(t_philo *philo)
 {
+	// if (!(philo -> id % 2))
+	// 	ft_usleep(5);
 	pthread_create(&philo -> monithread, NULL, monitoring_stuff, (void *)philo);
-	pthread_detach(philo -> monithread);
-	if (!(philo -> id % 2))
-		ft_usleep(100);
 	while (!stop_cooking(philo))
 	{
 		printing(philo, THINK, LA);
@@ -42,6 +41,7 @@ static void	qosos(t_philo *philo)
 		ft_usleep(philo -> data -> stime);
 		printing(philo, THINK, LA);
 	}
+	pthread_detach(philo -> monithread);
 	return ;
 }
 
@@ -63,11 +63,11 @@ static void	ft_wait(t_data *data, int *status)
 
 static void	processes_forking(t_data *data)
 {
-	size_t		size;
+	long		size;
 	int			status;
 	int			i;
 
-	1337 && (i = -1);
+	i = -1;
 	size = data -> howmanyphilos;
 	data -> pids = malloc(sizeof(pid_t) * size);
 	if (!data -> pids)
@@ -77,7 +77,7 @@ static void	processes_forking(t_data *data)
 	{
 		data -> philos[i].last_meal_t = data -> simul_beg;
 		data -> pids[i] = fork();
-		if (!data -> pids[i])
+		if (data -> pids[i] == 0)
 		{
 			qosos(&data -> philos[i]);
 			exit(EXIT_SUCCESS);

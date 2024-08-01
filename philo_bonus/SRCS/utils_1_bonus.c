@@ -66,8 +66,8 @@ void	ft_usleep(long milliseconds)
 	long	start;
 
 	start = get_time();
-	while ((get_time() - start) < milliseconds)
-		usleep(500);
+	while (get_time() - start < milliseconds)
+		usleep(200);
 }
 
 void	printing(t_philo *philo, char *message, int died)

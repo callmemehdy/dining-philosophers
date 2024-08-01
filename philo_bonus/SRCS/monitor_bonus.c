@@ -12,13 +12,6 @@
 
 #include "../headers/philosophers_bonus.h"
 
-static int	dead(t_philo *philo)
-{
-	if (get_time() - philo->last_meal_t > philo->data->dtime)
-		return (AH);
-	return (LA);
-}
-
 static int	full(t_philo *philo)
 {
 	int		n_meal;
@@ -36,7 +29,7 @@ void	*monitoring_stuff(void *data)
 	philo = (t_philo *)data;
 	while (AH)
 	{
-		if (dead(philo))
+		if (get_time() - philo->last_meal_t > philo->data->dtime)
 		{
 			philo -> isdead = 1;
 			printing(philo, DIED, AH);

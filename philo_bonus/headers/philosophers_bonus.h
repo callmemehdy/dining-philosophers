@@ -62,8 +62,8 @@ struct s_data
 	int				howmanyphilos;
 	pid_t			*pids;
 	long			dtime;
-	size_t			etime;
-	size_t			stime;
+	long			etime;
+	long			stime;
 	int				mealsnum;
 	int				isend;
 	long			simul_beg;

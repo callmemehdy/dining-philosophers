@@ -54,8 +54,8 @@ void	destroying_sem(t_data *data)
 {
 	sem_unlink("/sem");
 	sem_unlink("/stop");
-	sem_destroy(data->forks);
-	sem_destroy(data->stop);
+//	sem_destroy(data->forks);
+//	sem_destroy(data->stop);
 	free(data -> pids);
 	free(data -> philos);
 	free(data);

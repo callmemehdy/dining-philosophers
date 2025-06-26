@@ -24,8 +24,8 @@ The goal is to simulate a group of philosophers who alternately think, eat, and 
 ### 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/philosophers.git
-cd philosophers
+git clone https://github.com/callmemehdy/dining-philosophers.git
+cd dining-philosophers
 ```
 
 ### 2 testing

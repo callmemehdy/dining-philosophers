@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   monitor_bonus.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/30 02:41:28 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/30 16:04:49 by mel-akar         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../headers/philosophers_bonus.h"
 
@@ -54,8 +43,7 @@ void	destroying_sem(t_data *data)
 {
 	sem_unlink("/sem");
 	sem_unlink("/stop");
-//	sem_destroy(data->forks);
-//	sem_destroy(data->stop);
+
 	free(data -> pids);
 	free(data -> philos);
 	free(data);

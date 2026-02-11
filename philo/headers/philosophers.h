@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philosophers.h                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/01 14:45:40 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/30 18:22:26 by mel-akar         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
@@ -37,12 +26,12 @@ typedef struct s_philo
 	_Atomic long	lastmeal_time;
 	_Atomic int		isfull;
 	_Atomic int		isdead;
-	// forks __________
+
 	t_mtx			*rfork;
 	t_mtx			*lfork;
-	// forks __________
+
 	t_data			*data;
-	// finishing
+
 	int				end;
 }			t_philo;
 
@@ -60,30 +49,29 @@ struct s_data
 	t_mtx			*forks;
 	t_philo			*philos;
 	pthread_t		monitor;
-	// mutexes ... 
+
 	t_mtx			lock;
 };
-// utils
+
 void	ft_error(t_data *data, char *message);
 int		ft_atoi(char *s);
 long	get_time(void);
 void	ft_usleep(long micros, t_philo *philo);
-// creating
+
 t_data	*stuffing(char **av, int ac);
 void	forking(t_philo *philo, t_mtx *forks, int pos);
 int		creating_philosophers(t_data *data);
 int		creating(t_data *data);
-// simulation
+
 int		caniprint(t_data *data, t_philo *philo, char *s);
 int		simulation(t_data *data);
-// seerbay
-// utils 2
+
 int		waiting(t_data *data);
 void	f_a_r(t_data *data);
 int		init_m(t_data *data);
 int		destroying(t_data *data);
 int		preventing_headache(t_data *data);
-// monitoring...
+
 int		monitoring(t_data *data);
 int		qosos_ending(t_data *data);
 

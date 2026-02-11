@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   simulation.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/15 11:25:38 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/30 18:31:32 by mel-akar         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../headers/philosophers.h"
 
@@ -28,7 +17,8 @@ int	caniprint(t_data *data, t_philo *philo, char *s)
 	pthread_mutex_lock(&data -> lock);
 	if (philo -> isfull || philo->data->isend)
 		return (pthread_mutex_unlock(&data -> lock), 1);
-	(*s == 'd') && (philo -> data -> isend++);
+	if (*s == 'd')
+		philo->data->isend++;
 	id = philo->id;
 	start = philo->data->simul_beg;
 	printf("%zu %d %s\n", get_time() - start, id, s);
@@ -49,7 +39,10 @@ int	eating(t_philo *philo)
 	philo->meals_eaten++;
 	ft_usleep(philo->data->etime, philo);
 	if (philo->meals_eaten == philo->data->mealsnum)
-		1337 && (philo -> isfull = 1, philo->end = 1);
+	{
+		philo->isfull = 1;
+		philo->end = 1;
+	}
 	pthread_mutex_unlock(philo->lfork);
 	pthread_mutex_unlock(philo->rfork);
 	return (philo -> end);

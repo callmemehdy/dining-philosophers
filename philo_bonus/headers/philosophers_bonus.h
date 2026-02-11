@@ -1,18 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philosophers_bonus.h                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/21 06:34:54 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/30 05:42:13 by mel-akar         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_BONUS_H
 # define PHILOSOPHERS_BONUS_H
-// # define _GNU_SOURCE
+
 # include <signal.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -52,7 +41,7 @@ typedef struct s_philo
 	_Atomic int				isfull;
 	_Atomic int				isdead;
 	_Atomic int				isloner;
-	// semaphores
+
 	sem_t					*fork;
 	t_data					*data;
 }			t_philo;
@@ -68,20 +57,20 @@ struct s_data
 	int				isend;
 	long			simul_beg;
 	sem_t			*forks;
-	// sems ...  
+
 	sem_t			*stop;
 	t_philo			*philos;
 };
-// utils
+
 int			p_error(char *message, int status);
 int			ft_atoi(char *s);
 long		get_time(void);
 void		ft_usleep(long milliseconds);
 void		printing(t_philo *philo, char *message, int died);
-// creating
+
 t_data		*making_philos(t_data *data, int ac, char **av);
 int			preventing_headache(t_data *data);
-// monitor
+
 void		*monitoring_stuff(void *data);
 void		destroying_sem(t_data *data);
 

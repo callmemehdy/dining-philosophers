@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils_1_bonus.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mel-akar <mel-akar@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/21 06:39:09 by mel-akar          #+#    #+#             */
-/*   Updated: 2024/07/30 03:43:30 by mel-akar         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../headers/philosophers_bonus.h"
 
@@ -29,14 +18,17 @@ int	ft_atoi(char *s)
 	int			i;
 	long		tmp;
 
-	1337 && (tmp = 0, res = 0, i = 0);
+	tmp = 0;
+	res = 0;
+	i = 0;
 	if (!s[i] || !s)
 		p_error("Invalid input", EXIT_FAILURE);
 	while (s[i] == ' ')
 		i++;
 	if (s[i] == '+' || s[i] == '-')
 	{
-		(s[i] == '-') && (p_error("Invalid input", EXIT_FAILURE));
+		if (s[i] == '-')
+			p_error("Invalid input", EXIT_FAILURE);
 		i++;
 	}
 	while (s[i] >= '0' && s[i] <= '9')
